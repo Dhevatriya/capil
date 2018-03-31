@@ -109,8 +109,10 @@
                             foreach ($jenis as $data) {
                               if ($get_datapenduduk['nama_jenispekerjaan']) {
                                 echo "<option value=".$data->id_jenispekerjaanFK." selected >".$data->nama_jenispekerjaan."</option>";
-                              }else
+                              }else{
                                 echo "<option value=".$data->id_jenispekerjaan.">".$data->nama_jenispekerjaan."</option>";
+                              }
+
                           } ?>
                         </select>
                         </div>
