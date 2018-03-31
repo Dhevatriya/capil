@@ -107,12 +107,9 @@
                           <?php
                             // foreach ($get_datapenduduk['nama_jenispekerjaan'] as $value);
                             foreach ($jenis as $data) {
-                              if ($get_datapenduduk['nama_jenispekerjaan']) {
-                                echo "<option value=".$data->id_jenispekerjaanFK." selected >".$data->nama_jenispekerjaan."</option>";
-                              }else{
-                                echo "<option value=".$data->id_jenispekerjaan.">".$data->nama_jenispekerjaan."</option>";
-                              }
-
+							?>
+							<option <?php if ($data->nama_jenispekerjaan == $get_datapenduduk['nama_jenispekerjaan']) {echo "selected";} ?> value="<?php echo $data->id_jenispekerjaanFK ?>" ><?php echo $data->nama_jenispekerjaan ?></option>
+							<?php
                           } ?>
                         </select>
                         </div>
