@@ -34,7 +34,7 @@ class PendafAkteM extends CI_Model {
     return $q;
   }
     public function getdata_penduduk($idkel,$idpendf, $idpend){
-    $q=$this->db->query("SELECT nik, nama_lengkap, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, kabupaten, kode_pos, kabupaten, tgl_buat,tgl_jadi FROM desakelurahan, kecamatan, data_penduduk, data_keluarga, pendaftaran where  idKeluarga='$idkel' and id_pendaftaran='$idpendf'and idPenduduk='$idpend'")->result();
+    $q=$this->db->query("SELECT nik, nama_lengkap, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, kabupaten, kode_pos, kabupaten, tgl_buat,tgl_jadi FROM desakelurahan, kecamatan, data_penduduk, data_keluarga, pendaftaran where kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK and kecamatan.id_kecamatan = data_keluarga.idkecamatan_FK and idKeluarga='$idkel' and id_pendaftaran='$idpendf'and idPenduduk='$idpend'")->result();
     return $q;
     }
     public function getdatapedkk($nik, $id){
@@ -52,6 +52,18 @@ class PendafAkteM extends CI_Model {
     public function getidkel($id){
         $q= $this ->db->query("SELECT idKeluarga_FK from data_penduduk where nik = $id")->row_array();
         return $q["idKeluarga_FK"];
+    }
+    public function getjenis(){
+        $q=$this->db->query("SELECT * FROM jenis_pekerjaan")->result();
+        return $q;
+    }
+        public function getjenisp(){
+        $q=$this->db->query("SELECT * FROM jenis_pekerjaan, data_penduduk where id_jenispekerjaan = id_jenispekerjaanFK")->row_array();
+        return $q;
+    }
+            public function getjeniskerja($id){
+        $q=$this->db->query("SELECT nama_jenispekerjaan FROM jenis_pekerjaan, data_penduduk where jenis_pekerjaan.id_jenispekerjaan = data_penduduk.id_jenispekerjaanFK and idPenduduk='$id'")->result();
+        return $q;
     }
   //     public function getdatapen($id){
   //   $q=$this->db->query("SELECT id_pendaftaran FROM pendaftaran where id_pendaftaran='$id'")->result();
@@ -121,6 +133,7 @@ class PendafAkteM extends CI_Model {
             "tanggal_lahir"=>$this->tanggal_lahir,
             "agama"=>$this->agama,
             "pendidikan"=>$this->pendidikan,
+            "id_jenispekerjaanFK"=>$this->nama_jenispekerjaan,
             "status_perkawinan"=>$this->status_perkawinan,
             "status_hub_dalam_keluarga"=>$this->status_hub_dalam_keluarga,
             "kewarganegaraan"=>$this->kewarganegaraan,

@@ -99,14 +99,14 @@
    
                           <div class="form-group">
                             <label class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Jenis Pemeriksaan<span class="required">*</span></label>
-                            <div class="col-lg-8 <?php if(form_error('id_jenispekerjaanFK')!='') echo $id2; ?>">
-                              <select data-placeholder="Pilih Jenis Pemeriksaan" name="id_jenispekerjaanFK" required class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+                            <div class="col-lg-8 <?php if(form_error('nama_jenispekerjaan')!='') echo $id2; ?>">
+                              <select data-placeholder="Pilih Jenis Pemeriksaan" name="nama_jenispekerjaan" required class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
                                 <option value="" disabled selected><i>---Pilih Jenis Pekerjaan---</i></option>
                                 <?php foreach ($jenis as $data2) {  ?>
                                     <option value="<?php echo $data2->id_jenispekerjaan;?>" <?php if ($data2->id_jenispekerjaan==$id_jenispekerjaanFK): echo "selected"?> <?php endif ?> ><?php echo $data2->nama_jenispekerjaan;?></option>
                                   <?php  } ?>
                               </select>
-                              <?php echo form_error('id_jenispekerjaanFK');?>
+                              <?php echo form_error('nama_jenispekerjaan');?>
                             </div>
                           </div>
                           <div class="form-group ">

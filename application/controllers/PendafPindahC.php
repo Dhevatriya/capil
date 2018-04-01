@@ -46,6 +46,10 @@ var $data= array();
           "title"=>'Edit Data Penduduk',
           "aktif"=>"pindah",
           "id"=>$id,
+          "jenis"=>$this->PendafPindahM->getjenis(),
+          "jenisk"=>$this->PendafPindahM->getjeniskerja($id),
+          "id_jenispekerjaan"=>'',
+          "id_jenispekerjaanFK"=>'',
           "get_datapenduduk"=>$this->PendafPindahM->get_penduduk_det($id)->row_array(),
           "bclass"=>" ",
         );
@@ -109,6 +113,7 @@ $this->form_validation->set_error_delimiters('<div style="color:red; margin-bott
       $this->model->tanggal_lahir = $_POST['tanggal_lahir'];
       $this->model->agama = $_POST['agama'];
       $this->model->pendidikan = $_POST['pendidikan'];
+      $this->model->nama_jenispekerjaan = $_POST['nama_jenispekerjaan'];
       $this->model->status_perkawinan = $_POST['status_perkawinan'];
       $this->model->status_hub_dalam_keluarga = $_POST['status_hub_dalam_keluarga'];
       $this->model->kewarganegaraan = $_POST['kewarganegaraan'];
@@ -118,8 +123,8 @@ $this->form_validation->set_error_delimiters('<div style="color:red; margin-bott
       $this->model->ibu = $_POST['ibu'];
       $query = $this->model->updatependuduk($idPenduduk);
 
-      $this->model->nama_jenispekerjaan = $_POST['nama_jenispekerjaan'];
-      $query = $this->model->updatejenispekerjaan($idPenduduk);
+      // $this->model->nama_jenispekerjaan = $_POST['nama_jenispekerjaan'];
+      // $query = $this->model->updatejenispekerjaan($idPenduduk);
 
       $this->session->set_flashdata('sukses', 'Edit data penduduk berhasil dilakukan!');
       redirect('PendafPindahC/caridatapindah/'.$nik);

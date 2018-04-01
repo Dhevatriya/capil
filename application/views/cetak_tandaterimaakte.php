@@ -33,11 +33,12 @@
           <td style="text-align:left; width:20%; padding:5; padding-top: 10; padding-left: 10;"><?php echo $data->tgl_jadi; ?></td>
         </tr>
         <?php  } ?>
+                    <?php }
+        ?> 
         <tr>
           <td style="padding:5;"></td>
         </tr>
       </tbody>
     </table>   
-            <?php }
-        ?> 
+
 </div>

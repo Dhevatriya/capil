@@ -40,6 +40,7 @@ var $data= array();
           "title"=>'Pendaftaran Kartu Keluarga',
           "aktif"=>"kk",
           "nama_kepala_keluarga"=>set_value('nama_kepala_keluarga',''),
+          "nama_desakelurahan"=>'',
           "alamat"=>'',
           "rt"=>'',
           "rw"=>'',
@@ -47,13 +48,37 @@ var $data= array();
           "idkecamatan_FK"=>set_value(''),
           "des"=>$this->PendafKKM->getdes(),
           "kec"=>$this->PendafKKM->getkec(),
-          "kabupaten"=>'',
+          "kabupaten"=>'Karanganyar',
           "kode_pos"=>'',
-          "provinsi"=>'',
+          "provinsi"=>'Jawa Tengah',
         );
     $data['body']= $this->load->view('tambah_keluarga.php', $data, true);
     $this->load->view('template_kk',$data);
     }
+    public function suggestions()
+    {
+        $nama = $this->input->post('nama_desakelurahan',TRUE);
+        $rows = $this->PendafKKM->getdesa($nama);
+        $json_array = array();
+        foreach ($rows as $row)
+            $json_array[]=$row->nama;
+        echo json_encode($json_array);
+    }
+// public function getkecamatan(){
+//           $id_desakelurahan = $this->input->post('nama_desakelurahan');
+//           $dataKec=$this->PendafKKM->get_kec($id_desakelurahan);
+//           echo '<select class="form-control m-bot15" name="id_kecamatan" id="id_kecamatan">';
+//           echo '<option value="" disabled selected><i>---Pilih Kecamatan---</i></option>';
+//           if(! empty($dataKec)){
+//             foreach ($dataKec as $d) {
+//               echo '<option value="'.$d->id_kecamatan.'">'.$d->nama_kecamatan.'</option>';
+//             }
+//           }else{
+//             echo '<option>- Data Belum Tersedia -</option>';
+//           }
+//             echo '</select>';
+//         }
+
 public function tambahdatapenduduk($noKK){
     $data=array(
           "title"=>'Tambah Data Penduduk',
@@ -145,6 +170,10 @@ public function tambahdatapenduduk($noKK){
           "title"=>'Edit Data Keluarga',
           "aktif"=>"kk",
           "id"=>$id,
+          "jenis"=>$this->PendafKKM->getjenis(),
+          "jenisk"=>$this->PendafKKM->getjeniskerja($id),
+          "id_jenispekerjaan"=>'',
+          "id_jenispekerjaanFK"=>'',
           "get_datapenduduk"=>$this->PendafKKM->get_penduduk_detail($id)->row_array(),
           "bclass"=>" ",
         );
@@ -206,6 +235,7 @@ public function tambahdatapenduduk($noKK){
       $this->model->tanggal_lahir = $_POST['tanggal_lahir'];
       $this->model->agama = $_POST['agama'];
       $this->model->pendidikan = $_POST['pendidikan'];
+      $this->model->nama_jenispekerjaan = $_POST['nama_jenispekerjaan'];
       $this->model->status_perkawinan = $_POST['status_perkawinan'];
       $this->model->status_hub_dalam_keluarga = $_POST['status_hub_dalam_keluarga'];
       $this->model->kewarganegaraan = $_POST['kewarganegaraan'];
@@ -215,9 +245,9 @@ public function tambahdatapenduduk($noKK){
       $this->model->ibu = $_POST['ibu'];
       $query = $this->model->updatependuduk($idPenduduk);
 
-      $id_jenispekerjaan = $this->PendafKKM->getidpenduduk($_POST['nik']);
-      $this->model->nama_jenispekerjaan = $_POST['nama_jenispekerjaan'];
-      $query = $this->model->updatejenispekerjaan($id_jenispekerjaan);
+      // $id_jenispekerjaan = $this->PendafKKM->getidpenduduk($_POST['nik']);
+      // $this->model->nama_jenispekerjaan = $_POST['nama_jenispekerjaan'];
+      // $query = $this->model->updatejenispekerjaan($id_jenispekerjaan);
 
       $this->session->set_flashdata('sukses', 'Edit data petugas berhasil dilakukan!');
       redirect('PendafKKC/caridatanik/'.$nik);
@@ -233,7 +263,7 @@ public function datapendudukeditproses(){
     $this->form_validation->set_rules('tanggal_lahir', 'tanggal_lahir','required');
     $this->form_validation->set_rules('agama', 'agama','required');
     $this->form_validation->set_rules('pendidikan', 'pendidikan','required');
-    $this->form_validation->set_rules('id_jenispekerjaanFK', 'id_jenispekerjaanFK','required');
+    $this->form_validation->set_rules('nama_jenispekerjaan', 'nama_jenispekerjaan','required');
     $this->form_validation->set_rules('status_perkawinan', 'status_perkawinan','required');
     $this->form_validation->set_rules('status_hub_dalam_keluarga', 'status_hub_dalam_keluarga','required');
     $this->form_validation->set_rules('kewarganegaraan', 'kewarganegaraan','required');
@@ -258,7 +288,7 @@ public function datapendudukeditproses(){
             'tanggal_lahir' => set_value('tanggal_lahir', ''),
             'agama' => set_value('agama', ''),
             'pendidikan' => set_value('pendidikan', ''),
-            'id_jenispekerjaanFK' => set_value('id_jenispekerjaanFK', ''),
+            'nama_jenispekerjaan' => set_value('nama_jenispekerjaan', ''),
             'status_perkawinan' => set_value('status_perkawinan', ''),
             'status_hub_dalam_keluarga' => set_value('status_hub_dalam_keluarga', ''),
             'kewarganegaraan' => set_value('kewarganegaraan', ''),
@@ -280,7 +310,7 @@ public function datapendudukeditproses(){
       $this->model->tanggal_lahir = $_POST['tanggal_lahir'];
       $this->model->agama = $_POST['agama'];
       $this->model->pendidikan = $_POST['pendidikan'];
-      $this->model->id_jenispekerjaanFK = $_POST['id_jenispekerjaanFK'];
+      $this->model->nama_jenispekerjaan = $_POST['nama_jenispekerjaan'];
       $this->model->status_perkawinan = $_POST['status_perkawinan'];
       $this->model->status_hub_dalam_keluarga = $_POST['status_hub_dalam_keluarga'];
       $this->model->kewarganegaraan = $_POST['kewarganegaraan'];
@@ -841,7 +871,7 @@ function logout(){
       ob_start();
         $data=array(
           "d"=>$this->model->getdatakeluarga($id, $getidpendbaru),
-          "det"=>$this->model->getdatapenda($id),
+          // "det"=>$this->model->getdatapenda($id),
           "tabel"=>"cetak_tandaterimakk.php",
           "judul_lap"=>"Tanda Terima Berkas KK",
          );

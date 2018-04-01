@@ -29,6 +29,10 @@ var $data= array();
           "title"=>'Edit Data Keluarga',
           "aktif"=>"akte",
           "id"=>$id,
+          "jenis"=>$this->PendafAkteM->getjenis(),
+          "jenisk"=>$this->PendafAkteM->getjeniskerja($id),
+          "id_jenispekerjaan"=>'',
+          "id_jenispekerjaanFK"=>'',
           "get_datapenduduk"=>$this->PendafAkteM->get_penduduk_det($id)->row_array(),
           "bclass"=>" ",
         );
@@ -130,6 +134,7 @@ var $data= array();
       $this->model->tanggal_lahir = $_POST['tanggal_lahir'];
       $this->model->agama = $_POST['agama'];
       $this->model->pendidikan = $_POST['pendidikan'];
+      $this->model->nama_jenispekerjaan = $_POST['nama_jenispekerjaan'];
       $this->model->status_perkawinan = $_POST['status_perkawinan'];
       $this->model->status_hub_dalam_keluarga = $_POST['status_hub_dalam_keluarga'];
       $this->model->kewarganegaraan = $_POST['kewarganegaraan'];
@@ -139,8 +144,8 @@ var $data= array();
       $this->model->ibu = $_POST['ibu'];
       $query = $this->model->updatependuduk($idPenduduk);
 
-      $this->model->nama_jenispekerjaan = $_POST['nama_jenispekerjaan'];
-      $query = $this->model->updatejenispekerjaan($idPenduduk);
+      // $this->model->nama_jenispekerjaan = $_POST['nama_jenispekerjaan'];
+      // $query = $this->model->updatejenispekerjaan($idPenduduk);
 
       $this->session->set_flashdata('sukses', 'Edit data penduduk berhasil dilakukan!');
       redirect('PendafAkteC/caridata/'.$nik);
@@ -179,7 +184,7 @@ var $data= array();
         "datapendaf"=>$this->PendafAkteM->getdatapedkk($nik, $getidpendbaru),
       );
       $query = $this->PendafAkteM->insertpendaftranakte();
-          $getidpendbaru = getid_pendterbaru();
+      $getidpendbaru = getid_pendterbaru();
       $this->session->set_flashdata('sukses', 'Pendaftaran Akte baru berhasil dilakuakan!');
       redirect('PendafAkteC/inputpendafakte/'.$getidpendbaru);
     }

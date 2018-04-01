@@ -63,20 +63,28 @@ class PendafKKM extends CI_Model {
     $q=$this->db->query("SELECT noKK FROM data_keluarga")->result();
     return $q;
     }
-    public function getdatakeluarga($noKK, $id){
+    // public function getdatakeluarga($noKK, $id){
+    //     $q=$this->db->query("SELECT * FROM data_keluarga, pendaftaran WHERE data_keluarga.idKeluarga = pendaftaran.idKeluargaFK and id_pendaftaran='$id'and noKK='$noKK' ")->result();
+    //     return $q;
+    // }
+    //     public function getdatapenda($id){
+    //     $q=$this->db->query("SELECT * FROM pendaftaran WHERE id_pendaftaran='$id'")->result();
+    //     return $q;
+    // }
+    //     public function getdata_keluarga($idkel,$idpendf){
+    //     $q=$this->db->query("SELECT status, id_pendaftaran, noKK, nama_kepala_keluarga, alamat, rt, rw,nama_desakelurahan, nama_kecamatan, kabupaten, kode_pos, kabupaten, tgl_buat,tgl_jadi FROM desakelurahan, kecamatan, data_keluarga, pendaftaran where idKeluarga='$idkel' and id_pendaftaran='$idpendf'")->result();
+    //     return $q;
+    // }
+      public function getdatakeluarga($noKK, $id){
         $q=$this->db->query("SELECT * FROM data_keluarga, pendaftaran WHERE data_keluarga.idKeluarga = pendaftaran.idKeluargaFK and id_pendaftaran='$id'and noKK='$noKK' ")->result();
         return $q;
     }
-        public function getdatapenda($noKK, $id){
-        $q=$this->db->query("SELECT * FROM  pendaftaran WHERE id_pendaftaran='$id'")->result();
-        return $q;
-    }
-        public function getdata_keluarga($idkel,$idpendf){
-        $q=$this->db->query("SELECT status, id_pendaftaran, noKK, nama_kepala_keluarga, alamat, rt, rw,nama_desakelurahan, nama_kecamatan, kabupaten, kode_pos, kabupaten, tgl_buat,tgl_jadi FROM desakelurahan, kecamatan, data_keluarga, pendaftaran where idKeluarga='$idkel' and id_pendaftaran='$idpendf'")->result();
+  public function getdata_keluarga($idkel,$idpendf){
+        $q=$this->db->query("SELECT status, id_pendaftaran, noKK, nama_kepala_keluarga, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, kabupaten, kode_pos, kabupaten, tgl_buat,tgl_jadi FROM kecamatan, desakelurahan, data_keluarga, pendaftaran where kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK and kecamatan.id_kecamatan = data_keluarga.idkecamatan_FK and idKeluarga='$idkel' and id_pendaftaran='$idpendf'")->result();
         return $q;
     }
             public function getdata_pendaftaran($idpendf, $idk){
-        $q=$this->db->query("SELECT nama_kepala_keluarga, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, kabupaten, kode_pos, provinsi, tgl_buat,tgl_jadi  FROM desakelurahan, kecamatan, data_keluarga, pendaftaran where idKeluarga='$idk' and id_pendaftaran='$idpendf'")->result();
+        $q=$this->db->query("SELECT nama_kepala_keluarga, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, kabupaten, kode_pos, provinsi, tgl_buat,tgl_jadi  FROM desakelurahan, kecamatan, data_keluarga, pendaftaran where kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK and kecamatan.id_kecamatan = data_keluarga.idkecamatan_FK and idKeluarga='$idk' and id_pendaftaran='$idpendf'")->result();
         return $q;
     }
         public function getdata_pendaf($idpendf){
@@ -119,6 +127,13 @@ class PendafKKM extends CI_Model {
         $q=$this->db->query("SELECT DISTINCT * FROM data_keluarga, data_penduduk, pendaftaran WHERE data_keluarga.idKeluarga = data_penduduk.idKeluarga_FK and data_keluarga.idKeluarga = pendaftaran.idKeluargaFK and nik='$nik' and id_pendaftaran='$id'")->result();
         return $q;
     }
+    public function getdesa($nama)
+    {
+        $this->db->select('nama_desakelurahan');
+        $this->db->like('nama_desakelurahan', $nama);
+        $query = $this->db->get('desakelurahan');
+        return $query->result();
+    }
     public function getjenis(){
         $q=$this->db->query("SELECT * FROM jenis_pekerjaan")->result();
         return $q;
@@ -139,6 +154,11 @@ class PendafKKM extends CI_Model {
         $q=$this->db->query("SELECT * FROM desakelurahan")->result();
         return $q;
     }
+        public function get_kec($id) {
+        $q = $this->db->query("select * from desakelurahan WHERE id_kecamatanFK='$id'")->result();
+        return $q;
+    }
+
        function getnoKK_FK($noKK){
         $hsl=$this->db->query("SELECT nik, nama_lengkap, jenis_kelamin,tempat_lahir,tanggal_lahir,agama,pendidikan,nama_jenispekerjaan, status_perkawinan, status_hub_dalam_keluarga, kewarganegaraan, no_paspor, no_kitas_kitap, ayah, ibu FROM data_keluarga, data_penduduk, jenis_pekerjaan WHERE jenis_pekerjaan.id_jenispekerjaan = data_penduduk.id_jenispekerjaanFK and data_keluarga.idKeluarga=data_penduduk.idKeluarga_FK ");
         if($hsl->num_rows()>0){
@@ -173,7 +193,7 @@ public function updatependuduk($idPen){
             "tanggal_lahir"=>$this->tanggal_lahir,
             "agama"=>$this->agama,
             "pendidikan"=>$this->pendidikan,
-            "id_jenispekerjaanFK"=>$this->id_jenispekerjaanFK,
+            "id_jenispekerjaanFK"=>$this->nama_jenispekerjaan,
             "status_perkawinan"=>$this->status_perkawinan,
             "status_hub_dalam_keluarga"=>$this->status_hub_dalam_keluarga,
             "kewarganegaraan"=>$this->kewarganegaraan,

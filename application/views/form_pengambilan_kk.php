@@ -20,7 +20,6 @@
        <?php foreach($datapendafkk as $data){ ?>
        
              <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafKKC/cetakpendaftarankk/'.$data->id_pendaftaran)?>">
-
               <section class="panel">
                   <header class="panel-heading">
                       <b>Tanda Terima Pengambilan Berkas KK</b>

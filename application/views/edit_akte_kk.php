@@ -99,20 +99,16 @@
                            <input class="form-control " id="pendidikan" name="pendidikan" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_datapenduduk['pendidikan']; ?>"/>
                       </div>
                   </div>
-                  <input type="hidden" name="id_desa" value="<?php echo $get_datapenduduk['nama_jenispekerjaan']; ?>" readonly class="form-control" >
                   <div class="form-group ">
                       <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Jenis Pekerjaan<span class="required">*</span></label>
                         <div class="col-lg-8">
-                        <select class="form-control m-bot15" name="id_jenispekerjaanFK" required>
+                        <select class="form-control m-bot15" id= "nama_jenispekerjaan" name="nama_jenispekerjaan" required>
                           <?php
                             // foreach ($get_datapenduduk['nama_jenispekerjaan'] as $value);
                             foreach ($jenis as $data) {
-                              if ($get_datapenduduk['nama_jenispekerjaan']) {
-                                echo "<option value=".$data->id_jenispekerjaanFK." selected >".$data->nama_jenispekerjaan."</option>";
-                              }else{
-                                echo "<option value=".$data->id_jenispekerjaan.">".$data->nama_jenispekerjaan."</option>";
-                              }
-
+                          ?>
+                            <option <?php if ($data->nama_jenispekerjaan == $get_datapenduduk['nama_jenispekerjaan']) {echo "selected";} ?> value="<?php echo $data->id_jenispekerjaan ?>" ><?php echo $data->nama_jenispekerjaan ?></option>
+                          <?php
                           } ?>
                         </select>
                         </div>
