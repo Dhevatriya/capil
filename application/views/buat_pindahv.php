@@ -1,3 +1,4 @@
+<section id="main-content">
 <body>
         <?php
   header("Cache-control:no cache");
@@ -60,47 +61,27 @@
 
               <section class="panel">
                   <header class="panel-heading">
-                      <b>Persyaratan Surat Pindah (Harus Lengkap)</b>
+                      <b>Persyaratan Surat Pindah</b>
                   </header>
                   <div class="panel-body">
                       <div class="form">
-                        <?php 
+                      <?php 
                           $data2=$this->session->flashdata('eror1');
                           if($data2!=""){ ?>
                           <div class="alert alert-danger"><strong> Error! </strong> <?=$data2;?></div>
                         <?php } ?>
-
+                        <?php echo form_error('syarat[]'); ?>
                           <div class="form-group ">
                                 <!-- <label for="fullname" class="control-label col-lg-12" id="id_jenis_pemeriksaan" style="text-align: left; padding-left: 7%;"> Surat Pengantar Pindah <span class="required"></span></label> -->
                                 <div class="col-lg-8" style="text-align: left; padding-left: 7%; ">
                                   <div class="checkbox">
-                                      <input type="checkbox" name="syarat" id="syarat" class="ue" />SURAT PENGANTAR PINDAH<br><br>
-                                      <input type="checkbox" name="syarat" id="syarat" class="ue" />KK ASLI<br><br>
-                                      <input type="checkbox" name="syarat" id="syarat" class="ue" />FC SURAT PINDAH<br><br>
-                                      <input type="checkbox" name="syarat" id="syarat" class="ue" />KTP ASLI<br><br>
-                                      <input type="checkbox" name="syarat" id="syarat" class="ue" />PAS FOTO BERWARNA 4 X 6 (2 LMBR)<br><br>
-                                      <input type="checkbox" name="syarat" id="syarat" class="ue" />SURAT PERSETUJUAN = FC KTP ISTRI / ORTU<br><br>
+                                      <input type="checkbox" name="syarat[]" class="ue" />SURAT PENGANTAR PINDAH<br><br>
+                                      <input type="checkbox" name="syarat[]" class="ue" />KK ASLI<br><br>
+                                      <input type="checkbox" name="syarat[]" class="ue" />FC SURAT PINDAH<br><br>
+                                      <input type="checkbox" name="syarat[]" class="ue" />KTP ASLI<br><br>
+                                      <input type="checkbox" name="syarat[]" class="ue" />PAS FOTO BERWARNA 4 X 6 (2 LMBR)<br><br>
+                                      <input type="checkbox" name="syarat[]" class="ue" />SURAT PERSETUJUAN = FC KTP ISTRI / ORTU<br><br>
                                   </div>
-                                  <!-- <div class="checkbox">
-                                      
-                                      <label></label>
-                                  </div>
-                                    <div class="checkbox">
-                                      <input type="checkbox" name="syarat" id="syarat" class="ue" />
-                                      <label></label>
-                                  </div>
-                                  <div class="checkbox">
-                                      <input type="checkbox" name="syarat" id="syarat" class="ue" />
-                                      <label></label>
-                                  </div>
-                                  <div class="checkbox">
-                                      <input type="checkbox" name="syarat" id="syarat" class="ue" />
-                                      <label></label>
-                                  </div>
-                                  <div class="checkbox">
-                                      <input type="checkbox" name="syarat" id="syarat" class="ue" />
-                                      <label></label>
-                                  </div> -->
                                 </div>
                                  
                           </div>
@@ -120,8 +101,8 @@
    <!-- <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=base_url();?>TemplateC/search"> -->
 </section>
 </body>
-  <script src="<?php echo base_url(); ?>/assets/js/jquery.js"></script>
-  <script type="text/javascript">
+<script src="<?php echo base_url(); ?>/assets/js/jquery.js"></script>
+    <script type="text/javascript">
     $(function(){
       $(":checkbox.cb").click(function(){
         $("#form1, #form2").hide()
@@ -132,9 +113,10 @@
         }
       });
     });
-        function validate(){
+
+    function validate(){
       if(isset($_POST['simpan'])){
-        var check = document.getElementsByName('syarat');
+        var check = document.getElementsByName('syarat[]');
         var hasChecked = false;
         for (var i = 0; i<check.length; i++){
           if (check[i].hasChecked) {
@@ -143,16 +125,11 @@
           }
         }
         if (hasChecked == false){
-          alert("Syarat harus lengkap!");
+          alert("Pilih !");
           return false;
         }
         return true;
       }
   }
-//   $(document).ready(function() {
-//   $("input[name='checkAll']").click(function() {
-//     var checked = $(this).attr("checked");
-//     $("#myTable tr td input:checkbox").attr("checked", checked);
-//   });
-// });
+
   </script>

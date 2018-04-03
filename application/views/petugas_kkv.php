@@ -1,3 +1,4 @@
+<section id="main-content">
 <body>
     <?php
   header("Cache-control:no cache");
@@ -54,3 +55,4 @@
 </div>
 </section>
 </body>
+</section>

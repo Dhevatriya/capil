@@ -1,3 +1,4 @@
+<section id="main-content">
 <body>
     <?php
   header("Cache-control:no cache");
@@ -61,22 +62,32 @@
                       </div>
                   </div>
                   <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Desa<span class="required">*</span></label>
-                      <div class="col-lg-8">
-                           <input class="form-control " id="nama_desakelurahan" name="nama_desakelurahan" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_datakeluarga['nama_desakelurahan']; ?>"/>
-                      </div>
-                  </div>
-              <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Kecamatan<span class="required">*</span></label>
-                      <div class="col-lg-8">
-                           <input class="form-control " id="nama_kecamatan" name="nama_kecamatan" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_datakeluarga['nama_kecamatan']; ?>"/>
-                      </div>
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Desa/Kelurahan<span class="required">*</span></label>
+                        <div class="col-lg-8">
+                        <select class="form-control m-bot15" id= "nama_desakelurahan" name="nama_desakelurahan" required>
+                          <?php
+                            // foreach ($get_datapenduduk['nama_jenispekerjaan'] as $value);
+                            foreach ($desa as $data) {
+                          ?>
+                            <option <?php if ($data->nama_desakelurahan == $get_datakeluarga['nama_desakelurahan']) {echo "selected";} ?> value="<?php echo $data->id_desakelurahan ?>" ><?php echo $data->nama_desakelurahan ?></option>
+                          <?php
+                          } ?>
+                        </select>
+                        </div>
                   </div>
                   <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Kabupaten<span class="required">*</span></label>
-                      <div class="col-lg-8">
-                           <input class="form-control " id="kabupaten" name="kabupaten" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_datakeluarga['kabupaten']; ?>"/>
-                      </div>
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Kecamatan<span class="required">*</span></label>
+                        <div class="col-lg-8">
+                        <select class="form-control m-bot15" id= "nama_kecamatan" name="nama_kecamatan" required>
+                          <?php
+                            // foreach ($get_datapenduduk['nama_jenispekerjaan'] as $value);
+                            foreach ($keca as $data) {
+                          ?>
+                            <option <?php if ($data->nama_kecamatan == $get_datakeluarga['nama_kecamatan']) {echo "selected";} ?> value="<?php echo $data->id_kecamatan ?>" ><?php echo $data->nama_kecamatan ?></option>
+                          <?php
+                          } ?>
+                        </select>
+                        </div>
                   </div>
                   <div class="form-group ">
                       <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Kode Pos<span class="required">*</span></label>
@@ -85,9 +96,15 @@
                       </div>
                   </div>
                   <div class="form-group ">
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Kabupaten<span class="required">*</span></label>
+                      <div class="col-lg-8">
+                           <input class="form-control " id="kabupaten" name="kabupaten" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_datakeluarga['kabupaten']; ?>" readonly/>
+                      </div>
+                  </div>
+                  <div class="form-group ">
                       <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Provinsi<span class="required">*</span></label>
                       <div class="col-lg-8">
-                           <input class="form-control " id="provinsi" name="provinsi" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_datakeluarga['provinsi']; ?>"/>
+                           <input class="form-control " id="provinsi" name="provinsi" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_datakeluarga['provinsi']; ?>" readonly/>
                       </div>
                   </div>
                   <center><div class="form-group ">

@@ -1,3 +1,5 @@
+
+<section id="main-content">
 <html>
 <body>
   <?php
@@ -68,11 +70,13 @@
                           <div class="form-group ">
                               <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Desa / Kelurahan<span class="required">*</span></label>
                               <div class="col-lg-8 <?php if(form_error('nama_desakelurahan')!='') echo $id2; ?>">
-                                <div>
-                                    <div id="body">
-                                        <input class="form-control" type="text" id="autocomplete" placeholder="Masukkan Desa/ Kelurahan" name="nama_desakelurahan" value="<?php echo $nama_desakelurahan; ?>" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
-                                    </div>
-                                </div>
+                                <select data-placeholder="Pilih Desa/Kelurahan" name="nama_desakelurahan" id ="nama_desakelurahan" required class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+                                <option value="" disabled selected><i>---Pilih Desa/Kelurahan---</i></option>
+
+                                <?php foreach ($des as $data2) {  ?>
+                                    <option value="<?php echo $data2->id_desakelurahan;?>" <?php if ($data2->id_desakelurahan==$idkecamatan_FK): echo "selected"?> <?php endif ?> ><?php echo $data2->nama_desakelurahan;?></option>
+                                  <?php  } ?>
+                              </select>
                                    <?php echo form_error('nama_desakelurahan');?>
                               </div>
                           </div>

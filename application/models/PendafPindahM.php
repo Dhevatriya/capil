@@ -85,14 +85,20 @@ class PendafPindahM extends CI_Model {
         $q=$this->db->query("SELECT nama_jenispekerjaan FROM jenis_pekerjaan, data_penduduk where jenis_pekerjaan.id_jenispekerjaan = data_penduduk.id_jenispekerjaanFK and idPenduduk='$id'")->result();
         return $q;
     }
+        public function getdatapedkkc($nik, $id){
+        $q=$this->db->query("SELECT DISTINCT * FROM data_keluarga, data_penduduk, pendaftaran WHERE data_keluarga.idKeluarga = data_penduduk.idKeluarga_FK and data_keluarga.idKeluarga = pendaftaran.idKeluargaFK and nik='$nik' and id_pendaftaran='$id'")->result();
+        return $q;
+    }
     public function insertpendaftranpindah(){
         $nik=$_POST['nik'];
         $idKeluarga=$this->PendafPindahM->getidkel($nik);
+        $id_petugas=$this->session->userdata('id');
+        // $status=$this->session->userdata('status');
         $data = array(
         "idKeluargaFK"=>$idKeluarga,
         "tgl_buat"=>date('y/m/d'),
         "tgl_jadi"=>$_POST['tgl_jadi'],
-        "id_petugasFK"=>3,
+        "id_petugasFK"=>$id_petugas,
         "status"=>'pindah'
         );
         $this->db->insert('pendaftaran',$data);
@@ -102,11 +108,12 @@ class PendafPindahM extends CI_Model {
         public function insertpendaftranpindahdatang(){
         $nik=$_POST['nik'];
         $idKeluarga=$this->PendafPindahM->getidkel($nik);
+        $id_petugas=$this->session->userdata('id');
         $data = array(
         "idKeluargaFK"=>$idKeluarga,
         "tgl_buat"=>date('y/m/d'),
         "tgl_jadi"=>$_POST['tgl_jadi'],
-        "id_petugasFK"=>3,
+        "id_petugasFK"=>$id_petugas,
         "status"=>'pindahdatang'
         );
         $this->db->insert('pendaftaran',$data);
@@ -155,7 +162,7 @@ class PendafPindahM extends CI_Model {
     return $q;
   }
       public function getdata_penduduk($idkel,$idpendf, $idpend){
-    $q=$this->db->query("SELECT nik, nama_lengkap, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, kabupaten, kode_pos, kabupaten, tgl_buat,tgl_jadi FROM desakelurahan, kecamatan, data_penduduk, data_keluarga, pendaftaran where idKeluarga='$idkel' and id_pendaftaran='$idpendf'and kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK and kecamatan.id_kecamatan = data_keluarga.idkecamatan_FK and idPenduduk='$idpend'")->result();
+    $q=$this->db->query("SELECT id_pendaftaran, nik, nama_lengkap, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, kabupaten, kode_pos, kabupaten, tgl_buat,tgl_jadi FROM desakelurahan, kecamatan, data_penduduk, data_keluarga, pendaftaran where idKeluarga='$idkel' and id_pendaftaran='$idpendf'and kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK and kecamatan.id_kecamatan = data_keluarga.idkecamatan_FK and idPenduduk='$idpend'")->result();
     return $q;
     }
       public function getdatapedkk($nik, $id){

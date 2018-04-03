@@ -1,3 +1,4 @@
+<section id="main-content">
 <body>
         <?php
   header("Cache-control:no cache");

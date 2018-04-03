@@ -483,7 +483,7 @@ sk4
 
 #sidebar {
 
-    width: 180px;
+    width: 240px;
 
     height: 100%;
 
@@ -1016,6 +1016,7 @@ ul.sidebar-menu li.active a i {
     padding: 15px;
 
     width: 100%;
+    padding-left: 70px;
 
 }
 

@@ -1,3 +1,4 @@
+<section id="main-content">
 <body>
     <?php
   header("Cache-control:no cache");
@@ -18,8 +19,8 @@
         <?php } ?>
 
        
-       
-             <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafPindahC/cetakpendafpindahdatang/')?>">
+       <?php foreach($datapendaf as $data){ ?>
+             <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafPindahC/cetakpendafpindahdatang/'$data->id_pendaftaran)?>">
 
               <section class="panel">
                   <header class="panel-heading">
@@ -71,7 +72,8 @@
         </div>
 
       </form>
+      <?php } ?>
        <div>
               </div>
             </section>
-          </body>
+          </body>      }

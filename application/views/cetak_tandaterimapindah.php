@@ -1,9 +1,7 @@
-<!-- <div style="position: absolute; top:185; left:92; font-size: 12pt; color: black;"> -->
 <div style="position: absolute; top:180; left:40; font-size: 12pt; color: black;">
-          <?php foreach($det as $data){ ?>
     <table border="0" align="left" cellspacing="0" cellpadding="10">
       <tbody>
-
+      <?php foreach($d as $data){ ?>
         <tr>
           <br>
           <br>
@@ -31,12 +29,7 @@
           <td style="padding:5; padding-top: 10; padding-left: 40;"> : </td>
           <td style="text-align:left; width:20%; padding:5; padding-top: 10; padding-left: 10;"><?php echo $data->tgl_jadi; ?></td>
         </tr>
-    
-        <tr>
-          <td style="padding:5;"></td>
-        </tr>
-
+        <?php } ?>
       </tbody>
-    </table>   
-            <?php  } ?>
+    </table>
 </div>

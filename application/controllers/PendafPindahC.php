@@ -15,9 +15,21 @@ var $data= array();
         $data=array(
           "title"=>'Pendaftaran Surat Pindah',
           "aktif"=>"pindah",
+          "bclass"=>" ",
+          $username=$this->session->userdata('user'),
+          $peran=$this->session->userdata('peran'),
         );
+
     $data['body']= $this->load->view('petugas_pindah.php', $data, true);
-    $this->load->view('template_pindah',$data);
+    // $this->load->view('template_pindah',$data);
+      if ($peran=='PetugasPindah') {
+      $data['aktif']="pindah";
+      $this->load->view('template_pindah', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtpindah";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
     }
     function logout(){  
     $this->session->unset_userdata($userData);
@@ -35,9 +47,19 @@ var $data= array();
           "aktif"=>"pindah",
           "dataPenduduk"=>$this->PendafPindahM->getDataPenduduk($nik),
           "bclass"=>" ",
+             $username=$this->session->userdata('user'),
+          $peran=$this->session->userdata('peran'),
         );
     $data['body']= $this->load->view('tabel_pindahv', $data, true);
-    $this->load->view('template_pindah', $data);
+    // $this->load->view('template_pindah', $data);
+    if ($peran=='PetugasPindah') {
+      $data['aktif']="pindah";
+      $this->load->view('template_pindah', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtpindah";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
   }
 
 
@@ -51,13 +73,22 @@ var $data= array();
           "id_jenispekerjaan"=>'',
           "id_jenispekerjaanFK"=>'',
           "get_datapenduduk"=>$this->PendafPindahM->get_penduduk_det($id)->row_array(),
-          "bclass"=>" ",
+          "bclass"=>" ",   
+          $username=$this->session->userdata('user'),
+          $peran=$this->session->userdata('peran'),
         );
 
     $data['body']= $this->load->view('edit_pindahv', $data, true);
-    $this->load->view('template_pindah', $data);
-  }
- //*363'369# 
+    // $this->load->view('template_pindah', $data);
+        if ($peran=='PetugasPindah') {
+      $data['aktif']="pindah";
+      $this->load->view('template_pindah', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtpindah";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
+  } 
 
   public function datapendudukeditpindahproses($nik){
 $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
@@ -100,10 +131,20 @@ $this->form_validation->set_error_delimiters('<div style="color:red; margin-bott
             'ayah' => set_value('ayah', ''),
             'ibu' => set_value('ibu', ''),
             'id2' => 'has-error',
+            $username=$this->session->userdata('user'),
+            $peran=$this->session->userdata('peran'),
           );
       $this->session->set_userdata('petEdit', 'y');
       $data['body']= $this->load->view('edit_pindahv', $data, true);
-      $this->load->view('template_pindah', $data);
+      // $this->load->view('template_pindah', $data);
+      if ($peran=='PetugasAkte') {
+      $data['aktif']="akte";
+      $this->load->view('template_akte', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtakte";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
     }else{
       $idPenduduk = $this->PendafPindahM->getidpenduduk($_POST['nik']);
       $this->model->nik= $_POST['nik'];
@@ -136,43 +177,79 @@ $this->form_validation->set_error_delimiters('<div style="color:red; margin-bott
           "aktif"=>"pindah",
           "dataPenduduk"=>$this->PendafPindahM->getDataPenduduk($nik),
           "bclass"=>" ",
+             $username=$this->session->userdata('user'),
+          $peran=$this->session->userdata('peran'),
         );
     $data['body']= $this->load->view('tabel_pindahv', $data, true);
-    $this->load->view('template_pindah', $data);
+    // $this->load->view('template_pindah', $data);
+        if ($peran=='PetugasPindah') {
+      $data['aktif']="pindah";
+      $this->load->view('template_pindah', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtpindah";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
   }
    function buatpindah($nik){
       $data=array(
             "title"=>'Pendaftaran Surat Pindah',
             "aktif"=>"pindah",
+            "bclass"=>" ",
             "nik"=>$nik,
             "nama_lengkap"=>getnamanik($nik),
             "tgl_jadi"=>set_value(''),
+               $username=$this->session->userdata('user'),
+          $peran=$this->session->userdata('peran'),
       );
       $data['body']= $this->load->view('buat_pindahv.php', $data, true);
-      $this->load->view('template_pindah',$data);
+      // $this->load->view('template_pindah',$data);
+          if ($peran=='PetugasPindah') {
+      $data['aktif']="pindah";
+      $this->load->view('template_pindah', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtpindah";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
     }
        function buatpindahdatang($nik){
       $data=array(
             "title"=>'Pendaftaran Surat Pindah Datang',
             "aktif"=>"pindah",
+            "bclass"=>" ",
             "nik"=>$nik,
             "nama_lengkap"=>getnamanik($nik),
             "tgl_jadi"=>set_value(''),
+               $username=$this->session->userdata('user'),
+          $peran=$this->session->userdata('peran'),
           );
       $data['body']= $this->load->view('buat_pindahdatang.php', $data, true);
-      $this->load->view('template_pindah',$data);
+      // $this->load->view('template_pindah',$data);
+          if ($peran=='PetugasPindah') {
+      $data['aktif']="pindah";
+      $this->load->view('template_pindah', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtpindah";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
     }
         public function inputpendaftaranpindah(){
     $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
     $this->form_validation->set_rules('idKeluargaFK', 'idKeluargaFK', 'required');
     $this->form_validation->set_rules('id_petugasFK', 'id_petugasFK', 'required');
     $this->form_validation->set_rules('tgl_jadi', 'tgl_jadi', 'required');
+    $this->form_validation->set_rules('syarat', 'syarat', 'required|greater_than[0]', array('required' => 'Pilih minimal salah satu parameter pemeriksaan', 'greater_than[0]' => '' ));
     $nik=$_POST['nik'];
     $getidpendbaru = getid_pendterbaru();
     $data=array(
         "title"=>'Daftar ',
         "aktif"=>"pindah",
+        "bclass"=>" ",
         "datapendaf"=>$this->PendafPindahM->getdatapedkk($nik, $getidpendbaru),
+          //  $username=$this->session->userdata('user'),
+          // $peran=$this->session->userdata('peran'),
       );
       $query = $this->PendafPindahM->insertpendaftranpindah();
           $getidpendbaru = getid_pendterbaru();
@@ -190,10 +267,21 @@ $this->form_validation->set_error_delimiters('<div style="color:red; margin-bott
     $data=array(
         "title"=>'Daftar ',
         "aktif"=>"pindah",
+        "bclass"=>" ",
         "datapendaf"=>$this->PendafPindahM->getdata_penduduk($idkel, $getidpendbaru,$idpend),
+           $username=$this->session->userdata('user'),
+          $peran=$this->session->userdata('peran'),
       );
       $data['body']= $this->load->view('form_pengambilan_pindah', $data, true);
+      // $this->load->view('template_pindah', $data);
+      if ($peran=='PetugasPindah') {
+      $data['aktif']="pindah";
       $this->load->view('template_pindah', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtpindah";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
     }
         public function inputpendaftaranpindahdatang(){
     $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
@@ -205,6 +293,7 @@ $this->form_validation->set_error_delimiters('<div style="color:red; margin-bott
     $data=array(
         "title"=>'Daftar ',
         "aktif"=>"pindah",
+        "bclass"=>" ",
         "datapendaf"=>$this->PendafPindahM->getdatapedkk($nik, $getidpendbaru),
       );
       $query = $this->PendafPindahM->insertpendaftranpindahdatang();
@@ -223,17 +312,29 @@ $this->form_validation->set_error_delimiters('<div style="color:red; margin-bott
     $data=array(
         "title"=>'Daftar ',
         "aktif"=>"pindah",
+        "bclass"=>" ",
         "datapendaf"=>$this->PendafPindahM->getdata_penduduk($idkel, $getidpendbaru,$idpend),
+           $username=$this->session->userdata('user'),
+          $peran=$this->session->userdata('peran'),
       );
       $data['body']= $this->load->view('form_pengambilan_pindah_datang', $data, true);
+      // $this->load->view('template_pindah', $data);
+          if ($peran=='PetugasPindah') {
+      $data['aktif']="pindah";
       $this->load->view('template_pindah', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtpindah";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
     }
 
 
   public function laporanpendaftaranpindah(){
     $data=array(
           "title"=>'Laporan Pendaftaran Surat Pindah dan Surat Pindah Datang',
-          "aktif"=>" ",
+          "aktif"=>"laporanpindah",
+          "bclass"=>" ",
           "pendafpindahhari"=>$this->model->pendafpindahhari(),
           "pendafpindahbulan"=>$this->model->pendafpindahbulan(),
           "pendafpindahtahun"=>$this->model->pendafpindahtahun(),
@@ -244,7 +345,16 @@ $this->form_validation->set_error_delimiters('<div style="color:red; margin-bott
           $peran=$this->session->userdata('peran'),
         );
     $data['body']= $this->load->view('laporan_pindah.php', $data, true);
-     $this->load->view('template_pindah', $data);
+     // $this->load->view('template_pindah', $data);
+    if ($peran=='PetugasPindah') {
+      $data['aktif']="laporanpindah";
+      $this->load->view('template_pindah', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="laporan";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
+
   }
 
   public function cetaklaporanpindahhari(){
@@ -348,5 +458,24 @@ $this->form_validation->set_error_delimiters('<div style="color:red; margin-bott
       $pdf = new HTML2PDF('P','A4','en');
       $pdf->WriteHTML($html);
       $pdf->Output('Laporan Pendaftaran Surat Pindah Datang Pertahun.pdf', 'I');
+  }
+   public function cetakpendafpindah(){
+      ob_start();
+        $data=array(
+          "nik">$_POST['nik'],
+          "id"=>$_POST['id_pendaftaran'],
+          "det"=>$this->model->getdatapedkkc($nik, $id),
+          "tabel"=>"cetak_tandakk.php",
+          "judul_lap"=>"Tanda Terima Berkas Pindah",
+         );
+        $this->load->view('layout_cetak_fix.php', $data);
+
+      $html = ob_get_contents();
+          ob_end_clean();
+          
+          require_once('./assets/html2pdf/html2pdf.class.php');
+      $pdf = new HTML2PDF('P','A4','en');
+      $pdf->WriteHTML($html);
+      $pdf->Output('Tanda Terima Berkas Pindah.pdf', 'I');
   }
 }

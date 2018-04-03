@@ -1,10 +1,8 @@
-<!-- <div style="position: absolute; top:185; left:92; font-size: 12pt; color: black;"> -->
 <div style="position: absolute; top:180; left:40; font-size: 12pt; color: black;">
     <table border="0" align="left" cellspacing="0" cellpadding="10">
       <tbody>
-        <?php
-            if( ! empty($d)){
-                foreach($d as $data){ ?>
+      <?php foreach($d as $data){ ?>
+      <input type="hidden" name="id_pendaftaran" id="id_pendaftaran" value="<?php echo $data->id_pendaftaran ?>">
         <tr>
           <br>
           <br>
@@ -32,13 +30,8 @@
           <td style="padding:5; padding-top: 10; padding-left: 40;"> : </td>
           <td style="text-align:left; width:20%; padding:5; padding-top: 10; padding-left: 10;"><?php echo $data->tgl_jadi; ?></td>
         </tr>
-        <?php  } ?>
-                    <?php }
-        ?> 
-        <tr>
-          <td style="padding:5;"></td>
-        </tr>
+        <?php } ?>
       </tbody>
-    </table>   
 
+    </table>   
 </div>

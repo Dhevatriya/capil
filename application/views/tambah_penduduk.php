@@ -1,3 +1,4 @@
+<section id="main-content">
 <html>
 <body>
   <?php
@@ -92,8 +93,19 @@
                           <div class="form-group ">
                               <label for="curl" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Pendidikan<span class="required">*</span></label>
                               <div class="col-lg-8 <?php if(form_error('pendidikan')!='') echo $id2; ?>">
-                                  <input class="form-control " id="pendidikan" type="text" name="pendidikan" placeholder="Masukkan Pendidikan" value="<?php echo $pendidikan; ?>" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
-                                  <?php echo form_error('pendidikan');?>
+                                 <select class="form-control m-bot15" name="pendidikan" required oninvalid="this.setCustomValidity('data tidak boleh kosong')" oninput="setCustomValidity('')">
+                                  <option disabled selected><i>---Pilih Pendidikan---</i></option>
+                                    <option value="Tidak/Belum Sekolah" <?php if ($pendidikan=='Tidak/Belum Sekolah') { ?> <?php echo 'selected';} ?> >Tidak/Belum Sekolah</option>
+                                    <option value="Belum Tamat SD/Sederajat" <?php  if ($pendidikan=='Belum Tamat SD/Sederajat') { ?><?php echo 'selected'; }?> >Belum Tamat SD/Sederajat</option>
+                                    <option value="Tamat SD/Sederajat" <?php if ($pendidikan=='Tamat SD/Sederajat') { ?> <?php echo 'selected';} ?> >Tamat SD / Sederajat</option>
+                                    <option value=" SLTP/Sederajat" <?php  if ($pendidikan==' SLTP/Sederajat') { ?><?php echo 'selected'; }?> > SLTP/Sederajat</option>
+                                    <option value="SLTA/Sederajat" <?php if ($pendidikan=='SLTA/Sederajat') { ?> <?php echo 'selected';} ?> >SLTA/Sederajat</option>
+                                    <option value="Diploma I/II" <?php  if ($pendidikan=='Diploma I/II') { ?><?php echo 'selected'; }?> >Diploma I/II</option>
+                                    <option value="Akademi/Diploma III/Sarjana Muda" <?php if ($pendidikan=='Akademi/Diploma III/Sarjana Muda') { ?> <?php echo 'selected';} ?> >Akademi/Diploma III/Sarjana Muda</option>
+                                    <option value="Diploma IV/Sastra I" <?php  if ($pendidikan=='Diploma IV/Sastra I') { ?><?php echo 'selected'; }?> >Diploma IV/Sastra I</option>
+                                    <option value="Sastra II" <?php if ($pendidikan=='Sastra II') { ?> <?php echo 'selected';} ?> >Sastra II</option>
+                                    <option value="Sastra III" <?php  if ($pendidikan=='Sastra III') { ?><?php echo 'selected'; }?> >Sastra III</option>
+                                  </select>
                               </div>
                           </div>
    
@@ -126,10 +138,21 @@
                             <div class="form-group ">
                               <label for="curl" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Status Hubungan Dalam Keluarga<span class="required">*</span></label>
                               <div class="col-lg-8 <?php if(form_error('status_hub_dalam_keluarga')!='') echo $id2; ?>">
-                                  <input class="form-control " id="status_hub_dalam_keluarga" type="text" name="status_hub_dalam_keluarga" placeholder="Masukkan Status Hubungan Dalam Keluarga" value="<?php echo $status_hub_dalam_keluarga; ?>" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
-                                  <?php echo form_error('status_hub_dalam_keluarga');?>
-                              </div>
+                                   <select class="form-control m-bot15" name="status_hub_dalam_keluarga" required oninvalid="this.setCustomValidity('data tidak boleh kosong')" oninput="setCustomValidity('')">
+                                    <option disabled selected><i>---Pilih Status Hubungan Dalam Keluarga---</i></option>
+                                    <option value="Kepala Keluarga" <?php if ($status_hub_dalam_keluarga=='Kepala Keluarga') { ?> <?php echo 'selected';} ?> >Kepala Keluarga</option>
+                                    <option value="Suami" <?php  if ($status_hub_dalam_keluarga=='Suami') { ?><?php echo 'selected'; }?> >Suami</option>
+                                    <option value="Istri" <?php if ($status_hub_dalam_keluarga=='Istri') { ?> <?php echo 'selected';} ?> >Istri</option>
+                                    <option value="Anak" <?php  if ($status_hub_dalam_keluarga=='Anak') { ?><?php echo 'selected'; }?> >Anak</option>
+                                    <option value="Menantu" <?php if ($status_hub_dalam_keluarga=='Menantu') { ?> <?php echo 'selected';} ?> >Menantu</option>
+                                    <option value="Cucu" <?php  if ($status_hub_dalam_keluarga=='Cucu') { ?><?php echo 'selected'; }?> >Cucu</option>
+                                    <option value="Orangtua" <?php if ($status_hub_dalam_keluarga=='Orangtua') { ?> <?php echo 'selected';} ?> >Orangtua</option>
+                                    <option value="Mertua" <?php  if ($status_hub_dalam_keluarga=='Mertua') { ?><?php echo 'selected'; }?> >Mertua</option>
+                                    <option value="Famili Lain" <?php if ($status_hub_dalam_keluarga=='Famili Lain') { ?> <?php echo 'selected';} ?> >Famili Lain</option>
+                                    <option value="Lainnya" <?php  if ($status_hub_dalam_keluarga=='Lainnya') { ?><?php echo 'selected'; }?> >Lainnya</option>
+                                </select>
                           </div>
+                        </div>
                         <div class="form-group ">
                               <label for="curl" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Kewarganegaraan<span class="required">*</span></label>
                               <div class="col-lg-8 <?php if(form_error('kewarganegaraan')!='') echo $id2; ?>">

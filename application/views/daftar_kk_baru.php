@@ -1,3 +1,4 @@
+<section id="main-content">
 <body>
       <?php
   header("Cache-control:no cache");
@@ -24,7 +25,6 @@
         <br>
         <?php } ?>
 
-<?php foreach ($pem as $value); ?>
             <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafKKC/inputpendaftarankkbaru/');?>">
               <!-- <input type="hidden" name="id_pendaftaran" id="id_pendaftaran" value="<?php echo $value->id_pendaftaran; ?>"> -->
               <!-- <input type="hidden" name="idKeluarga" id="idKeluarga" value="<?php echo $value->idKeluarga; ?>"> -->
@@ -67,30 +67,30 @@
                                   <input class="form-control" id="rw" name="rw" placeholder="Masukkan RW" type="text" value="<?php echo $rw; ?>" required oninvalid="this.setCustomValidity('data tidak boleh kosong')" oninput="setCustomValidity('')"/><?php echo form_error('rw'); ?>
                               </div>
                           </div>
-                          <?php $dataE=$this->session->userdata('parEdit'); ?>
-                          <div class="form-group">
-                            <label class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Desa / Kelurahan<span class="required">*</span></label>
-                            <div class="col-lg-8 <?php if(form_error('id_kecamatanFK')!='') echo $id2; ?>">
-                              <select data-placeholder="Pilih Desa / Kelurahan" name="id_kecamatanFK" required class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
-                                <option value="" disabled selected><i>---Pilih Desa / Kelurahan---</i></option>
+                          <div class="form-group ">
+                              <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Desa / Kelurahan<span class="required">*</span></label>
+                              <div class="col-lg-8 <?php if(form_error('nama_desakelurahan')!='') echo $id2; ?>">
+                                <select data-placeholder="Pilih Desa/Kelurahan" name="nama_desakelurahan" id ="nama_desakelurahan" required class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+                                <option value="" disabled selected><i>---Pilih Desa/Kelurahan---</i></option>
+
                                 <?php foreach ($des as $data2) {  ?>
-                                    <option value="<?php echo $data2->id_desakelurahan;?>" <?php if ($data2->id_desakelurahan==$id_kecamatanFK): echo "selected"?> <?php endif ?> ><?php echo $data2->nama_desakelurahan;?></option>
+                                    <option value="<?php echo $data2->id_desakelurahan;?>" <?php if ($data2->id_desakelurahan==$idkecamatan_FK): echo "selected"?> <?php endif ?> ><?php echo $data2->nama_desakelurahan;?></option>
                                   <?php  } ?>
                               </select>
-                              <?php echo form_error('id_kecamatanFK');?>
-                            </div>
+                                   <?php echo form_error('nama_desakelurahan');?>
+                              </div>
                           </div>
-                          <?php $dataE=$this->session->userdata('parEdit'); ?>
                           <div class="form-group">
                             <label class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Kecamatan<span class="required">*</span></label>
-                            <div class="col-lg-8 <?php if(form_error('idkecamatan_FK')!='') echo $id2; ?>">
-                              <select data-placeholder="Pilih Kecamatan" name="idkecamatan_FK" required class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+                            <div class="col-lg-8 <?php if(form_error('nama_kecamatan')!='') echo $id2; ?>">
+                              <select data-placeholder="Pilih Kecamatan" name="nama_kecamatan" id ="nama_kecamatan" required class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
                                 <option value="" disabled selected><i>---Pilih Kecamatan---</i></option>
+
                                 <?php foreach ($kec as $data2) {  ?>
                                     <option value="<?php echo $data2->id_kecamatan;?>" <?php if ($data2->id_kecamatan==$idkecamatan_FK): echo "selected"?> <?php endif ?> ><?php echo $data2->nama_kecamatan;?></option>
                                   <?php  } ?>
                               </select>
-                              <?php echo form_error('idkecamatan_FK');?>
+                              <?php echo form_error('nama_kecamatan');?>
                             </div>
                           </div>
                           <?php $dataE=$this->session->userdata('parEdit'); ?>

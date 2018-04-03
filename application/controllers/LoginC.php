@@ -20,6 +20,7 @@ class LoginC extends CI_Controller
 		$query=$this->LoginM->ceknum($username,$password)->row();
 		if($ceknum>0){
               $userData = array(
+              	'id'=>$query->id_petugas,
 		        'user' => $query->username,
 		        'pass' => $query->password,
 		        'peran' => $query->peran,
@@ -29,7 +30,7 @@ class LoginC extends CI_Controller
 				if ($this->session->userdata('peran') == "PetugasKK"){redirect('PendafKKC');}
 				else if ($this->session->userdata('peran') == "PetugasAkte"){redirect('PendafAkteC');}
 				else if ($this->session->userdata('peran') == "PetugasPindah"){redirect('PendafPindahC');}
-
+				else if ($this->session->userdata('peran') == "Admin"){redirect('AdminC');}
             }else{
                 $this->session->set_flashdata('error','Username dan Password salah');
                 redirect('LoginC');

@@ -16,12 +16,22 @@ var $data= array();
         $data=array(
           "title"=>'Pendaftaran Kartu Keluarga',
           "aktif"=>"akte",
+          "bclass"=>'',
           $username=$this->session->userdata('user'),
           $password=$this->session->userdata('pass'),
+          $peran=$this->session->userdata('peran'),
           "getdatapn"=>$this->PendafAkteM->getpendkk($id),
         );
     $data['body']= $this->load->view('petugas_akte.php', $data, true);
-    $this->load->view('template_akte',$data);
+    // $this->load->view('template_akte',$data);
+    if ($peran=='PetugasAkte') {
+      $data['aktif']="akte";
+      $this->load->view('template_akte', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtakte";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
     }
 
   public function datapendudukedit($id){
@@ -29,16 +39,27 @@ var $data= array();
           "title"=>'Edit Data Keluarga',
           "aktif"=>"akte",
           "id"=>$id,
+          "bclass"=>'',
           "jenis"=>$this->PendafAkteM->getjenis(),
           "jenisk"=>$this->PendafAkteM->getjeniskerja($id),
           "id_jenispekerjaan"=>'',
           "id_jenispekerjaanFK"=>'',
           "get_datapenduduk"=>$this->PendafAkteM->get_penduduk_det($id)->row_array(),
           "bclass"=>" ",
+          $username=$this->session->userdata('user'),
+          $peran=$this->session->userdata('peran'),
         );
 
     $data['body']= $this->load->view('edit_akte', $data, true);
-    $this->load->view('template_akte', $data);
+    // $this->load->view('template_akte', $data);
+    if ($peran=='PetugasAkte') {
+      $data['aktif']="akte";
+      $this->load->view('template_akte', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtakte";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
   }
 
   public function searchdata(){
@@ -46,25 +67,47 @@ var $data= array();
     $data=array(
       "title"=>'Edit Data',
           "aktif"=>"akte",
+          "bclass"=>'',
           "dataPenduduk"=>$this->PendafAkteM->getDataPenduduk($nik),
           "pemlk"=>$this->PendafAkteM->getdatapennik($nik),
           "bclass"=>" ",
+          $username=$this->session->userdata('user'),
+          $peran=$this->session->userdata('peran'),
           
         );
     $data['body']= $this->load->view('tabel_aktev', $data, true);
-    $this->load->view('template_akte', $data);
+    // $this->load->view('template_akte', $data);
+    if ($peran=='PetugasAkte') {
+      $data['aktif']="akte";
+      $this->load->view('template_akte', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtakte";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
 
   }
   public function caridata($nik){
     $data=array(
       "title"=>'Edit Data Keluarga',
           "aktif"=>"akte",
+          "bclass"=>'',
           "dataPenduduk"=>$this->PendafAkteM->getDataPenduduk($nik),
           "pemlk"=>$this->PendafAkteM->getdatapennik($nik),
           "bclass"=>" ",
+          $username=$this->session->userdata('user'),
+          $peran=$this->session->userdata('peran'),
         );
     $data['body']= $this->load->view('tabel_aktev', $data, true);
-    $this->load->view('template_akte', $data);
+    // $this->load->view('template_akte', $data);
+    if ($peran=='PetugasAkte') {
+      $data['aktif']="akte";
+      $this->load->view('template_akte', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtakte";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
   }
 
   // public function searchdataedit(){
@@ -121,10 +164,20 @@ var $data= array();
             'ayah' => set_value('ayah', ''),
             'ibu' => set_value('ibu', ''),
             'id2' => 'has-error',
+            $username=$this->session->userdata('user'),
+          $peran=$this->session->userdata('peran'),
           );
       $this->session->set_userdata('petEdit', 'y');
       $data['body']= $this->load->view('edit_akte', $data, true);
+      // $this->load->view('template_akte', $data);
+      if ($peran=='PetugasAkte') {
+      $data['aktif']="akte";
       $this->load->view('template_akte', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtakte";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
     }else{
       $idPenduduk = $this->PendafAkteM->getidpenduduk($_POST['nik']);
       $this->model->nik= $_POST['nik'];
@@ -163,13 +216,24 @@ var $data= array();
       $data=array(
             "title"=>'Pendaftaran Akte',
             "aktif"=>"akte",
+            "bclass"=>'',
             "nik"=>$_POST['nik'],
             "nama_lengkap"=>$_POST['nama_lengkap'],
             "tgl_jadi"=>set_value(''),
              "pem"=>$this->PendafAkteM->getdatapen(),
+            $username=$this->session->userdata('user'),
+          $peran=$this->session->userdata('peran'),
           );
       $data['body']= $this->load->view('buat_aktev.php', $data, true);
-      $this->load->view('template_akte',$data);
+      // $this->load->view('template_akte',$data);
+      if ($peran=='PetugasAkte') {
+      $data['aktif']="akte";
+      $this->load->view('template_akte', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtakte";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
     }
     public function inputpendaftaranakte(){
     $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
@@ -181,6 +245,8 @@ var $data= array();
     $data=array(
         "title"=>'Daftar ',
         "aktif"=>"akte",
+        "bclass"=>'',
+        "id_pendaftaran"=>'',
         "datapendaf"=>$this->PendafAkteM->getdatapedkk($nik, $getidpendbaru),
       );
       $query = $this->PendafAkteM->insertpendaftranakte();
@@ -199,10 +265,22 @@ var $data= array();
     $data=array(
         "title"=>'Daftar ',
         "aktif"=>"akte",
+        "bclass"=>'',
+        "id_pendaftaran"=>'',
         "datapendaf"=>$this->PendafAkteM->getdata_penduduk($idkel, $getidpendbaru,$idpend),
+                  $username=$this->session->userdata('user'),
+          $peran=$this->session->userdata('peran'),
       );
       $data['body']= $this->load->view('form_pengambilan_akte', $data, true);
+      // $this->load->view('template_akte', $data);
+      if ($peran=='PetugasAkte') {
+      $data['aktif']="akte";
       $this->load->view('template_akte', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="dtakte";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
     }
 
   function logout(){  
@@ -218,7 +296,8 @@ var $data= array();
    public function laporanpendaftaranakte(){
     $data=array(
           "title"=>'Laporan Pendaftaran Akte',
-          "aktif"=>" ",
+          "aktif"=>"laporanakte",
+          "bclass"=>'',
           "pendafaktehari"=>$this->model->pendafaktehari(),
           "pendafaktebulan"=>$this->model->pendafaktebulan(),
           "pendafaktetahun"=>$this->model->pendafaktetahun(),
@@ -226,7 +305,15 @@ var $data= array();
           $peran=$this->session->userdata('peran'),
         );
     $data['body']= $this->load->view('laporan_akte.php', $data, true);
-     $this->load->view('template_akte', $data);
+     // $this->load->view('template_akte', $data);
+     if ($peran=='PetugasAkte') {
+      $data['aktif']="lapakte";
+      $this->load->view('template_akte', $data);
+    }else if($peran=='Admin') {
+      $data['aktif']="laporanakte";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
   }
 
   public function cetaklaporanaktehari(){

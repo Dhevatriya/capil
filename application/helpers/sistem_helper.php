@@ -16,7 +16,7 @@ function in_access()
 function no_access()
 {
     $ci=& get_instance();
-    if($ci->session->userData('peran')!='PetugasKK' && $ci->session->userData('peran')!='admin'){
+    if($ci->session->userData('peran')!='PetugasKK' && $ci->session->userData('peran')!='Admin'){
         redirect('LoginC');
     }
 }
@@ -24,7 +24,7 @@ function no_access()
 function no_access_akte()
 {
     $ci=& get_instance();
-    if($ci->session->userData('peran')!='PetugasAkte' && $ci->session->userData('peran')!='admin'){
+    if($ci->session->userData('peran')!='PetugasAkte' && $ci->session->userData('peran')!='Admin'){
         redirect('LoginC');
     }
 }
@@ -32,7 +32,7 @@ function no_access_akte()
 function no_access_pindah()
 {
     $ci=& get_instance();
-    if($ci->session->userData('peran')!='PetugasPindah' && $ci->session->userData('peran')!='admin'){
+    if($ci->session->userData('peran')!='PetugasPindah' && $ci->session->userData('peran')!='Admin'){
         redirect('LoginC');
     }
 }
@@ -43,55 +43,6 @@ function no_access_adm()
         redirect('LoginC');
     }
 }
-
-
-// function in_access()
-// {
-//     $ci=& get_instance();
-//     if($ci->session->userdata('user')){
-//         redirect('TemplateC');
-//     }
-// }
-
-// function no_access()
-// {
-//     $ci=& get_instance();
-//     if(!$ci->session->userdata('user')){
-//         redirect('LoginC');
-//     }
-// }
-
-// function in_access_log()
-// {
-//     $ci=& get_instance();
-//     if($ci->session->userdata('userL')){
-//         redirect('LogisticC');
-//     }
-// }
-
-// function no_access_log()
-// {
-//     $ci=& get_instance();
-//     if(!$ci->session->userdata('userL')){
-//         redirect('LoginC');
-//     }
-// }
-
-// function in_access_adm()
-// {
-//     $ci=& get_instance();
-//     if($ci->session->userdata('userA')){
-//         redirect('AdminC');
-//     }
-// }
-
-// function no_access_adm()
-// {
-//     $ci=& get_instance();
-//     if(!$ci->session->userdata('userA')){
-//         redirect('LoginC');
-//     }
-// }
 
 function menuaktif($aktif,$menu){   
     if($aktif==$menu){
@@ -155,61 +106,20 @@ function getnamabulan($bulan){
     }
 }
 
-// function getnamaparam($id){
-//     $ci=& get_instance();
-//     $q = $ci->db->query("SELECT nama FROM param_pemeriksaan WHERE id_param='$id'")->row_array();
-//     return $q['nama'];
-// }
-
 function getnamapetugas($id){
     $ci=& get_instance();
     $q = $ci->db->query("SELECT nama_petugas FROM petugas WHERE id_petugas='$id'")->row_array();
     return $q['nama_petugas'];
 }
 
-// function gethargaparam($id){
+// function login_analis()
+// {
 //     $ci=& get_instance();
-//     $q = $ci->db->query("SELECT harga FROM param_pemeriksaan WHERE id_param='$id'")->row_array();
-//     return $q['harga'];
+//     if($ci->session->userdata('user')){
+//         return user;
+//     }
 // }
 
-// function gethargareagen($id){
-//     $ci=& get_instance();
-//     $q = $ci->db->query("SELECT harga_reagen FROM reagen WHERE id_reagen='$id'")->row_array();
-//     return $q['harga_reagen'];
-// }
-
-// function getidreagen($nama){
-//     $ci=& get_instance();
-//     $q = $ci->db->query("SELECT id_reagen FROM reagen WHERE nama='$nama'")->row_array();
-//     return $q['id_reagen'];
-// }
-
-// function getno($id){
-//     $ci=& get_instance();
-//     $q = $ci->db->query("SELECT no_pendaftaranFK FROM detail_pemeriksaan WHERE id_detail_pemeriksaan='$id'")->row_array();
-//     return $q['no_pendaftaranFK'];
-// }
-
-// function getjenispem($id){
-//     $ci=& get_instance();
-//     $q = $ci->db->query("SELECT nama_pemeriksaan FROM jenis_pemeriksaan WHERE id_jenis_pemeriksaan='$id'")->row_array();
-//     return $q['nama_pemeriksaan'];
-// }
-
-function login_analis()
-{
-    $ci=& get_instance();
-    if($ci->session->userdata('user')){
-        return user;
-    }
-}
-
-// function getparam($id_jenis_pemeriksaan){
-//     $ci=& get_instance();
-//     $q = $ci->db->query("SELECT * from jenis_pemeriksaan, param_pemeriksaan WHERE jenis_pemeriksaan.id_jenis_pemeriksaan=param_pemeriksaan.id_jenis_pemeriksaanFK AND id_jenis_pemeriksaan='$id_jenis_pemeriksaan'")->result();
-//     return $q;
-// }
 
 function getnoKK($id){
     $ci=& get_instance();
@@ -280,4 +190,9 @@ function getid_jenisFK($idker){
     $ci=& get_instance();
     $q = $ci->db->query("SELECT id_jenispekerjaanFK from data_penduduk WHERE idPenduduk='$idker'")->row_array();
     return $q['id_jenispekerjaanFK'];
+}
+function getid_petugas($id){
+    $ci=& get_instance();
+    $q = $ci->db->query("SELECT id_petugas from petugas WHERE nama_petugas='$id'")->row_array();
+    return $q['nama_petugas'];
 }

@@ -9,7 +9,7 @@
 		<div style="position: absolute; text-align: right; top:10; right:10; font-size: 10pt; color: black; font-style: italic;"><?php echo "DISDUKCAPIL".date('-d/m/Y'); ?></div>
 		<br>
 		<br>
-		<!-- <img style="position: absolute; top:40; left:5%; align:center;  width:8%;" src="<?php echo base_url(); ?>assets/img/logo1.png"/> -->
+		<img style="position: absolute; top:40; left:5%; align:center;  width:8%;" src="<?php echo base_url(); ?>assets/img/a.png"/>
 		<div style="position: absolute; text-align: left; top:30; left:15%; color: black; font-style: bold;">
 			<h4 style="font-size: 13pt;">DINAS KEPENDUDUKAN DAN CATATAN SIPIL <br> KABUPATEN KARANGANYAR 
 			</h4>

@@ -1,3 +1,4 @@
+<section id="main-content">
 <body>
     <section class="wrapper">
       <div class="row">

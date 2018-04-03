@@ -33,8 +33,8 @@ class PendafAkteM extends CI_Model {
     $q=$this->db->query("SELECT id_pendaftaran FROM pendaftaran")->result();
     return $q;
   }
-    public function getdata_penduduk($idkel,$idpendf, $idpend){
-    $q=$this->db->query("SELECT nik, nama_lengkap, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, kabupaten, kode_pos, kabupaten, tgl_buat,tgl_jadi FROM desakelurahan, kecamatan, data_penduduk, data_keluarga, pendaftaran where kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK and kecamatan.id_kecamatan = data_keluarga.idkecamatan_FK and idKeluarga='$idkel' and id_pendaftaran='$idpendf'and idPenduduk='$idpend'")->result();
+    public function getdata_penduduk($idkel, $idpendf, $idpend){
+    $q=$this->db->query("SELECT id_pendaftaran, nik, nama_lengkap, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, kabupaten, kode_pos, kabupaten, tgl_buat,tgl_jadi FROM desakelurahan, kecamatan, data_penduduk, data_keluarga, pendaftaran where kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK and kecamatan.id_kecamatan = data_keluarga.idkecamatan_FK and idKeluarga='$idkel' and id_pendaftaran='$idpendf'and idPenduduk='$idpend'")->result();
     return $q;
     }
     public function getdatapedkk($nik, $id){
@@ -113,11 +113,13 @@ class PendafAkteM extends CI_Model {
     public function insertpendaftranakte(){
         $nik=$_POST['nik'];
         $idKeluarga=$this->PendafAkteM->getidkel($nik);
+        $id_petugas=$this->session->userdata('id');
+        // $status=$this->session->userdata('user');
         $data = array(
         "idKeluargaFK"=>$idKeluarga,
         "tgl_buat"=>date('y-m-d'),
         "tgl_jadi"=>$_POST['tgl_jadi'],
-        "id_petugasFK"=>2,
+        "id_petugasFK"=>$id_petugas,
         "status"=>'akte'
         );
         $this->db->insert('pendaftaran',$data);

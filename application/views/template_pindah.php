@@ -7,6 +7,7 @@
     <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
     <meta name="author" content="GeeksLabs">
     <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+<!--     <link rel="shortcut icon" href="<?php echo base_url() ;?>assets/img/a.png"> -->
 
     <title><?php echo $title; ?> | Dinas Kependudukan dan Catatan Sipil</title>
 
@@ -46,32 +47,39 @@
     <link href="<?php echo base_url(); ?>/assets/css/xcharts.min.css" rel=" stylesheet"> 
     <link href="<?php echo base_url(); ?>assets/css/jquery-ui-1.10.4.min.css" rel="stylesheet">
   </head>
-<body>
+
     
+
+  <body class="<?php echo $bclass; ?>">
+  <!-- <body style class=""> -->
   <section id="container" class="">
   <!-- header -->
-  <header class="header dark-bg">
-      <a href="#" class="logo">Dinas Kependudukan dan Catatan Sipil</a>   
+      <header class="header dark-bg">
+            <div class="toggle-nav">
+                <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
+                
+            </div>
+
+            <a href="#" class="logo">Dinas Kependudukan dan Catatan Sipil</a> 
+            
             <div class="top-nav notification-row">  
                 <ul class="nav pull-right top-menu">
-                     <li class="<?php echo menuaktif('kk',$aktif); ?>"> 
-                        <a class="" href="<?php echo site_url('PendafPindahC') ?>" class=""> <span>Pendaftaran Surat Pindah</span> </a>
-                    </li>
-                    <li > 
-                        <a class="" href="<?php echo site_url('PendafPindahC/laporanpendaftaranpindah') ?>" class=""> <span>Laporan Pendaftaran Surat Pindah</span> </a>
-                    </li>
-                  
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="profile-ava">
+                            <span >
                                 <i class="icon_profile"></i>
                             </span>
                             <span class="username"><font size="4"> 
-                            <!-- &nbsp Logistik &nbsp  -->
+                            <!-- &nbsp Analis &nbsp  -->
+
                             <?php 
                                 $data=$this->session->userdata('user');
+                                $data1=$this->session->userdata('pass');
                                 if($data!=""){ ?>
+                                <!-- <div class="alert alert-success"><strong>Sukses! </strong> <?=$data;?></div> -->
                                 <?=$data;?>
+                                <input type="hidden" id="username" name="username" value="<?php echo $data; ?>" readonly class="form-control" >
+                                <input type="hidden" id="password" name="password" value="<?php echo $data1; ?>" readonly class="form-control" >
                             <?php } ?>
                             </font></span>
                             <i class="caret"></i>
@@ -79,14 +87,33 @@
                         <ul class="dropdown-menu extended logout">
                             <div class="log-arrow-up"></div>
                             <li>
-                                <a href="<?php echo site_url('PendafPindahC/logout')?>" onclick="return confirm('Apakah anda yakin ingin keluar?');"><i class="icon_key_alt"></i> Log Out</a>
-                            </li>C
+                                <a href="<?php echo site_url('PendafPindahC/logout'); ?>" onclick="return confirm('Apakah anda yakin ingin keluar?');"><i class="icon_key_alt"></i> Log Out</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
             </div>
-    </header>
- <?php echo $body; ?>
+      </header> 
+  <!-- aside -->
+      <aside>
+          <div id="sidebar"  class="nav-collapse ">
+              <!-- sidebar menu start-->
+              <ul class="sidebar-menu">  
+                   <li class="<?php echo menuaktif('pindah',$aktif); ?>"> 
+                        <a class="" href="<?php echo site_url('PendafPindahC') ?>" ><i class="icon_document_alt" ></i> <span>Pendaftaran Pindah</span> </a>
+                    </li>
+                    <li class="<?php echo menuaktif('laporanpindah',$aktif); ?>"> 
+                        <a class="" href="<?php echo site_url('PendafPindahC/laporanpendaftaranpindah') ?>"><i class="icon_document_alt" ></i> <span>Laporan Pendaftaran Pindah</span> </a>
+                    </li> 
+                    
+              </ul>
+              <!-- sidebar menu end-->
+          </div>
+      </aside>
+      <!--sidebar end-->
+      
+      <!--main content start--> 
+      <?php echo $body; ?>
       <!--main content end-->
 
     <!-- javascripts -->

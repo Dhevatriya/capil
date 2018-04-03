@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class PendafKKM extends CI_Model {
+class AdminM extends CI_Model {
   
     public function getData($noKK){
         $q = $this->db->query("SELECT * from data_keluarga, kecamatan, desakelurahan WHERE  kecamatan.id_kecamatan=data_keluarga.idkecamatan_FK and kecamatan.id_kecamatan=desakelurahan.id_kecamatanFK and noKK='$noKK'");
@@ -12,6 +12,25 @@ class PendafKKM extends CI_Model {
         public function get_dataPenduduk($nik){
         $q = $this->db->query("SELECT nik, nama_lengkap, jenis_kelamin,tempat_lahir,tanggal_lahir,agama,pendidikan,nama_jenispekerjaan, status_perkawinan, status_hub_dalam_keluarga, kewarganegaraan, no_paspor, no_kitas_kitap, ayah, ibu FROM jenis_pekerjaan, data_keluarga, data_penduduk WHERE jenis_pekerjaan.id_jenispekerjaan = data_penduduk.id_jenispekerjaanFK and data_keluarga.idKeluarga=data_penduduk.idKeluarga_FK and nik='$nik'")->result();
         return $q;
+    }
+        public function get_petugas(){
+        $q = $this->db->query("SELECT * from petugas");
+        return $q;
+    }
+        public function get_petugas_det($id){
+        $q = $this->db->query("SELECT * from petugas WHERE id_petugas='$id'");
+        return $q;
+    }
+    public function updatepetugas(){
+        $data = array(
+            "alamat_petugas"=>$this->alamat_petugas,
+            "no_hp_petugas"=>$this->no_hp_petugas,
+            "username"=>$this->username,
+        );
+        $this->db->where('id_petugas', $this->id_petugas);
+        $this->db->update('petugas',$data);
+        return $this->db->affected_rows();
+        
     }
 	 // function getnoKK($noKK){
   //       // $noKK=$_POST['noKK'];
@@ -265,13 +284,11 @@ public function updatependuduk($idPen){
         // $idKeluarga=$_POST['noKK'];
         $noKK=$_POST['noKK'];
         $idKeluarga=$this->PendafKKM->getidkel($noKK);
-        $id_petugas=$this->session->userdata('id');
-        // $peran=$this->session->userdata('peran');
         $data = array(
         "idKeluargaFK"=>$idKeluarga,
         "tgl_buat"=>date('y-m-d'),
         "tgl_jadi"=>$_POST['tgl_jadi'],
-        "id_petugasFK"=>$id_petugas,
+        "id_petugasFK"=>1,
         "status"=>'kk'
         );
         $this->db->insert('pendaftaran',$data);

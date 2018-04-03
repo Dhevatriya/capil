@@ -1,3 +1,4 @@
+<section id="main-content">
 <body>
     <?php
   header("Cache-control:no cache");
@@ -95,7 +96,31 @@
                   <div class="form-group ">
                       <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Pendidikan<span class="required">*</span></label>
                       <div class="col-lg-8">
-                           <input class="form-control " id="pendidikan" name="pendidikan" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_datapenduduk['pendidikan']; ?>"/>
+                           <select class="form-control m-bot15" name="pendidikan" required oninvalid="this.setCustomValidity('data tidak boleh kosong')" oninput="setCustomValidity('')" >
+                                    <?php
+                                      $pendidikan=$get_datapenduduk['pendidikan'];
+                                      if ($pendidikan== "Tidak/Belum Sekolah") echo "<option value='Tidak/Belum Sekolah' selected>Tidak/Belum Sekolah</option>";
+                                      else echo "<option value='Tidak/Belum Sekolah'>Tidak/Belum Sekolah</option>";
+                                      if ($pendidikan== "Belum Tamat SD/Sederajat") echo "<option value='Belum Tamat SD/Sederajat' selected>Belum Tamat SD/Sederajat</option>";
+                                      else echo "<option value='Belum Tamat SD/Sederajat'>Belum Tamat SD/Sederajat</option>";
+                                      if ($pendidikan== "Tamat SD/Sederajat") echo "<option value='Tamat SD/Sederajat' selected>Tamat SD/Sederajat</option>";
+                                      else echo "<option value='Tamat SD/Sederajat'>Tamat SD/Sederajat</option>";
+                                      if ($pendidikan== "SLTP/Sederajat") echo "<option value='SLTP/Sederajat' selected>SLTP/Sederajat</option>";
+                                      else echo "<option value='SLTP/Sederajat'>SLTP/Sederajat</option>";
+                                      if ($pendidikan== "SLTA/Sederajat") echo "<option value='SLTA/Sederajat' selected>SLTA/Sederajat</option>";
+                                      else echo "<option value='SLTA/Sederajat'>SLTA/Sederajat</option>";   
+                                      if ($pendidikan== "Diploma I/II") echo "<option value='Diploma I/II' selected>Diploma I/II</option>";
+                                      else echo "<option value='Diploma I/II'>Diploma I/II</option>";
+                                      if ($pendidikan== "Akademi/Diploma III/Sarjana Muda") echo "<option value='Akademi/Diploma III/Sarjana Muda' selected>Akademi/Diploma III/Sarjana Muda</option>";
+                                      else echo "<option value='Akademi/Diploma III/Sarjana Muda'>Akademi/Diploma III/Sarjana Muda</option>";
+                                      if ($pendidikan== "Diploma IV/Sastra I") echo "<option value='Diploma IV/Sastra I' selected>Diploma IV/Sastra I</option>";
+                                      else echo "<option value='Diploma IV/Sastra I'>Diploma IV/Sastra I</option>";
+                                      if ($pendidikan== "Sastra II") echo "<option value='Sastra II' selected>Sastra II</option>";
+                                      else echo "<option value='Sastra II'>Sastra II</option>";   
+                                      if ($pendidikan== "Sastra III") echo "<option value='Sastra III' selected>Sastra III</option>";
+                                      else echo "<option value='Sastra III'>Sastra III</option>";                        
+                                    ?>
+                                </select>
                       </div>
                   </div>
                <div class="form-group ">
@@ -133,7 +158,31 @@
                   <div class="form-group ">
                       <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Status Hubungan Dalam Keluarga<span class="required">*</span></label>
                       <div class="col-lg-8">
-                           <input class="form-control " id="status_hub_dalam_keluarga" name="status_hub_dalam_keluarga" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_datapenduduk['status_hub_dalam_keluarga']; ?>"/>
+                           <select class="form-control m-bot15" name="status_hub_dalam_keluarga" required oninvalid="this.setCustomValidity('data tidak boleh kosong')" oninput="setCustomValidity('')" >
+                                    <?php
+                                      $status_hub_dalam_keluarga=$get_datapenduduk['status_hub_dalam_keluarga'];
+                                      if ($status_hub_dalam_keluarga== "Kepala Keluarga") echo "<option value='Kepala Keluarga' selected>Kepala Keluarga</option>";
+                                      else echo "<option value='Kepala Keluarga'>Kepala Keluarga</option>";
+                                      if ($status_hub_dalam_keluarga== "Suami") echo "<option value='Suami' selected>Suami</option>";
+                                      else echo "<option value='Suami'>Suami</option>";
+                                      if ($status_hub_dalam_keluarga== "Istri") echo "<option value='Istri' selected>Istri</option>";
+                                      else echo "<option value='Istri'>Istri</option>";
+                                      if ($status_hub_dalam_keluarga== "Anak") echo "<option value='Anak' selected>Anak</option>";
+                                      else echo "<option value='Anak'>Anak</option>";
+                                      if ($status_hub_dalam_keluarga== "Menantu") echo "<option value='Menantu' selected>Menantu</option>";
+                                      else echo "<option value='Menantu'>Menantu</option>";   
+                                      if ($status_hub_dalam_keluarga== "Cucu") echo "<option value='Cucu' selected>Cucu</option>";
+                                      else echo "<option value='Cucu'>Cucu</option>";
+                                      if ($status_hub_dalam_keluarga== "Orangtua") echo "<option value='Orangtua' selected>Orangtua</option>";
+                                      else echo "<option value='Orangtua'>Orangtua</option>";
+                                      if ($status_hub_dalam_keluarga== "Mertua") echo "<option value='Mertua' selected>Mertua</option>";
+                                      else echo "<option value='Mertua'>Mertua</option>";
+                                      if ($status_hub_dalam_keluarga== "Famili Lain") echo "<option value='Famili Lain' selected>Famili Lain</option>";
+                                      else echo "<option value='Famili Lain'>Famili Lain</option>";   
+                                      if ($status_hub_dalam_keluarga== "Lainnya") echo "<option value='Lainnya' selected>Lainnya</option>";
+                                      else echo "<option value='Lainnya'>Lainnya</option>";                        
+                                    ?>
+                                </select>
                       </div>
                   </div>
                   <div class="form-group ">

@@ -1,3 +1,4 @@
+<section id="main-content">
 <body>
     <?php
   header("Cache-control:no cache");
@@ -60,7 +61,7 @@
                 </div>
               </center>
             </section>
-             <?php  } ?>
+
                 
               
 
@@ -68,6 +69,7 @@
         </div>
 
       </form>
+                   <?php  } ?>
        <div>
               </div>
             </section>

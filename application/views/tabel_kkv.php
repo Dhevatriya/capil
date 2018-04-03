@@ -1,3 +1,4 @@
+<section id="main-content">
 <html>
 <body>
       <?php

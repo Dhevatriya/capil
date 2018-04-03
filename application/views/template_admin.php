@@ -7,7 +7,7 @@
     <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
     <meta name="author" content="GeeksLabs">
     <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
-    <!-- <link rel="shortcut icon" href="<?php echo base_url() ;?>assets/img/logo1.png"> -->
+        <!-- <link rel="shortcut icon" href="<?php echo base_url() ;?>assets/img/a.png"> -->
 
     <title><?php echo $title; ?> | Dinas Kependudukan dan Catatan Sipil</title>
 
@@ -87,7 +87,7 @@
                         <ul class="dropdown-menu extended logout">
                             <div class="log-arrow-up"></div>
                             <li>
-                                <a href="<?php echo site_url('PendafAkteC/logout'); ?>" onclick="return confirm('Apakah anda yakin ingin keluar?');"><i class="icon_key_alt"></i> Log Out</a>
+                                <a href="<?php echo site_url('AdminC/logout'); ?>" onclick="return confirm('Apakah anda yakin ingin keluar?');"><i class="icon_key_alt"></i> Log Out</a>
                             </li>
                         </ul>
                     </li>
@@ -99,13 +99,43 @@
           <div id="sidebar"  class="nav-collapse ">
               <!-- sidebar menu start-->
               <ul class="sidebar-menu">  
-                   <li class="<?php echo menuaktif('akte',$aktif); ?>"> 
-                        <a class="" href="<?php echo site_url('PendafAkteC') ?>" class=""> <i class="icon_documents_alt"></i>  <span>Pendaftaran Akte</span> </a>
+                    <li class="<?php echo menuaktif('petugas',$aktif); ?>"> 
+                        <a class="" href="<?php echo site_url('AdminC') ?>" class=""> <i class="fa fa-user-md"></i>  <span>Data Petugas</span> </a>
                     </li>
-                    <li class="<?php echo menuaktif('laporanakte',$aktif); ?>"> 
-                        <a class="" href="<?php echo site_url('PendafAkteC/laporanpendaftaranakte') ?>"> <i class="icon_document_alt" ></i> <span>Laporan Pendaf Akte</span> </a>
-                    </li> 
-                    
+                    <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i class="icon_documents_alt"></i>
+                          <span>KK</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
+                      </a>
+                      <ul class="sub">
+                          <li class="<?php echo menuaktif('kk',$aktif); ?>"><a  href="<?php echo site_url('PendafKKC/') ?>">Pendaftaran KK</a></li>                          
+                          <li class="<?php echo menuaktif('laporankk',$aktif); ?>"><a href="<?php echo site_url('PendafKKC/laporanpendaftarankk') ?>">Laporan Pendaftaran KK</a></li>
+                          
+                      </ul>
+                    </li>
+                    <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i class="icon_documents_alt" ></i>
+                          <span>Akte</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
+                      </a>
+                      <ul class="sub">
+                        <li class="<?php echo menuaktif('akte',$aktif); ?>"><a href="<?php echo site_url('PendafAkteC/') ?>">Pendaftaran Akte</a></li>
+                        <li class="<?php echo menuaktif('laporanakte',$aktif); ?>"><a  href="<?php echo site_url('PendafAkteC/laporanpendaftaranakte') ?>">Laporan Pendaftaran Akte</a></li>
+                      </ul>
+                    </li>
+                    <li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i class="icon_documents_alt" ></i>
+                          <span>Pindah</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
+                      </a>
+                      <ul class="sub">
+                          <li class="<?php echo menuaktif('pindah',$aktif); ?>"><a href="<?php echo site_url('PendafPindahC') ?>">Pendaftaran Pindah</a></li>
+                          <li class="<?php echo menuaktif('laporanpindah',$aktif); ?>"><a  href="<?php echo site_url('PendafPindahC/laporanpendaftaranpindah') ?>">Laporan Pendaftaran Pindah</a></li>
+                      </ul>
+                    </li>
               </ul>
               <!-- sidebar menu end-->
           </div>

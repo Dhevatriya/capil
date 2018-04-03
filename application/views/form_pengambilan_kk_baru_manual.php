@@ -1,3 +1,4 @@
+<section id="main-content">
 <body>
     <?php
   header("Cache-control:no cache");
@@ -17,9 +18,9 @@
         <div class="alert alert-success"><strong>Sukses! </strong> <?=$data;?></div>
         <?php } ?>
 
+       <?php foreach($datakeluargabarumanual as $data){ ?>
        
-       
-             <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafKKC/cetakpendaftarankk/')?>">
+             <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafKKC/cetakpendaftarankk/'.$data->id_pendaftaran)?>">
 
               <section class="panel">
                   <header class="panel-heading">
@@ -67,6 +68,7 @@
         </div>
 
       </form>
+      <?php } ?>
        <div>
               </div>
             </section>
