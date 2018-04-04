@@ -76,7 +76,7 @@ class PendafKKM extends CI_Model {
     //     return $q;
     // }
       public function getdatakeluarga($noKK, $id){
-        $q=$this->db->query("SELECT * FROM data_keluarga, pendaftaran WHERE data_keluarga.idKeluarga = pendaftaran.idKeluargaFK and id_pendaftaran='$id'and noKK='$noKK' ")->result();
+        $q=$this->db->query("SELECT * FROM data_keluarga, pendaftaran WHERE data_keluarga.idKeluarga = pendaftaran.idKeluargaFK and id_pendaftaran='$id'and noKK='$noKK' ")->row_array();
         return $q;
     }
   public function getdata_keluarga($idkel,$idpendf){

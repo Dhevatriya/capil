@@ -522,13 +522,6 @@ public function datapendudukeditproses(){
       $this->model->provinsi = $_POST['provinsi'];
       $query = $this->model->updatekeluarga($idKeluarga);
 
-      // $id_desakelurahan = $this->PendafKKM->getidkeluarga($_POST['noKK']);
-      // $this->model->nama_desakelurahan = $_POST['nama_desakelurahan'];
-      // $query1 = $this->model->updatedesakelurahan($id_desakelurahan);
-
-      // $id_kecamatan =$this->PendafKKM->getidkeluarga($_POST['noKK']);
-      // $this->model->nama_kecamatan = $_POST['nama_kecamatan'];
-      // $query2 = $this->model->updatekecamatan($id_kecamatan);
       $this->session->set_flashdata('sukses', 'Edit Data Keluarga berhasil dilakukan!');
       redirect('PendafKKC/caridatakk/'.$noKK);
     }
@@ -1097,7 +1090,7 @@ function logout(){
      if ($peran=='PetugasKK') {
       $data['aktif']="laporankk";
       $this->load->view('template_kk', $data);
-    }else if($peran=='lapkk') {
+    }else if($peran=='Admin') {
       $data['aktif']="dtkk";
       $data['bclass']=" ";
       $this->load->view('template_admin', $data);
@@ -1156,24 +1149,24 @@ function logout(){
   }
    public function cetakpendaftarankk($id){
     $getidpendbaru=getid_pendterbaru();
-    $d=$this->model->getdatakeluarga($id, $getidpendbaru);
-    echo $d;
-      // ob_start();
-      //   $data=array(
-      //     "d"=>$this->model->getdatakeluarga($id, $getidpendbaru),
-      //     // "det"=>$this->model->getdatapenda($id),
-      //     "tabel"=>"cetak_tandaterimakk.php",
-      //     "judul_lap"=>"Tanda Terima Berkas KK",
-      //     // "datapendafkk"=>$this->PendafKKM->getdatakeluarga($id, $getidpendbaru),
-      //    );
-      //   $this->load->view('layout_cetak_fix.php', $data);
+      ob_start();
+        $data=array(
+          "d"=>$this->model->getdatakeluarga($id, $getidpendbaru),
+          // "idKel"=>getid_keluargaFK($id),
+          // "det"=>$this->model->getdatapenda($id),
+          // "noKK"=>$noKK,
+          "tabel"=>"cetak_tandaterimakk.php",
+          "judul_lap"=>"Tanda Terima Berkas KK",
+          // "d"=>$this->PendafKKM->getdata_keluarga($idkel, $getidpendbaru),
+         );
+        $this->load->view('layout_cetak_fix.php', $data);
 
-      // $html = ob_get_contents();
-      //     ob_end_clean();
+      $html = ob_get_contents();
+          ob_end_clean();
           
-      //     require_once('./assets/html2pdf/html2pdf.class.php');
-      // $pdf = new HTML2PDF('P','A4','en');
-      // $pdf->WriteHTML($html);
-      // $pdf->Output('Tanda Terima Berkas KK.pdf', 'I');
+          require_once('./assets/html2pdf/html2pdf.class.php');
+      $pdf = new HTML2PDF('P','A4','en');
+      $pdf->WriteHTML($html);
+      $pdf->Output('Tanda Terima Berkas KK.pdf', 'I');
   }
 }

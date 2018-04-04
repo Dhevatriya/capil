@@ -109,7 +109,7 @@
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
                       <ul class="sub">
-                          <li class="<?php echo menuaktif('kk',$aktif); ?>"><a  href="<?php echo site_url('PendafKKC/') ?>">Pendaftaran KK</a></li>                          
+                          <li class="<?php echo menuaktif('kk',$aktif); ?>"><a  href="<?php echo site_url('PendafKKC/') ?>">Pendaftaran KK</a></li> 
                           <li class="<?php echo menuaktif('laporankk',$aktif); ?>"><a href="<?php echo site_url('PendafKKC/laporanpendaftarankk') ?>">Laporan Pendaftaran KK</a></li>
                           
                       </ul>

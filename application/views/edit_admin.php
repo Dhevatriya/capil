@@ -1,7 +1,6 @@
 <section id="main-content">
-<section id="main-content">
 <body>
-        <?php
+    <?php
   header("Cache-control:no cache");
   session_cache_limiter("private_no_expire");
   ?>
@@ -9,7 +8,7 @@
       <div class="row">
         <div class="col-lg-12">
           <ol class="breadcrumb">
-            <li><b>Form Edit Data Penduduk</b></li>
+            <li><b>Form Edit Petugas</b></li>
           </ol>
         </div>
       </div>
@@ -28,56 +27,54 @@
        <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('AdminC/petugaseditproses');?>">
               <section class="panel">
                   <header class="panel-heading">
-                      <b>Edit Data Penduduk</b>
+                      <b>Edit Petugas</b>
                   </header>
                   <div class="panel-body">
                       <div class="form">
                 <?php $dataE=$this->session->userdata('petEdit'); ?>
-                  <!-- <input type="hidden" name="id_penduduk" value="<?php echo $id; ?>" readonly > -->
-                   <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Nomor Induk Kependudukan<span class="required">*</span></label>
+                    <div class="form-group ">
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Id Petugas<span class="required">*</span></label>
                       <div class="col-lg-8">
-                        <input class="form-control" id="id_petugas" name="id_petugas" type="number" value="<?php echo $get_petugas['id_petugas'] ;?>" readonly/>
+                           <input class="form-control " id="id_petugas" name="id_petugas" type="text" value="<?php echo $get_petugas['id_petugas']; ?>" readonly/>
                       </div>
                   </div>
                   <div class="form-group ">
                       <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Nama Petugas<span class="required">*</span></label>
                       <div class="col-lg-8">
-                          <input class="form-control" id="nama_petugas" name="nama_petugas" type="text" value="<?php echo $get_petugas['nama_petugas'] ;?>" readonly/>
+                           <input class="form-control " id="nama_petugas" name="nama_petugas" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_petugas['nama_petugas']; ?>" readonly/>
                       </div>
                   </div>
                   <div class="form-group ">
                       <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Alamat Petugas<span class="required">*</span></label>
-                      <div class="col-lg-8">
-                          <input class="form-control" id="alamat_petugas" name="alamat_petugas" type="text" value="<?php echo $get_petugas['alamat_petugas'] ;?>"/>
+                              <div class="col-lg-8">
+                           <input class="form-control " id="alamat_petugas" name="alamat_petugas" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_petugas['alamat_petugas']; ?>" />
                       </div>
-                  </div>
+                      </div>
+                
                   <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">No HP Petugas<span class="required">*</span></label>
-                      <div class="col-lg-8">
-                          <input class="form-control" id="no_hp_petugas" name="no_hp_petugas" type="text" value="<?php echo $get_petugas['no_hp_petugas'] ;?>" />
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Nomor HP Petugas<span class="required">*</span></label>
+                               <div class="col-lg-8">
+                           <input class="form-control " id="no_hp_petugas" name="no_hp_petugas" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_petugas['no_hp_petugas']; ?>" />
                       </div>
                   </div>
                   <div class="form-group ">
                       <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Username<span class="required">*</span></label>
-                      <div class="col-lg-8">
-                          <input class="form-control" id="username" name="username" type="text" value="<?php echo $get_petugas['username'] ;?>"  />
+                       <div class="col-lg-8">
+                           <input class="form-control " id="username" name="username" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_petugas['username']; ?>" />
                       </div>
                   </div>
-                   <div class="form-group ">
+                  <div class="form-group ">
                       <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Peran<span class="required">*</span></label>
                       <div class="col-lg-8">
-                          <input class="form-control" id="peran" name="peran" type="text" value="<?php echo $get_petugas['peran'] ;?>" readonly />
+                           <input class="form-control " id="peran" name="peran" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_petugas['peran']; ?>" readonly/>
                       </div>
                   </div>
-                  <center>
-                    <div class="form-group ">
+                  <center><div class="form-group ">
                       <div class="col-lg-12">
                           <button class="btn btn-primary" name="simpan" id="simpan" type="submit">Simpan</button>
-                          <a href="<?php echo site_url('AdminC') ?>"><button class="btn btn-default" name="batal" type="button">Batal</button></a>
+                          <a href="<?php echo site_url('AdminC/') ?>"><button class="btn btn-default" name="batal" type="button">Batal</button></a>
                       </div>
-                  </center>
-                </div>
+                  </center></div>
               </form>
             </center>
           </div>

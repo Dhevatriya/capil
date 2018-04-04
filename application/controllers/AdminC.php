@@ -41,15 +41,19 @@ var $data= array();
           "id_pet"=>$id,
         );
 
-    $data['body']= $this->load->view('edit.php', $data, true);
+    $data['body']= $this->load->view('edit_admin.php', $data, true);
     $this->load->view('template_admin',$data);
     
   }
   public function petugaseditproses(){
     $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
+    $this->form_validation->set_rules('id_petugas', 'id_petugas', 'required');
+    $this->form_validation->set_rules('nama_petugas', 'nama_petugas', 'required');
     $this->form_validation->set_rules('alamat_petugas', 'alamat_petugas', 'required');
-    $this->form_validation->set_rules('no_hp_petugas', 'No HP', 'required|min_length[10]|max_length[13]');
+    $this->form_validation->set_rules('no_hp_petugas', 'no_hp_petugas', 'required|min_length[10]|max_length[13]');
     $this->form_validation->set_rules('username', 'username', 'required|min_length[6]');
+    $this->form_validation->set_rules('peran', 'peran', 'required');
+    // $id_petugas=$_POST['id_petugas'];
     if($this->form_validation->run()==FALSE){
       $this->session->set_flashdata('eror','Data gagal di update, pastikan mengisi semua data');
       $data=array(
@@ -57,9 +61,12 @@ var $data= array();
             "aktif"=>"petugas",
             "bclass"=>" ",
             "get_petugas"=>$this->AdminM->get_petugas_det($_POST['id_petugas'])->row_array(),
+            'id_petugas' => set_value('id_petugas', ''),
+            'nama_petugas' => set_value('nama_petugas', ''),
             'alamat_petugas' => set_value('alamat_petugas', ''),
             'no_hp_petugas' => set_value('no_hp_petugas', ''),
             'username' => set_value('username', ''),
+            'peran' => set_value('peran', ''),
             'id2' => 'has-error',
           );
       $this->session->set_userdata('petEdit', 'y');
@@ -70,12 +77,60 @@ var $data= array();
       $this->model->alamat_petugas = $_POST['alamat_petugas'];
       $this->model->no_hp_petugas = $_POST['no_hp_petugas'];
       $this->model->username = $_POST['username'];
-      $query1 = $this->AdminM->updatepetugas();
+      $query = $this->model->updatepetugas();
 
       $this->session->set_flashdata('sukses', 'Edit data petugas berhasil dilakukan!');
       redirect('AdminC/');
     }
   }
+  // public function datapetugaseditproses(){
+  //   $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
+  //   $this->form_validation->set_rules('id_petugas', 'id_petugas','required');
+  //   $this->form_validation->set_rules('nama_petugas', 'nama_petugas','required');
+  //   $this->form_validation->set_rules('alamat_petugas', 'alamat_petugas','required');
+  //   $this->form_validation->set_rules('no_hp_petugas', 'no_hp_petugas','required');
+  //   $this->form_validation->set_rules('username', 'username','required');
+  //   $this->form_validation->set_rules('peran', 'peran','required');
+  //   // $id=  $_POST['id_petugas'];
+  //   if($this->form_validation->run()==FALSE){
+  //     $this->session->set_flashdata('eror','Data gagal di update, pastikan mengisi semua data');
+  //     $data=array(
+  //       "title"=>'Edit data petugas',
+  //           "aktif"=>"petugas",
+  //           "bclass"=>" ",
+  //           "get_petugas"=>$this->PendafKKM->get_petugas_det($_POST['id_petugas'])->row_array(),
+  //           // "get_datakeluarga"=>$this->PendafKKM->get_keluarga_det($noKK)->row_array(),
+  //           'id_petugas'=>set_value('id_petugas',''),
+  //           'nama_lengkap' => set_value('nama_lengkap', ''),
+  //           'nama_lengkap' => set_value('nama_lengkap', ''),
+  //           'alamat_petugas' => set_value('alamat_petugas', ''),
+  //           'no_hp_petugas' => set_value('no_hp_petugas', ''),
+  //           'username' => set_value('username', ''),
+  //           'peran' => set_value('peran', ''),
+  //           'id2' => 'has-error',
+  //           $username=$this->session->userdata('user'),
+  //           $peran=$this->session->userdata('peran'),
+  //         );
+  //     $this->session->set_userdata('petEdit', 'y');
+  //     $data['body']= $this->load->view('edit_admin', $data, true);
+  //     $this->load->view('template_admin', $data);
+  //   }else{
+  //     $this->model->id_petugas = $_POST['id_petugas'];
+  //     $this->model->nama_petugas= $_POST['nama_petugas'];
+  //     $this->model->alamat_petugas = $_POST['alamat_petugas'];
+  //     $this->model->no_hp_petugas = $_POST['no_hp_petugas'];
+  //     $this->model->username = $_POST['username'];
+  //     $this->model->peran = $_POST['peran'];
+  //     $query = $this->model->updatepetugas();
+
+  //     // $id_jenispekerjaan = $_POST['idPenduduk'];
+  //     // $this->model->nama_jenispekerjaan = $_POST['nama_jenispekerjaan'];
+  //     // $query = $this->model->updatejenispekerjaan($id_jenispekerjaan);
+  //     // echo $noKK;
+  //     $this->session->set_flashdata('sukses', 'Edit data penduduk berhasil dilakukan!');
+  //     redirect('PendafKKC/caridatakk/'.$noKK);
+  //   }
+  // }
   public function tambah_petugas(){
     $data=array(
       "title"=>'Tambah Analis',
