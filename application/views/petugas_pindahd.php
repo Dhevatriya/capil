@@ -42,9 +42,9 @@
                 <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafPindahC/inputdatapindahd/');?>">
                        <div class="form">
                          <div class="form-group ">
-                            <label for="cname" class="control-label col-lg-2">NIK<span class="required">*</span></label>
+                            <label for="cname" class="control-label col-lg-2">NIK</label>
                             <div class="col-lg-9 <?php if(form_error('nik')!='') echo $id2; ?>">
-                                <input class="form-control" id="nik" name="nik" type="text" placeholder="Masukkan NIK" value="<?php echo $nik; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
+                                <input class="form-control" id="nik" name="nik" type="text" placeholder="Masukkan NIK" value="<?php echo $nik; ?>" class="form-control m-bot15"/>
                                 <?php echo form_error('nik');?>
                             </div>
                           </div>

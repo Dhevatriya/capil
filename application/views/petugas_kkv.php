@@ -61,21 +61,21 @@
                             </div>
                           </div>
                           <div class="form-group ">
-                              <label for="curl" class="control-label col-lg-2" >Alamat<span class="required">*</span></label>
+                              <label for="curl" class="control-label col-lg-2" >Alamat</label>
                               <div class="col-lg-9 <?php if(form_error('alamat')!='') echo $id2; ?>">
-                                  <input class="form-control " id="alamat" type="text" name="alamat" placeholder="Masukkan Alamat" value="<?php echo $alamat; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
+                                  <input class="form-control " id="alamat" type="text" name="alamat" placeholder="Masukkan Alamat" value="<?php echo $alamat; ?>" class="form-control m-bot15"/>
                                    <?php echo form_error('alamat');?>
                               </div>
                           </div>   
                           <div class="form-group ">
-                              <label for="curl" class="control-label col-lg-2" >RT<span class="required">*</span></label>
+                              <label for="curl" class="control-label col-lg-2" >RT</label>
                               <div class="col-lg-4 <?php if(form_error('rt')!='') echo $id2; ?>">
-                                  <input class="form-control " id="rt" type="text" name="rt" placeholder="Masukkan RT" value="<?php echo $rt; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
+                                  <input class="form-control " id="rt" type="text" name="rt" placeholder="Masukkan RT" value="<?php echo $rt; ?>" class="form-control m-bot15"/>
                                    <?php echo form_error('rt');?>
                               </div>
-                              <label for="curl" class="control-label col-lg-1">RW<span class="required">*</span></label>
+                              <label for="curl" class="control-label col-lg-1">RW</label>
                               <div class="col-lg-4 <?php if(form_error('rw')!='') echo $id2; ?>">
-                                  <input class="form-control " id="rw" type="text" name="rw" placeholder="Masukkan RW" value="<?php echo $rw; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
+                                  <input class="form-control " id="rw" type="text" name="rw" placeholder="Masukkan RW" value="<?php echo $rw; ?>" class="form-control m-bot15"/>
                                    <?php echo form_error('rw');?>
                           </div>
                         </div>

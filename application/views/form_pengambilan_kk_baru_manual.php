@@ -111,15 +111,15 @@
                       <input type="hidden" name="id_pendaftaran" id="id_pendaftaran" value="<?php echo $datapendaftaran['id_pendaftaran']; ?>">
                         <?php $dataE=$this->session->userdata('petEdit'); ?>
                       <div class="form-group ">
-                        <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Nomor KK<span class="required">*</span></label>
+                        <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Nomor KK</label>
                         <div class="col-lg-8">
-                          <input class="form-control " id="noKK" name="noKK" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $datapendaftaran['noKK']; ?>"/>
+                          <input class="form-control " id="noKK" name="noKK" type="text" value="<?php echo $datapendaftaran['noKK']; ?>"/>
                         </div>
                     </div>
                     <div class="form-group ">
-                        <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">NIK<span class="required">*</span></label>
+                        <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">NIK</label>
                         <div class="col-lg-8">
-                          <input class="form-control " id="nik" name="nik" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $datapendaftaran['nik']; ?>"/>
+                          <input class="form-control " id="nik" name="nik" type="text" value="<?php echo $datapendaftaran['nik']; ?>"/>
                         </div>
                     </div>
                     <div class="form-group ">
@@ -129,21 +129,21 @@
                       </div>
                     </div>
                     <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Alamat<span class="required">*</span></label>
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Alamat</label>
                       <div class="col-lg-8">
-                           <input class="form-control " id="alamat" name="alamat" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $datapendaftaran['alamat']; ?>"/>
+                           <input class="form-control " id="alamat" name="alamat" type="text" value="<?php echo $datapendaftaran['alamat']; ?>"/>
                       </div>
                     </div>
                     <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">RT<span class="required">*</span></label>
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">RT</label>
                       <div class="col-lg-8">
-                           <input class="form-control " id="rt" name="rt" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $datapendaftaran['rt']; ?>"/>
+                           <input class="form-control " id="rt" name="rt" type="text" value="<?php echo $datapendaftaran['rt']; ?>"/>
                       </div>
                     </div>
                     <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">RW<span class="required">*</span></label>
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">RW</label>
                       <div class="col-lg-8">
-                           <input class="form-control " id="rw" name="rw" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $datapendaftaran['rw']; ?>"/>
+                           <input class="form-control " id="rw" name="rw" type="text" value="<?php echo $datapendaftaran['rw']; ?>"/>
                       </div>
                     </div>
                     <div class="form-group ">

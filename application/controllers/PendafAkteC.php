@@ -76,7 +76,7 @@ var $data= array();
   //proses pendaftaran akte
   public function inputdataakte(){
     $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
-    $this->form_validation->set_rules('nik', 'nik', 'required'); //validasi saat input nik
+    // $this->form_validation->set_rules('nik', 'nik', 'required'); //validasi saat input nik
     $this->form_validation->set_rules('nama_lengkap', 'nama_lengkap', 'required');
     $this->form_validation->set_rules('jenis_kelamin', 'jenis_kelamin', 'required');
     $this->form_validation->set_rules('tempat_lahir', 'tempat_lahir', 'required');
@@ -213,7 +213,7 @@ var $data= array();
   //proses edit data pendaftaran akte
   public function datapendafeditproses(){
     $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
-    $this->form_validation->set_rules('nik', 'nik','required');
+    // $this->form_validation->set_rules('nik', 'nik','required');
     $this->form_validation->set_rules('nama_lengkap', 'nama_lengkap','required');
     $this->form_validation->set_rules('jenis_kelamin', 'jenis_kelamin','required');
     $this->form_validation->set_rules('tempat_lahir', 'tempat_lahir','required');
