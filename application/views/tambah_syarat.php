@@ -43,11 +43,9 @@
                     <label for="curl" class="control-label col-lg-2" >Syarat</label>
                       <div class="col-lg-9">
                         <?php foreach ($dok as $data) { ?>
-                          <?php foreach ($syarat as $data1): ?>
                           <div class="checkbox">
-                            <input type="checkbox" name="id_syarat[]" <?php if($data->id_syarat == $data1['id_syaratFK']) {echo "checked";} ?> value="<?php echo $data->id_syarat ?>" ><?php echo $data->judul_syarat ?>
+                            <input type="checkbox" name="id_syarat[]" <?php foreach ($syarat as $data1){ if($data->id_syarat == $data1['id_syaratFK']) {echo "checked";}} ?> value="<?php echo $data->id_syarat ?>" ><?php echo $data->judul_syarat ?>
                           </div>
-                          <?php endforeach ?>
                         <?php } ?>
                         </div>
                   </div>
