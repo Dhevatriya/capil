@@ -124,7 +124,7 @@
                       <?php   $no++;endforeach; ?>
                       </tbody> 
                     </table>
-                    <!-- <a href="<?php echo base_url('PendafPindahC/tambahsyaratpin/'.$value->id_pendaftaranFK) ?>"><button class="btn btn-info" name="tambah" type="button">Tambah Syarat Pendaftaran</button></a> -->
+                     <a href="<?php echo base_url('PendafPindahC/tambahsyaratpin/'.$value->id_pendaftaranFK) ?>"><button class="btn btn-info" name="tambah" type="button">Tambah Syarat Pendaftaran</button></a>
                       <a data-popup="tooltip" data-placement="top"><button class="btn btn-primary" name="simpan" type="submit" value="upload">Simpan</button></a>
                        <a href="<?php echo base_url('PendafPindahC/syaratpendafpindah') ?>"><button class="btn btn-default" name="batal" type="button">Kembali</button></a>
                        </center>
