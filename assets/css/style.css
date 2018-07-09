@@ -14,7 +14,7 @@
 
 body {
 
-    color: #797979;
+    color: #000;
 
     background: #eeeeee;
 
@@ -175,7 +175,7 @@ sk4
 
     /*margin: 200px auto 0;*/
 
-    background: #d5d7de;    
+    background: #bbdefb;    
 
 }
 
@@ -480,19 +480,17 @@ sk4
 /*sidebar navigation*/
 
 
-
 #sidebar {
 
-    width: 240px;
+    width: 180px;
 
     height: 100%;
 
     position: fixed;
 
-    background: #394a59;
+    background: #222d32;
 
 }
-
 
 
 .nav-collapse.collapse {
@@ -539,7 +537,7 @@ ul.sidebar-menu {
 
 ul.sidebar-menu li ul.sub li{
 
-    background: #394a59;
+    background: #37464c;
 
     margin-bottom: 0;
 
@@ -563,7 +561,7 @@ ul.sidebar-menu li ul.sub li:last-child{
 
 ul.sidebar-menu li ul.sub li a {
 
-    font-size: 12px;
+    font-size: 10px;
 
     padding: 0 0 0 32px;
 
@@ -583,7 +581,7 @@ ul.sidebar-menu li ul.sub li a {
 
     color: #d0d8df;
 
-    font-size: 14px;
+    font-size: 11px;
 
 }
 
@@ -655,9 +653,9 @@ ul.sidebar-menu li a{
 
     display: block;
 
-    padding: 15px 0 15px 10px;
+    padding: 15px 0 15px 8px;
 
-    font-size: 16px;
+    font-size: 13px;
 
     font-weight: 300;
 
@@ -689,7 +687,7 @@ ul.sidebar-menu li a{
 
 ul.sidebar-menu li.active a, ul.sidebar-menu li a:hover, ul.sidebar-menu li a:focus {
 
-    background: #2e3b46;
+    background: #225468;
 
     color: #fff;
 
@@ -727,7 +725,7 @@ ul.sidebar-menu li a:hover, ul.sidebar-menu li a:focus {
 
 ul.sidebar-menu li a i {
 
-    font-size: 18px;
+    font-size: 13px;
 
     padding-right: 6px;
 
@@ -1011,28 +1009,30 @@ ul.sidebar-menu li.active a i {
 
     display: inline-block;
 
-    margin-top: 60px;
+/*    margin-top: 60px;
 
-    padding: 15px;
+    padding: 15px;*/
 
     width: 100%;
-    padding-left: 70px;
 
+    /*padding-left: 85px;*/
 }
 
 
 
 a.logo {
 
-    font-size: 18px;
+    font-size: 16px;
 
     font-weight: 300;
 
-    color: #fed189;
+    color: #ffffff;
 
     float: left;
 
-    margin-top: 15px;
+    margin-top: 17px;
+
+    font-style: bold;
 
     text-transform: uppercase;
     position: relative;
@@ -1101,7 +1101,7 @@ a.logo span {
 
 ul.top-menu > li > a {
 
-    color: #fed189;
+    color: #f2d8b2;
 
     font-size: 16px;    
 
@@ -1539,7 +1539,7 @@ div[data-role="editor-toolbar"] {
 
     width: 100%;
 
-    background: #688a7e;    
+    background: #000;    
 
 }
 
@@ -1631,7 +1631,7 @@ div[data-role="editor-toolbar"] {
 
     font-size: 16px;
 
-    color: #bdbdbd;
+    color: #ffffff;
 
 }
 
@@ -1828,7 +1828,7 @@ div[data-role="editor-toolbar"] {
 
 .info-box .count {
 
-  margin-top: 20px;
+  margin-top: 10px;
 
   font-size: 34px;
 
@@ -2054,9 +2054,9 @@ div[data-role="editor-toolbar"] {
 
   color : #fff;
 
-  background : #1a2732;
+  background : #367fa9;
 
-  background-color : #1a2732;
+  background-color : #367fa9;
 
 }
 
@@ -2271,6 +2271,8 @@ div[data-role="editor-toolbar"] {
   border-style: solid;
 
   border-top: none;
+
+  border-top: 3px solid #d2d6de;
 
   border-right-color: #ccc!important;
 
@@ -7690,7 +7692,7 @@ ul.amounts li {
 
 .tab-bg-primary {
 
-    background: #688a7e;    
+    background: #367fa9;      
 
     border-bottom: none;
 
@@ -7742,7 +7744,7 @@ ul.amounts li {
 
 .panel-heading .nav > li.active > a, .panel-heading .nav > li > a:hover {
 
-    color: #688a7e;
+    color: #000;
 
     background: #fff;
 
@@ -8973,6 +8975,9 @@ table.sliders tr td {
     line-height: 40px;
 
 }
+
+
+
 
 
 

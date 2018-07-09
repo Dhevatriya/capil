@@ -52,3 +52,72 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'LoginC';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+//---------- ROUTE UNTUK LOGIN DAN LOGOUT PETUGAS KK ----------//
+
+$route['loginPetugasKKR']= 'LoginC';
+$route['signinPetugasKKR']= 'LoginC/signin';
+$route['logoutPetugasKKR']= 'PendafKKC/logout';
+
+
+//---------- ROUTE UNTUK LOGIN DAN LOGOUT PETUGAS AKTE ----------//
+
+$route['loginPetugasAteR']= 'LoginC';
+$route['signinPetugasAkteR']= 'LoginC/signin';
+$route['logoutPetugasAkteR']= 'PendafAkteC/logout';
+
+
+//---------- ROUTE UNTUK LOGIN DAN LOGOUT PETUGAS PINDAH ----------//
+
+$route['loginPetugasPindahR']= 'LoginC';
+$route['signinPetugasPindahR']= 'LoginC/signin';
+$route['logoutPetugasPindahR']= 'PendafPindahC/logout';
+
+//---------- ROUTE UNTUK LOGIN DAN LOGOUT ADMIN ----------//
+
+$route['loginPetugasAdminR']= 'LoginC';
+$route['signinPetugasAdminR']= 'LoginC/signin';
+$route['logoutPetugasAdminR']= 'AdminC/logout';
+
+//---------- ROUTE UNTUK PETUGAS KK ----------//
+
+$route['petugasKKR']= 'PendafKKC';
+$route['formpencariandaftarkkR']= 'PendafKKC/daftarkk';
+$route['formtambahkkmanualR']= 'PendafKKC/tambahKK';
+$route['daftarkkberdasarkannikR']= 'PendafKKC/searchdatanik';
+$route['daftarkkberdasarkannamaR']= 'PendafKKC/searchdatanama';
+$route['laporanpendafkkR']= 'PendafKKC/laporanpendaftarankk';
+$route['cetaklaporankkhariR']= 'PendafKKC/cetaklaporankkhari';
+$route['cetaklaporankkbulanR']= 'PendafKKC/cetaklaporankkbulan';
+$route['cetaklaporankktahunR']= 'PendafKKC/cetaklaporankktahun';
+
+//---------- ROUTE UNTUK PETUGAS AKTE ----------//
+
+$route['petugasAkteR']= 'PendafAkteC';
+$route['caridataakteR']= 'PendafAkteC/searchdata';
+$route['laporanpendafakteR']= 'PendafAkteC/laporanpendaftaranakte';
+$route['cetaklaporanaktehariR']= 'PendafAkteC/cetaklaporanaktehari';
+$route['cetaklaporanaktebulanR']= 'PendafAkteC/cetaklaporanaktebulan';
+$route['cetaklaporanaktetahunR']= 'PendafAkteC/cetaklaporanaktetahun';
+
+//---------- ROUTE UNTUK PETUGAS PINDAH ----------//
+
+$route['petugaspindahR']= 'PendafPindahC';
+$route['caridatapindahR']= 'PendafPindahC/searchdatapindah';
+$route['laporanpendafpindahR']= 'PendafPindahC/laporanpendaftaranpinda';
+$route['cetaklaporanpindahhariR']= 'PendafPindahC/cetaklaporanpindahhari';
+$route['cetaklaporanpindahbulanR']= 'PendafPindahC/cetaklaporanpindahbulan';
+$route['cetaklaporanpindahtahunR']= 'PendafPindahC/cetaklaporanpindahtahun';
+$route['cetaklaporanpindahdatanghariR']= 'PendafPindahC/cetaklaporanpindahdatanghari';
+$route['cetaklaporanpindahdatangbulanR']= 'PendafPindahC/cetaklaporanpindahdatangbulan';
+$route['cetaklaporanpindahdatangtahunR']= 'PendafPindahC/cetaklaporanpindahdatangtahun';
+
+//---------- ROUTE UNTUK ADMIN ----------//
+
+$route['petugasR']= 'AdminC';
+$route['tambahPetugasR']= 'AdminC/tambahPetugas';
+$route['daftarPetugasR']= 'AdminC/daftarPetugas';
+$route['editPetugasProsesR']='AdminC/editPetugasProses';
+$route['resetpassR']='AdminC/resetpass/';
+$route['tambahPetugasProsesR']='AdminC/tambahPetugasProses';
+$route['importDesaKelurahanR']='AdminC/uploadDesaKelurahan';

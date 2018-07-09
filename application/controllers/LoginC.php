@@ -9,30 +9,32 @@ class LoginC extends CI_Controller
 	 	 $this->load->model('LoginM');	
 	 }
 
-	 public function index(){
-	 	$this->load->view('LoginV.php');
-	 }
+	//menampilkan view login
+	public function index(){
+	 	$this->load->view('loginv.php');
+	}
 
-	 public function signin(){
-	 	$username=$this->input->post('username');
-	 	$password=$this->input->post('password');
-		$ceknum=$this->LoginM->ceknum($username,$password)->num_rows();
+	//function untuk melakukan proses login 
+	public function signin(){
+	 	$username=$this->input->post('username'); //input username
+	 	$password=$this->input->post('password'); //input password
+		$ceknum=$this->LoginM->ceknum($username,$password)->num_rows(); //mengecek username dan password yang diiputkan sesuai database/tidak
 		$query=$this->LoginM->ceknum($username,$password)->row();
 		if($ceknum>0){
               $userData = array(
               	'id'=>$query->id_petugas,
 		        'user' => $query->username,
 		        'pass' => $query->password,
-		        'peran' => $query->peran,
+		        'peran' => $query->id_user_roleFK,
 		        'logged_in' => TRUE
 		      );
 		      $this->session->set_userdata($userData);
-				if ($this->session->userdata('peran') == "PetugasKK"){redirect('PendafKKC');}
-				else if ($this->session->userdata('peran') == "PetugasAkte"){redirect('PendafAkteC');}
-				else if ($this->session->userdata('peran') == "PetugasPindah"){redirect('PendafPindahC');}
-				else if ($this->session->userdata('peran') == "Admin"){redirect('AdminC');}
+				if ($this->session->userdata('peran') == "1"){redirect('PendafKKC');} //jika peran = 1 untuk login petugaskk
+				else if ($this->session->userdata('peran') == "2"){redirect('PendafAkteC');} //peran 2 untuk login petugas akte
+				else if ($this->session->userdata('peran') == "3"){redirect('PendafPindahC');} //peran 3 untuk login petugas pindah
+				else if ($this->session->userdata('peran') == "4"){redirect('AdminC');} //peran 4 untuk login admin
             }else{
-                $this->session->set_flashdata('error','Username dan Password salah');
+                $this->session->set_flashdata('error','Nama pengguna dan kata sandi salah');
                 redirect('LoginC');
             }
 		

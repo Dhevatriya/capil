@@ -3,1068 +3,652 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class PendafKKC extends CI_Controller {
   
   public function __construct(){
-    parent::__construct();
+    parent::__construct();  
     $this->load->model('PendafKKM');
     $this->model = $this->PendafKKM;
     no_access();
   }
-
 var $data= array();
-    function index(){
-       $id=$this->input->post('noKK');
-        $data=array(
-          "title"=>'Pendaftaran Kartu Keluarga',
-          "aktif"=>"kk",
-          "bclass"=>'',
-          "getdatakel"=>$this->PendafKKM->getkel($id),
-          "peml"=>$this->PendafKKM->getdatanoKK(),
-          "get_datakeluarga"=>$this->PendafKKM->get_keluarga_det($id)->row_array(),
-          $username=$this->session->userdata('user'),
-          $peran=$this->session->userdata('peran'),
-        );
-    $data['body']= $this->load->view('petugas_kkv.php', $data, true);
-    // $this->load->view('template_kk',$data);
-    if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
-    }
-    }
-    function daftarkk(){
-       $id=$this->input->post('noKK');
-        $data=array(
-          "title"=>'Pendaftaran Kartu Keluarga',
-          "aktif"=>"kk",
-          "bclass"=>'',
-          "getdatakel"=>$this->PendafKKM->getkel($id),
-          "peml"=>$this->PendafKKM->getdatanoKK(),
-          "get_datakeluarga"=>$this->PendafKKM->get_keluarga_det($id)->row_array(),
-          $username=$this->session->userdata('user'),
-          $peran=$this->session->userdata('peran'),
-        );
-    $data['body']= $this->load->view('daftar_kk_baru_cari.php', $data, true);
-    // $this->load->view('template_kk',$data);
-     if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
-    }
-    }
- 
-    public function tambahKK(){
+
+  //untuk menampilkan beranda pendaftaran kk
+  public function index(){
     $data=array(
       "bclass"=>'',
-          "title"=>'Pendaftaran Kartu Keluarga',
-          "aktif"=>"kk",
-          "nama_kepala_keluarga"=>set_value('nama_kepala_keluarga',''),
-          "nama_desakelurahan"=>'',
-          "alamat"=>'',
-          "rt"=>'',
-          "rw"=>'',
-          "id_kecamatanFK"=>set_value(''),
-          "idkecamatan_FK"=>set_value(''),
-          "des"=>$this->PendafKKM->getdes(),
-          "kec"=>$this->PendafKKM->getkec(),
-          "kabupaten"=>'Karanganyar',
-          "kode_pos"=>'',
-          "provinsi"=>'Jawa Tengah',
-          $username=$this->session->userdata('user'),
-          $peran=$this->session->userdata('peran'),
-        );
-    $data['body']= $this->load->view('tambah_keluarga.php', $data, true);
-    // $this->load->view('template_kk',$data);
-     if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
+      "cls"=>"modal fade",        
+      "display"=>"none",
+      "ah"=>"true",
+      "title"=>'Pendaftaran Kartu Keluarga',
+      "dataperhari"=>$this->model->pendafkkhari()->num_rows(),
+      "aktif"=>"kk",
+      $username=$this->session->userdata('user'),
+      $peran=$this->session->userdata('peran'),
+    );
+    $data['body']= $this->load->view('berandakk.php', $data, true);
+    if ($peran=='1') {
+      $data['aktif']="berandakk";
       $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
+    }else if($peran=='4') {
       $data['aktif']="dtkk";
       $data['bclass']=" ";
       $this->load->view('template_admin', $data);
     }
-    }
-    public function suggestions()
-    {
-        $nama = $this->input->post('nama_desakelurahan',TRUE);
-        $rows = $this->PendafKKM->getdesa($nama);
-        $json_array = array();
-        foreach ($rows as $row)
-            $json_array[]=$row->nama;
-        echo json_encode($json_array);
-    }
-// public function getkecamatan(){
-//           $id_desakelurahan = $this->input->post('nama_desakelurahan');
-//           $dataKec=$this->PendafKKM->get_kec($id_desakelurahan);
-//           echo '<select class="form-control m-bot15" name="id_kecamatan" id="id_kecamatan">';
-//           echo '<option value="" disabled selected><i>---Pilih Kecamatan---</i></option>';
-//           if(! empty($dataKec)){
-//             foreach ($dataKec as $d) {
-//               echo '<option value="'.$d->id_kecamatan.'">'.$d->nama_kecamatan.'</option>';
-//             }
-//           }else{
-//             echo '<option>- Data Belum Tersedia -</option>';
-//           }
-//             echo '</select>';
-//         }
+  }
 
-public function tambahdatapenduduk($noKK){
+  //form input pendaftaran kk
+  public function inputPendaftaran(){
     $data=array(
-          "title"=>'Tambah Data Penduduk',
-          "aktif"=>"kk",
-          "bclass"=>'',
-          // "idPenduduk"=>idPenduduk
-          "noKK"=>$noKK,
-          "det"=>$this->PendafKKM->getnomorkk($noKK),
-          "nik"=>'',
-          "nama_lengkap"=>set_value('nama_lengkap',''),
-          "jenis_kelamin"=>'',
-          "tempat_lahir"=>'',
-          "tanggal_lahir"=>'',
-          "agama"=>'',
-          "pendidikan"=>'',
-          'id_jenispekerjaanFK'=>'',
-          "jenis"=>$this->PendafKKM->getjenis(),
-          "jenisp"=>$this->PendafKKM->getjenisp(),
-          "status_perkawinan"=>'',
-          "status_hub_dalam_keluarga"=>'',
-          "kewarganegaraan"=>'',
-          "no_paspor"=>'',
-          "no_kitas_kitap"=>'',
-          "ayah"=>'',
-          "ibu"=>'',
-          $username=$this->session->userdata('user'),
-          $peran=$this->session->userdata('peran'),
-        );
-    $data['body']= $this->load->view('tambah_penduduk.php', $data, true);
-    // $this->load->view('template_kk',$data);
-     if ($peran=='PetugasKK') {
+      "bclass"=>'',
+      "cls"=>"modal fade",        
+      "display"=>"none",
+      "ah"=>"true",
+      "title"=>'Pendaftaran Kartu Keluarga',
+      "aktif"=>"kk",
+      "noKK"=>'',
+      "nik"=>'',
+      "nama_kepala_keluarga"=>'',
+      "id_kecamatan"=>'',
+      "alamat"=>'',
+      "rt"=>'',
+      "rw"=>'',
+      "nama_desakelurahan"=>'',
+      "tgl_jadi"=>'',
+      "id_syarat"=>'',
+      "nama_status_pendaftaran"=>'',
+      "des"=>$this->PendafKKM->getdes(),
+      "kec"=>$this->PendafKKM->getkec(),
+      "kode_pos"=>set_value(''),
+      $username=$this->session->userdata('user'),
+      $peran=$this->session->userdata('peran'),
+      "dok"=>$this->PendafKKM->getdok()->result(),
+      "petugasUP"=>$this->PendafKKM->get_data_petugas($username, $peran),
+    );
+    $data['body']= $this->load->view('petugas_kkv.php', $data, true);
+    if ($peran=='1') {
       $data['aktif']="kk";
       $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
+    }else if($peran=='4') {
       $data['aktif']="dtkk";
       $data['bclass']=" ";
       $this->load->view('template_admin', $data);
     }
-    }
-    function buatkk(){
+  }
+
+  //proses pendaftaran kk
+  public function inputPendaftaranKKProses(){
+    $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
+    $this->form_validation->set_rules('nama_kepala_keluarga', 'nama_kepala_keluarga', 'required');
+    $this->form_validation->set_rules('alamat', 'alamat', 'required');
+    $this->form_validation->set_rules('rt', 'rt', 'required');
+    $this->form_validation->set_rules('rw', 'rw', 'required');    
+    $this->form_validation->set_rules('nama_kecamatan', 'nama_kecamatan', 'required');
+    $this->form_validation->set_rules('nama_desakelurahan', 'nama_desakelurahan', 'required');
+    $this->form_validation->set_rules('tgl_jadi', 'tgl_jadi', 'required');
+    $this->form_validation->set_rules('id_syarat[]', 'id_syarat[]', 'required|greater_than[0]', 
+      array('required' => 'Syarat tidak terpenuhi !', 'greater_than[0]' => '' ));
+    if($this->form_validation->run()==FALSE){
       $data=array(
-            "title"=>'Pendaftaran KK',
+            "title"=>'Tambah Data Keluarga',
             "aktif"=>"kk",
             "bclass"=>'',
-            "noKK"=>$_POST['noKK'],
-            "pem"=>$this->PendafKKM->getdatapen(),
-            "nama_kepala_keluarga"=>$_POST['nama_kepala_keluarga'],
-            "tgl_jadi"=>set_value(''),
-            $username=$this->session->userdata('user'),
-            $peran=$this->session->userdata('peran'),
-          );
-      $data['body']= $this->load->view('buat_kkv.php', $data, true);
-      // $this->load->view('template_kk',$data);
-       if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
-    }
-    }
-  
-    function buatkkbaru(){
-      $data=array(
-            "title"=>'Pendaftaran KK Baru',
-            "aktif"=>"kk",
-            "bclass"=>'',
-            "nik"=>$_POST['nik'],
-            // "idkeluarga"
-            "pem"=>$this->PendafKKM->getdatapen(),
-            "nama_lengkap"=>$_POST['nama_lengkap'],
-            "alamat"=>set_value(''),
-            "rt"=>set_value(''),
-            "rw"=>set_value(''),
-            "id_kecamatanFK"=>set_value(''),
-            "idkecamatan_FK"=>set_value(''),
+            'noKK' => set_value('noKK', ''),
+            'nik' => set_value('nik', ''),
             "des"=>$this->PendafKKM->getdes(),
             "kec"=>$this->PendafKKM->getkec(),
-            "kabupaten"=>set_value(''),
-            "kode_pos"=>set_value(''),
-            "provinsi"=>set_value(''),
-            "tgl_jadi"=>set_value(''),
             $username=$this->session->userdata('user'),
-          $peran=$this->session->userdata('peran'),
-          );
-      $data['body']= $this->load->view('daftar_kk_baru.php', $data, true);
-      // $this->load->view('template_kk',$data);
-       if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
-    }
-    }
-    public function datapendudukeditkk($id){
-      // $jenisk=getid_jenisFK($id);
-      // echo $jenisk;
-    $data=array(
-          "title"=>'Edit Data Keluarga',
-          "aktif"=>"kk",
-          "bclass"=>'',
-          "id"=>$id,
-          "idKel"=>getid_keluargaFK($id),
-          "jenis"=>$this->PendafKKM->getjenis(),
-          "jenisk"=>$this->PendafKKM->getjeniskerja($id),
-          "id_jenispekerjaan"=>'',
-          "id_jenispekerjaanFK"=>'',
-          "get_datapenduduk"=>$this->PendafKKM->get_penduduk_det($id)->row_array(),
-          "get_datakeluarga"=>$this->PendafKKM->get_keluarga_det(getid_keluargaFK($id))->row_array(),
-          "agama"=>'',
-          "bclass"=>" ",
-          $username=$this->session->userdata('user'),
-          $peran=$this->session->userdata('peran'),
-        );
-
-    $data['body']= $this->load->view('edit_akte_kk', $data, true);
-    // $this->load->view('template_kk', $data);
-     if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
-    }
-    
-  }
-  public function datapendudukeditkkbaru($id){
-    $data=array(
-          "title"=>'Edit Data Keluarga',
-          "aktif"=>"kk",
-          "bclass"=>'',
-          "id"=>$id,
-          "jenis"=>$this->PendafKKM->getjenis(),
-          "jenisk"=>$this->PendafKKM->getjeniskerja($id),
-          "id_jenispekerjaan"=>'',
-          "id_jenispekerjaanFK"=>'',
-          "get_datapenduduk"=>$this->PendafKKM->get_penduduk_detail($id)->row_array(),
-          "bclass"=>" ",
-          $username=$this->session->userdata('user'),
-          $peran=$this->session->userdata('peran'),
-        );
-    $data['body']= $this->load->view('edit_data_penduduk_baru', $data, true);
-    // $this->load->view('template_kk', $data);
-     if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
-    }
-    
-  }
-  public function datapendudukeditbaruproses($nik){
-    $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
-    $this->form_validation->set_rules('nik', 'nik','required');
-    $this->form_validation->set_rules('nama_lengkap', 'nama_lengkap','required');
-    $this->form_validation->set_rules('jenis_kelamin', 'jenis_kelamin','required');
-    $this->form_validation->set_rules('tempat_lahir', 'tempat_lahir','required');
-    $this->form_validation->set_rules('tanggal_lahir', 'tanggal_lahir','required');
-    $this->form_validation->set_rules('agama', 'agama','required');
-    $this->form_validation->set_rules('pendidikan', 'pendidikan','required');
-    $this->form_validation->set_rules('nama_jenispekerjaan', 'nama_jenispekerjaan','required');
-    $this->form_validation->set_rules('status_perkawinan', 'status_perkawinan','required');
-    $this->form_validation->set_rules('status_hub_dalam_keluarga', 'status_hub_dalam_keluarga','required');
-    $this->form_validation->set_rules('kewarganegaraan', 'kewarganegaraan','required');
-    $this->form_validation->set_rules('no_paspor', 'no_paspor','required');
-    $this->form_validation->set_rules('no_kitas_kitap', 'no_kitas_kitap','required');
-    $this->form_validation->set_rules('ayah', 'ayah','required');
-    $this->form_validation->set_rules('ibu', 'ibu','required');
-    $nik=  $_POST['nik'];
-    if($this->form_validation->run()==FALSE){
-      $this->session->set_flashdata('eror','Data gagal di update, pastikan mengisi semua data');
-      $data=array(
-        "title"=>'Edit Data Penduduk',
-            "aktif"=>"kk",
-            "bclass"=>" ",
-            "get_datapenduduk"=>$this->PendafKKM->get_penduduk_det($_POST['idPenduduk'])->row_array(),
-            'nik' => set_value('nik', ''),
-            'nama_lengkap' => set_value('nama_lengkap', ''),
-            'jenis_kelamin' => set_value('jenis_kelamin', ''),
-            'tempat_lahir' => set_value('tempat_lahir', ''),
-            'tanggal_lahir' => set_value('tanggal_lahir', ''),
-            'agama' => set_value('agama', ''),
-            'pendidikan' => set_value('pendidikan', ''),
-            'nama_jenispekerjaan' => set_value('nama_jenispekerjaan', ''),
-            'status_perkawinan' => set_value('status_perkawinan', ''),
-            'status_hub_dalam_keluarga' => set_value('status_hub_dalam_keluarga', ''),
-            'kewarganegaraan' => set_value('kewarganegaraan', ''),
-            'no_paspor' => set_value('no_paspor', ''),
-            'no_kitas_kitap' => set_value('no_kitas_kitap', ''),
-            'ayah' => set_value('ayah', ''),
-            'ibu' => set_value('ibu', ''),
+            $peran=$this->session->userdata('peran'),
+            "petugasUP"=>$this->PendafKKM->get_data_petugas($username, $peran),
+            "dok"=>$this->PendafKKM->getdok()->result(),
+            'nama_kepala_keluarga' => set_value('nama_kepala_keluarga', ''),
+            'id_kecamatan'=> set_value('id_kecamatan',''),
+            'alamat' => set_value('alamat', ''),
+            'rt' => set_value('rt', ''),
+            'rw' => set_value('rw', ''),
+            'nama_kecamatan' => set_value('nama_kecamatan', ''),
+            'nama_desakelurahan' => set_value('nama_desakelurahan', ''),
+            'tgl_jadi' => set_value('tgl_jadi', ''),
+            'id_syarat[]' => set_value('id_syarat[]', ''),
             'id2' => 'has-error',
             $username=$this->session->userdata('user'),
             $peran=$this->session->userdata('peran'),
           );
-      $this->session->set_userdata('petEdit', 'y');
-      $data['body']= $this->load->view('edit_data_penduduk_baru', $data, true);
-      // $this->load->view('template_kk', $data);
-       if ($peran=='PetugasKK') {
+      $data['body']= $this->load->view('petugas_kkv', $data, true);
+    if ($peran=='1') {
       $data['aktif']="kk";
       $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
+    }else if($peran=='4') {
       $data['aktif']="dtkk";
       $data['bclass']=" ";
       $this->load->view('template_admin', $data);
     }
     }else{
-      $idPenduduk = $this->PendafKKM->getidpenduduk($_POST['nik']);
-      $this->model->nik= $_POST['nik'];
-      $this->model->nama_lengkap = $_POST['nama_lengkap'];
-      $this->model->jenis_kelamin = $_POST['jenis_kelamin'];
-      $this->model->tempat_lahir = $_POST['tempat_lahir'];
-      $this->model->tanggal_lahir = $_POST['tanggal_lahir'];
-      $this->model->agama = $_POST['agama'];
-      $this->model->pendidikan = $_POST['pendidikan'];
-      $this->model->nama_jenispekerjaan = $_POST['nama_jenispekerjaan'];
-      $this->model->status_perkawinan = $_POST['status_perkawinan'];
-      $this->model->status_hub_dalam_keluarga = $_POST['status_hub_dalam_keluarga'];
-      $this->model->kewarganegaraan = $_POST['kewarganegaraan'];
-      $this->model->no_paspor = $_POST['no_paspor'];
-      $this->model->no_kitas_kitap = $_POST['no_kitas_kitap'];
-      $this->model->ayah = $_POST['ayah'];
-      $this->model->ibu = $_POST['ibu'];
-      $query = $this->model->updatependuduk($idPenduduk);
+      $ids=$this->PendafKKM->getstatus();
+      $id=$this->session->userdata('id');
+      $this->model->noKK=$_POST['noKK'];
+      $this->model->nik=$_POST['nik'];
+      $this->model->nama_kepala_keluarga=$_POST['nama_kepala_keluarga'];
+      $this->model->alamat = $_POST['alamat'];
+      $this->model->rt = $_POST['rt'];
+      $this->model->rw = $_POST['rw'];
+      $this->model->nama_desakelurahan = $_POST['nama_desakelurahan'];
+      $this->model->id_petugasFK = $id;
+      $this->model->tgl_buat=date('y-m-d');
+      $this->model->tgl_jadi=$_POST['tgl_jadi'];
+      $this->model->id_status_pendafFK=$ids;
+      $query1 = $this->model->insertkk();
 
-      // $id_jenispekerjaan = $this->PendafKKM->getidpenduduk($_POST['nik']);
-      // $this->model->nama_jenispekerjaan = $_POST['nama_jenispekerjaan'];
-      // $query = $this->model->updatejenispekerjaan($id_jenispekerjaan);
-
-      $this->session->set_flashdata('sukses', 'Edit data penduduk berhasil dilakukan!');
-      redirect('PendafKKC/caridatanik/'.$nik);
+      $getidpenbaru=getid_penbaru();
+    
+      $str=implode(" ", $_POST['id_syarat']);
+      $arr=explode(" ", $str);
+      for($i=0; $i<count($arr); $i++){
+        $id_syarat = $arr[$i];
+        $query = $this->model->insertdetail($id_syarat, $getidpenbaru);
+      }
+      $this->session->set_flashdata('sukses',"Daftar Kartu keluarga berhasil dilakukan !");
+      redirect('PendafKKC/dataPendaftaranKK/'.$getidpenbaru);
     }
   }
 
-public function datapendudukeditproses(){
+  //menampilkan data pendafaran kk
+  public function dataPendaftaranKK($getidpenbaru){  
     $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
-    $this->form_validation->set_rules('nik', 'nik','required');
-    $this->form_validation->set_rules('nama_lengkap', 'nama_lengkap','required');
-    $this->form_validation->set_rules('jenis_kelamin', 'jenis_kelamin','required');
-    $this->form_validation->set_rules('tempat_lahir', 'tempat_lahir','required');
-    $this->form_validation->set_rules('tanggal_lahir', 'tanggal_lahir','required');
-    $this->form_validation->set_rules('agama', 'agama','required');
-    $this->form_validation->set_rules('pendidikan', 'pendidikan','required');
-    $this->form_validation->set_rules('nama_jenispekerjaan', 'nama_jenispekerjaan','required');
-    $this->form_validation->set_rules('status_perkawinan', 'status_perkawinan','required');
-    $this->form_validation->set_rules('status_hub_dalam_keluarga', 'status_hub_dalam_keluarga','required');
-    $this->form_validation->set_rules('kewarganegaraan', 'kewarganegaraan','required');
-    $this->form_validation->set_rules('no_paspor', 'no_paspor','required');
-    $this->form_validation->set_rules('no_kitas_kitap', 'no_kitas_kitap','required');
-    $this->form_validation->set_rules('ayah', 'ayah','required');
-    $this->form_validation->set_rules('ibu', 'ibu','required');
-    $noKK=  $_POST['noKK'];
-    if($this->form_validation->run()==FALSE){
-      $this->session->set_flashdata('eror','Data gagal di update, pastikan mengisi semua data');
-      $data=array(
-        "title"=>'Edit Data Penduduk',
-            "aktif"=>"kk",
-            "bclass"=>" ",
-            "get_datapenduduk"=>$this->PendafKKM->get_penduduk_det($_POST['idPenduduk'])->row_array(),
-            // "get_datakeluarga"=>$this->PendafKKM->get_keluarga_det($noKK)->row_array(),
-            'noKk'=>set_value('noKK',''),
-            'nik' => set_value('nik', ''),
-            'nama_lengkap' => set_value('nama_lengkap', ''),
-            'jenis_kelamin' => set_value('jenis_kelamin', ''),
-            'tempat_lahir' => set_value('tempat_lahir', ''),
-            'tanggal_lahir' => set_value('tanggal_lahir', ''),
-            'agama' => set_value('agama', ''),
-            'pendidikan' => set_value('pendidikan', ''),
-            'nama_jenispekerjaan' => set_value('nama_jenispekerjaan', ''),
-            'status_perkawinan' => set_value('status_perkawinan', ''),
-            'status_hub_dalam_keluarga' => set_value('status_hub_dalam_keluarga', ''),
-            'kewarganegaraan' => set_value('kewarganegaraan', ''),
-            'no_paspor' => set_value('no_paspor', ''),
-            'no_kitas_kitap' => set_value('no_kitas_kitap', ''),
-            'ayah' => set_value('ayah', ''),
-            'ibu' => set_value('ibu', ''),
-            'id2' => 'has-error',
-            $username=$this->session->userdata('user'),
-            $peran=$this->session->userdata('peran'),
-          );
-      $this->session->set_userdata('petEdit', 'y');
-      $data['body']= $this->load->view('edit_akte_kk', $data, true);
-      // $this->load->view('template_kk', $data);
-       if ($peran=='PetugasKK') {
+    $data=array(
+      "title"=>'Pendaftaran Kartu Keluarga ',
+      "aktif"=>"kk",
+      "bclass"=>'',
+      "dok"=>$this->PendafKKM->get_syarat($getidpenbaru)->result(),
+      "datapendaf"=>$this->PendafKKM->getdata_pendaftaran($getidpenbaru),
+      "keca"=>$this->PendafKKM->getkec(),
+      "desa"=>$this->PendafKKM->getdes(),
+      "datapendaftaran"=>$this->PendafKKM->get_pendaf_det($getidpenbaru)->row_array(),
+      $username=$this->session->userdata('user'),
+      $peran=$this->session->userdata('peran'),
+    );
+    $data['body']= $this->load->view('form_pengambilan_kk_baru_manual', $data, true);
+    if ($peran=='1') {
       $data['aktif']="kk";
       $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
+    }else if($peran=='4') {
       $data['aktif']="dtkk";
       $data['bclass']=" ";
       $this->load->view('template_admin', $data);
     }
-    }else{
-      $idPenduduk = $_POST['idPenduduk'];
-      $this->model->nik= $_POST['nik'];
-      $this->model->nama_lengkap = $_POST['nama_lengkap'];
-      $this->model->jenis_kelamin = $_POST['jenis_kelamin'];
-      $this->model->tempat_lahir = $_POST['tempat_lahir'];
-      $this->model->tanggal_lahir = $_POST['tanggal_lahir'];
-      $this->model->agama = $_POST['agama'];
-      $this->model->pendidikan = $_POST['pendidikan'];
-      $this->model->nama_jenispekerjaan = $_POST['nama_jenispekerjaan'];
-      $this->model->status_perkawinan = $_POST['status_perkawinan'];
-      $this->model->status_hub_dalam_keluarga = $_POST['status_hub_dalam_keluarga'];
-      $this->model->kewarganegaraan = $_POST['kewarganegaraan'];
-      $this->model->no_paspor = $_POST['no_paspor'];
-      $this->model->no_kitas_kitap = $_POST['no_kitas_kitap'];
-      $this->model->ayah = $_POST['ayah'];
-      $this->model->ibu = $_POST['ibu'];
-      $query = $this->model->updatependuduk($idPenduduk);
-
-      // $id_jenispekerjaan = $_POST['idPenduduk'];
-      // $this->model->nama_jenispekerjaan = $_POST['nama_jenispekerjaan'];
-      // $query = $this->model->updatejenispekerjaan($id_jenispekerjaan);
-      // echo $noKK;
-      $this->session->set_flashdata('sukses', 'Edit data penduduk berhasil dilakukan!');
-      redirect('PendafKKC/caridatakk/'.$noKK);
-    }
   }
+  
+  // public function inputdatapendbnik(){
+  //   $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
+  //   $this->form_validation->set_rules('nik', 'nik', 'required');
+  //   $this->form_validation->set_rules('nama_kepala_keluarga', 'nama_kepala_keluarga', 'required');
+  //   $this->form_validation->set_rules('alamat', 'alamat', 'required');
+  //   $this->form_validation->set_rules('rt', 'rt', 'required');
+  //   $this->form_validation->set_rules('rw', 'rw', 'required');    
+  //   $this->form_validation->set_rules('nama_kecamatan', 'nama_kecamatan', 'required');
+  //   $this->form_validation->set_rules('nama_desakelurahan', 'nama_desakelurahan', 'required');
+  //   $this->form_validation->set_rules('tgl_jadi', 'tgl_jadi', 'required');
+  //   $nama_kepala_keluarga=$_POST['nama_kepala_keluarga'];
+  //   $cekper=$this->db->query("select * from pendaftaran where nama_kepala_keluarga='$nama_kepala_keluarga'")->num_rows();
+  //   if($this->form_validation->run()==FALSE){
+  //     $data=array(
+  //           "title"=>'Tambah Data Keluarga',
+  //           "aktif"=>"kk",
+  //           "bclass"=>'',
+  //           'nik' => set_value('nik', ''),
+  //           'nama_kepala_keluarga' => set_value('nama_kepala_keluarga', ''),
+  //           'alamat' => set_value('alamat', ''),
+  //           'rt' => set_value('rt', ''),
+  //           'rw' => set_value('rw', ''),
+  //           'nama_kecamatan' => set_value('nama_kecamatan', ''),
+  //           'nama_desakelurahan' => set_value('nama_desakelurahan', ''),
+  //           'tgl_jadi' => set_value('tgl_jadi', ''),
+  //           'id2' => 'has-error',
+  //           $username=$this->session->userdata('user'),
+  //           $peran=$this->session->userdata('peran'),
+  //         );
+  //     $data['body']= $this->load->view('petugas_kkv', $data, true);
+  //   if ($peran=='1') {
+  //     $data['aktif']="kk";
+  //     $this->load->view('template_kk', $data);
+  //   }else if($peran=='4') {
+  //     $data['aktif']="dtkk";
+  //     $data['bclass']=" ";
+  //     $this->load->view('template_admin', $data);
+  //   }
+  //   }else{
+  //     $ids=$this->PendafKKM->getstatus();
+  //     $id=$this->session->userdata('id');
+  //     $this->model->nik=$_POST['nik'];
+  //     $this->model->nama_kepala_keluarga=$_POST['nama_kepala_keluarga'];
+  //     $this->model->alamat = $_POST['alamat'];
+  //     $this->model->rt = $_POST['rt'];
+  //     $this->model->rw = $_POST['rw'];
+  //     $this->model->nama_desakelurahan = $_POST['nama_desakelurahan'];
+  //     $this->model->id_petugasFK = $id;
+  //     $this->model->tgl_buat=date('y-m-d');
+  //     $this->model->tgl_jadi=$_POST['tgl_jadi'];
+  //     $this->model->id_status_pendafFK=$ids;
+  //     $query1 = $this->model->insertkkbnik();
+  //     $getidpenbaru=getid_penbaru();
 
-    public function datakeluargaedit($id){
+  //     $str=implode(" ", $_POST['id_syarat']);
+  //     $arr=explode(" ", $str);
+  //     for($i=0; $i<count($arr); $i++){
+  //       $id_syarat = $arr[$i];
+  //       $query = $this->model->insertdetail($id_syarat, $getidpenbaru);
+  //     }
+  //     $this->session->set_flashdata('sukses',"Tambah data keluarga berhasil dilakukan !");
+  //     redirect('PendafKKC/inputpendbnik/'.$getidpenbaru);
+  //   }
+  // }
+  // public function inputpendbnik($getidpenbaru){  
+  //   $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
+  //   $data=array(
+  //     "title"=>'Pendaftaran Kartu Keluarga ',
+  //     "aktif"=>"kk",
+  //     "bclass"=>'',
+  //     "datakeluargabarumanual"=>$this->PendafKKM->getdata_pendaftaran($getidpenbaru),
+  //     $username=$this->session->userdata('user'),
+  //     $peran=$this->session->userdata('peran'),
+  //   );
+  //   $data['body']= $this->load->view('form_pengambilan_kk_baru', $data, true);
+  //   if ($peran=='1') {
+  //     $data['aktif']="kk";
+  //     $this->load->view('template_kk', $data);
+  //   }else if($peran=='4') {
+  //     $data['aktif']="dtkk";
+  //     $data['bclass']=" ";
+  //     $this->load->view('template_admin', $data);
+  //   }
+  // }
+
+  //form edit pendaftaran kk
+  public function editpendaftarankk($id){
     $data=array(
-        "title"=>'Edit Data Keluarga',
-          "aktif"=>"kk",
-          "bclass"=>'',
-          "get_datakeluarga"=>$this->PendafKKM->get_keluarga_det($id)->row_array(),
-          "keca"=>$this->PendafKKM->getkeca(),
-          "desa"=>$this->PendafKKM->getdesakel(),
-          "bclass"=>" ",
-          "det"=>$this->PendafKKM->getnomorkk($id),
-          "id"=>$id,
-          $username=$this->session->userdata('user'),
-          $peran=$this->session->userdata('peran'),
-        );
+      "title"=>'Edit Data Keluarga',
+      "aktif"=>"kk",
+      "bclass"=>'',
+      "get_datakeluarga"=>$this->PendafKKM->get_pendaf_det($id)->row_array(),
+      "keca"=>$this->PendafKKM->getkec(),
+      "desa"=>$this->PendafKKM->getdes(),
+      "bclass"=>" ",
+      $username=$this->session->userdata('user'),
+      $peran=$this->session->userdata('peran'),
+    );
     $data['body']= $this->load->view('edit_keluargav', $data, true);
-    // $this->load->view('template_kk', $data); 
-     if ($peran=='PetugasKK') {
+    if ($peran=='1') {
       $data['aktif']="kk";
       $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
+    }else if($peran=='4') {
       $data['aktif']="dtkk";
       $data['bclass']=" ";
       $this->load->view('template_admin', $data);
     }
   }
-  public function datakeluargaeditproses($noKK){
+
+  //edit pendaftaran kk proses
+  public function editpendaftarankkproses(){
     $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
-    $this->form_validation->set_rules('noKK', 'noKK','required');
     $this->form_validation->set_rules('nama_kepala_keluarga', 'nama_kepala_keluarga','required');
     $this->form_validation->set_rules('alamat', 'alamat','required');
     $this->form_validation->set_rules('rt', 'rt', 'required');
     $this->form_validation->set_rules('rw', 'rw', 'required');
     $this->form_validation->set_rules('nama_desakelurahan', 'nama_desakelurahan', 'required');
     $this->form_validation->set_rules('nama_kecamatan', 'nama_kecamatan','required');
-    $this->form_validation->set_rules('kabupaten', 'kabupaten','required');
-    $this->form_validation->set_rules('kode_pos', 'kode_pos','required');
-    $this->form_validation->set_rules('provinsi', 'provinsi','required');
-    $noKK=$_POST['noKK'];
+    $this->form_validation->set_rules('tgl_jadi', 'tgl_jadi','required');
+    $id=$_POST['id_pendaftaran'];
     if($this->form_validation->run()==FALSE){
       $this->session->set_flashdata('eror','Data gagal di update, pastikan mengisi semua data');
       $data=array(
         "title"=>'Edit Data Keluarga',
-            "aktif"=>"kk",
-            "bclass"=>" ",
-            "get_datakeluarga"=>$this->PendafKKM->get_keluarga_det($_POST['idKeluarga'])->row_array(),
-            "get_datakec"=>$this->PendafKKM->get_kec_det($_POST['id_kecamatan'])->row_array(),
-            "get_datades"=>$this->PendafKKM->get_des_det($_POST['id_desakelurahan'])->row_array(),
-            'noKK' => set_value('noKK', ''),
-            'nama_kepala_keluarga' => set_value('nama_kepala_keluarga', ''),
-            'alamat' => set_value('alamat', ''),
-            'rt' => set_value('rt', ''),
-            'rw' => set_value('rw', ''),
-            'nama_desakelurahan' => set_value('nama_desakelurahan', ''),
-            'nama_kecamatan' => set_value('nama_kecamatan', ''),
-            'kabupaten' => set_value('kabupaten', ''),
-            'kode_pos' => set_value('kode_pos', ''),
-            'provinsi' => set_value('provinsi', ''),
-            'id2' => 'has-error',
-            $username=$this->session->userdata('user'),
-            $peran=$this->session->userdata('peran'),
-          );
+        "aktif"=>"kk",
+        "bclass"=>" ",
+        'noKK' => set_value('noKK', ''),
+        'nik' => set_value('nik', ''),
+        'nama_kepala_keluarga' => set_value('nama_kepala_keluarga', ''),
+        'alamat' => set_value('alamat', ''),
+        'rt' => set_value('rt', ''),
+        'rw' => set_value('rw', ''),
+        'nama_desakelurahan' => set_value('nama_desakelurahan', ''),
+        'nama_kecamatan' => set_value('nama_kecamatan', ''),
+        'tgl_jadi' => set_value('tgl_jadi', ''),
+        'id2' => 'has-error',
+        $username=$this->session->userdata('user'),
+        $peran=$this->session->userdata('peran'),
+      );
       $this->session->set_userdata('petEdit', 'y');
       $data['body']= $this->load->view('edit_keluargav', $data, true);
-      // $this->load->view('template_kk', $data);
-       if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
-    }
+      if ($peran=='1') {
+        $data['aktif']="kk";
+        $this->load->view('template_kk', $data);
+      }else if($peran=='4') {
+        $data['aktif']="dtkk";
+        $data['bclass']=" ";
+        $this->load->view('template_admin', $data);
+      }
     }else{
-      $idKeluarga = $this->PendafKKM->getidkeluarga($_POST['noKK']);
+      $id_pendaftaran = $this->PendafKKM->getidpendaf($_POST['id_pendaftaran']);
       $this->model->noKK= $_POST['noKK'];
+      $this->model->nik= $_POST['nik'];
       $this->model->nama_kepala_keluarga = $_POST['nama_kepala_keluarga'];
       $this->model->alamat = $_POST['alamat'];
       $this->model->rt = $_POST['rt'];
       $this->model->rw = $_POST['rw'];
-      $this->model->nama_kecamatan = $_POST['nama_kecamatan'];
-      $this->model->kabupaten = $_POST['kabupaten'];
-      // $this->model->kode_pos = $_POST['kode_pos'];
-      $this->model->provinsi = $_POST['provinsi'];
-      $query = $this->model->updatekeluarga($idKeluarga);
-
-      $this->session->set_flashdata('sukses', 'Edit Data Keluarga berhasil dilakukan!');
-      redirect('PendafKKC/caridatakk/'.$noKK);
-    }
-  }
-
-  public function inputpendaftaran(){  
-    $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
-    $this->form_validation->set_rules('idKeluarga', 'idKeluarga', 'required');
-    $this->form_validation->set_rules('id_petugasFK', 'id_petugasFK', 'required');
-    $this->form_validation->set_rules('tgl_jadi', 'tgl_jadi', 'required');
-    $noKK = $_POST['noKK'];
-    $getidpendbaru=getid_pendterbaru();
-    $data=array(
-         "title"=>'Daftar ',
-          "aktif"=>"kk",
-          "bclass"=>'',
-          "datapendafkk"=>$this->PendafKKM->getdatakeluarga($noKK, $getidpendbaru),
-    );
-    $query = $this->PendafKKM->insertpendaftrankk();
-    $getidpendbaru = getid_pendterbaru();
-    $this->session->set_flashdata('sukses', 'Pendaftaran KK baru berhasil dilakuakan!');
-    redirect('PendafKKC/inputpendaftarankk/'.$getidpendbaru);
-
-    }
-    public function inputpendaftarankk($getidpendbaru){  
-    $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
-    $this->form_validation->set_rules('idKeluarga', 'idKeluarga', 'required');
-    $this->form_validation->set_rules('id_petugasFK', 'id_petugasFK', 'required');
-    $this->form_validation->set_rules('tgl_jadi', 'tgl_jadi', 'required');
-    $idkel = getid_kelterbaru($getidpendbaru);
-    $data=array(
-         "title"=>'Daftar ',
-            "aktif"=>"kk",
-            "bclass"=>'',
-            "datapendafkk"=>$this->PendafKKM->getdata_keluarga($idkel, $getidpendbaru),
-            $username=$this->session->userdata('user'),
-            $peran=$this->session->userdata('peran'),
-            // "d"=>$this->model->getdatakeluarga($idkel, $getidpendbaru),
-    );
-    $data['body']= $this->load->view('form_pengambilan_kk', $data, true);
-    // $this->load->view('template_kk', $data);
-     if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
-    }
-
-    }
- public function inputpendaftarankkbaru(){
-    $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
-    $this->form_validation->set_rules('nik', 'nik', 'required');
-    $this->form_validation->set_rules('nama_lengkap', 'nama_lengkap', 'required');
-    $this->form_validation->set_rules('alamat', 'alamat', 'required');
-    $this->form_validation->set_rules('rt', 'rt', 'required');
-    $this->form_validation->set_rules('rw', 'rw', 'required');
-    $this->form_validation->set_rules('nama_desakelurahan', 'nama_desakelurahan', 'required');
-    // $this->form_validation->set_rules('kelurahan', 'kelurahan', 'required');
-    $this->form_validation->set_rules('nama_kecamatan', 'nama_kecamatan', 'required');
-    $this->form_validation->set_rules('kabupaten', 'kabupaten', 'required');
-    $this->form_validation->set_rules('kode_pos', 'kode_pos', 'required');
-    $this->form_validation->set_rules('provinsi', 'provinsi', 'required');
-    $this->form_validation->set_rules('tgl_jadi', 'tgl_jadi', 'required');
-    $getkeluarga=getId('data_keluarga','idKeluarga');
-    $getPendaf=getId('pendaftaran','id_pendaftaran');
-    if($this->form_validation->run()==FALSE){
-      $data=array(
-           "title"=>'Pendaftaran KK Baru',
-            "aktif"=>"kk",
-            "bclass"=>'',
-            'nik'=>$_POST['nik'],
-            'nama_lengkap'=>$_POST['nama_lengkap'],
-            'alamat' => set_value('alamat', ''),
-            'rt' => set_value('rt', ''),
-            'rw' => set_value('rw', ''),
-            'nama_desakelurahan' => set_value('nama_desakelurahan', ''),
-            'nama_kecamatan' => set_value('nama_kecamatan', ''),
-            'kabupaten' => set_value('kabupaten', ''),
-            'kode_pos' => set_value('kode_pos', ''),
-            'provinsi' => set_value('provinsi', ''),
-            'tgl_jadi' => set_value('tgl_jadi', ''),
-            'id2' => 'has-error',
-            $username=$this->session->userdata('user'),
-            $peran=$this->session->userdata('peran'),
-      );
-      $data['body']= $this->load->view('daftar_kk_baru', $data, true);
-      // $this->load->view('template_kk', $data);
-       if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
-    }
-
-    }else{
-      $this->model->nama_kepala_keluarga=$_POST['nama_lengkap'];
-      $this->model->alamat = $_POST['alamat'];
-      $this->model->rt = $_POST['rt'];
-      $this->model->rw = $_POST['rw'];
-      // $this->model->desa = $_POST['desa'];
-      // $this->model->kelurahan = $_POST['kelurahan'];
-      $this->model->nama_kecamatan = $_POST['nama_kecamatan'];
-      $this->model->kabupaten = $_POST['kabupaten'];
-      // $this->model->kode_pos = $_POST['kode_pos'];
-      $this->model->provinsi = $_POST['provinsi'];
-      $query1 = $this->model->insertkeluarga();
-
-      $this->model->tgl_buat = date('Y/m/d');
+      $this->model->nama_desakelurahan = $_POST['nama_desakelurahan'];
       $this->model->tgl_jadi = $_POST['tgl_jadi'];
-      $this->model->idKeluargaFK=$getkeluarga;
-      $this->model->id_petugasFK = '1';
-      $this->model->status = 'kk';
-      $query = $this->model->insertpendaftaran();
-     
-      $getidpendbaru = getid_pendterbaru();
-      $this->session->set_flashdata('sukses', 'Pendaftaran KK baru berhasil dilakuakan!');
-      redirect('PendafKKC/inputpendaftarandatakkbaru/'.$getidpendbaru);
+      $query = $this->model->updatepend($id_pendaftaran);
+      $this->session->set_flashdata('sukses', 'Edit data berhasil dilakukan!');
+      redirect('PendafKKC/dataPendaftaranKK/'.$id_pendaftaran);
     }
   }
-    public function inputpendaftarandatakkbaru($getidpendbaru){  
-    $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
-    $this->form_validation->set_rules('idKeluarga', 'idKeluarga', 'required');
-    $this->form_validation->set_rules('id_petugasFK', 'id_petugasFK', 'required');
-    $this->form_validation->set_rules('tgl_jadi', 'tgl_jadi', 'required');
-    $idkel = getid_kelterbaru($getidpendbaru);
+
+  // public function datakeluargaeditbynik($id){
+  //   $data=array(
+  //     "title"=>'Edit Data Keluarga',
+  //     "aktif"=>"kk",
+  //     "bclass"=>'',
+  //     "get_datakeluarga"=>$this->PendafKKM->get_pendaf_det($id)->row_array(),
+  //     "keca"=>$this->PendafKKM->getkec(),
+  //     "desa"=>$this->PendafKKM->getdes(),
+  //     "bclass"=>" ",
+  //     $username=$this->session->userdata('user'),
+  //     $peran=$this->session->userdata('peran'),
+  //   );
+  //   $data['body']= $this->load->view('edit_keluargabynikv', $data, true);
+  //   if ($peran=='1') {
+  //     $data['aktif']="kk";
+  //     $this->load->view('template_kk', $data);
+  //   }else if($peran=='4') {
+  //     $data['aktif']="dtkk";
+  //     $data['bclass']=" ";
+  //     $this->load->view('template_admin', $data);
+  //   }
+  // }
+
+  // public function datakeluargaeditbynikproses(){
+  //   $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
+  //   $this->form_validation->set_rules('nik', 'nik','required');
+  //   $this->form_validation->set_rules('nama_kepala_keluarga', 'nama_kepala_keluarga','required');
+  //   $this->form_validation->set_rules('alamat', 'alamat','required');
+  //   $this->form_validation->set_rules('rt', 'rt', 'required');
+  //   $this->form_validation->set_rules('rw', 'rw', 'required');
+  //   $this->form_validation->set_rules('id_desakelurahan', 'id_desakelurahan', 'required');
+  //   $this->form_validation->set_rules('nama_kecamatan', 'nama_kecamatan','required');
+  //   $this->form_validation->set_rules('tgl_jadi', 'tgl_jadi','required');
+  //   $id=$_POST['id_pendaftaran'];
+  //   if($this->form_validation->run()==FALSE){
+  //     $this->session->set_flashdata('eror','Data gagal di update, pastikan mengisi semua data');
+  //     $data=array(
+  //       "title"=>'Edit Data Keluarga',
+  //       "aktif"=>"kk",
+  //       "bclass"=>" ",
+  //       // "get_datakeluarga"=>$this->PendafKKM->get_pendaf_det($_POST['id_pendaftaran'])->row_array(),
+  //       'noKK' => set_value('noKK', ''),
+  //       'nama_kepala_keluarga' => set_value('nama_kepala_keluarga', ''),
+  //       'alamat' => set_value('alamat', ''),
+  //       'rt' => set_value('rt', ''),
+  //       'rw' => set_value('rw', ''),
+  //       'id_desakelurahan' => set_value('id_desakelurahan', ''),
+  //       'nama_kecamatan' => set_value('nama_kecamatan', ''),
+  //       'tgl_jadi' => set_value('tgl_jadi', ''),
+  //       'id2' => 'has-error',
+  //       $username=$this->session->userdata('user'),
+  //       $peran=$this->session->userdata('peran'),
+  //     );
+  //     $this->session->set_userdata('petEdit', 'y');
+  //     $data['body']= $this->load->view('edit_keluargav', $data, true);
+  //     if ($peran=='1') {
+  //       $data['aktif']="kk";
+  //       $this->load->view('template_kk', $data);
+  //     }else if($peran=='4') {
+  //       $data['aktif']="dtkk";
+  //       $data['bclass']=" ";
+  //       $this->load->view('template_admin', $data);
+  //     }
+  //   }else{
+  //     $id_pendaftaran = $this->PendafKKM->getidpendaf($_POST['id_pendaftaran']);
+  //     $this->model->nik= $_POST['nik'];
+  //     $this->model->nama_kepala_keluarga = $_POST['nama_kepala_keluarga'];
+  //     $this->model->alamat = $_POST['alamat'];
+  //     $this->model->rt = $_POST['rt'];
+  //     $this->model->rw = $_POST['rw'];
+  //     $this->model->id_desakelurahan = $_POST['id_desakelurahan'];
+  //     $this->model->tgl_jadi = $_POST['tgl_jadi'];
+  //     $query = $this->model->updatependbynik($id_pendaftaran);
+  //     $this->session->set_flashdata('sukses', 'Edit data berhasil dilakukan!');
+  //     redirect('PendafKKC/inputpendbnik/'.$id_pendaftaran);
+  //   }
+  // }
+
+  //tabel yang belum diunggah pendaftaran kk
+  public function syaratpendafkk(){
     $data=array(
-         "title"=>'Daftar ',
-            "aktif"=>"kk",
-            "bclass"=>'',
-            "datapendafkkbaru"=>$this->PendafKKM->getdata_keluarga($idkel, $getidpendbaru),
-            $username=$this->session->userdata('user'),
-            $peran=$this->session->userdata('peran'),
+          "title"=>'Unggah Syarat Pendaftaran KK',
+          "aktif"=>"syaratkk",
+          "bread"=>'Unggah Syarat Pendaftaran KK',
+          "bclass"=>'',
+          "pem"=>$this->PendafKKM->get_pendafkk(),
+          $username=$this->session->userdata('user'),
+          $peran=$this->session->userdata('peran'),          
+        );
+    $this->session->set_userdata('asal', 'syarat');
+    $data['body']= $this->load->view('syarat_pendafkk', $data, true);
+    if ($peran=='1') {
+      $data['aktif']="syaratkk";
+      $this->load->view('template_kk', $data);
+    }else if($peran=='4') {
+      $data['aktif']="adsyaratkk";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
+  }
+   //detail pendaftaran kk
+  public function detailsyaratkk($id){
+    $data=array(
+      "title"=>'Detail Unggah Syarat Pendaftaran KK',
+      "aktif"=>"syaratkk",
+      "bclass"=>'',
+      "datapendaftaran"=>$this->PendafKKM->get_pendaftarankk($id)->result(),
+      "dok"=>$this->PendafKKM->get_syarat($id)->result(),
+      "bclass"=>" ",
+      $username=$this->session->userdata('user'),
+      $peran=$this->session->userdata('peran'),
     );
-    $data['body']= $this->load->view('form_pengambilan_kk_baru', $data, true);
-    // $this->load->view('template_kk', $data);
-     if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
+    $data['body']= $this->load->view('detail_kk', $data, true);
+    if ($peran=='1') {
+      $data['aktif']="syaratkk";
       $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
-    }
-
-    }
-     function inputpendftrnmanual(){
-      $id=getid_kelbaru();
-      $this->model->tgl_buat=date('y/m/d');
-      $this->model->tgl_jadi=$_POST['tgl_jadi'];
-      $this->model->idKeluargaFK=getid_kelbaru();
-      $this->model->id_petugasFK='1';
-      $this->model->status='kk';
-      $query =$this->model->insertpendaftaran();
-
-      $getidpendbaru=getid_pendterbaru();
-      $this->session->set_flashdata('sukses', 'Pendaftaran KK baru berhasil dilakuakan!');
-      redirect('PendafKKC/buatkkmanual/'.$getidpendbaru);
-
-    }
-      function buatkkmanual($getidpendbaru){
-      $id=getid_kelbaru();
-      $getidpendbaru=getid_pendterbaru();
-      $data=array(
-            "title"=>'Pendaftaran KK',
-            "aktif"=>"kk",
-            "id_pendaftaran"=>'',
-            "bclass"=>'',
-            "datakeluargabarumanual"=>$this->PendafKKM->getdata_pendaftaran($getidpendbaru,$id),
-            $username=$this->session->userdata('user'),
-            $peran=$this->session->userdata('peran'),
-          );
-      $data['body']= $this->load->view('form_pengambilan_kk_baru_manual.php', $data, true);
-      // $this->load->view('template_kk',$data);
-       if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
-    }
-    }
-
-  public function searchdatakk(){
-    $noKK= $_POST['noKK'];
-    $data=array(
-      "title"=>'Edit Data Keluarga',
-          "aktif"=>"kk",
-          "bclass"=>'',
-          "datakeluarga"=>$this->PendafKKM->getData($noKK)->result(),
-          "dataPenduduk"=>$this->PendafKKM->getDataPenduduk($noKK)->result(),
-          "datapdkk"=>$this->PendafKKM->getdatacari(),
-          "det"=>$this->PendafKKM->getnomorkk($noKK),
-          "peml"=>$this->PendafKKM->getdatanoKK(),
-          "pemll"=>$this->PendafKKM->getdatapend(),
-          "pem"=>$this->PendafKKM->getdatapen(),
-          "bclass"=>" ",
-          $username=$this->session->userdata('user'),
-          $peran=$this->session->userdata('peran'),
-        );
-    $data['body']= $this->load->view('tabel_kkv', $data, true);
-    // $this->load->view('template_kk', $data);
-     if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
+    }else if($peran=='4') {
+      $data['aktif']="adsyaratkk";
       $data['bclass']=" ";
       $this->load->view('template_admin', $data);
     }
   }
 
-  public function caridatakk($noKK){
+  //tabel yang belum diunggah pendaftaran kk
+  public function riwayatpendafkk(){
     $data=array(
-          "title"=>'Edit Data Keluarga',
-          "aktif"=>"kk",
+          "title"=>'Riwayat Pendaftaran KK',
+          "aktif"=>"riwayatkk",
+          "bread"=>'Riwayat Pendaftaran KK',
           "bclass"=>'',
-          "noKK"=>$noKK,
-          "datakeluarga"=>$this->PendafKKM->getData($noKK)->result(),
-          "dataPenduduk"=>$this->PendafKKM->getDataPenduduk($noKK)->result(),
-          "datapdkk"=>$this->PendafKKM->getdatacari(),
-          "det"=>$this->PendafKKM->getnomorkk($noKK),
-          "peml"=>$this->PendafKKM->getdatanoKK(),
-          "pemll"=>$this->PendafKKM->getdatapend(),
-          "pem"=>$this->PendafKKM->getdatapen(),
-          "bclass"=>" ",
+          "pem"=>$this->PendafKKM->get_pendaftkk(),
           $username=$this->session->userdata('user'),
-          $peran=$this->session->userdata('peran'),
+          $peran=$this->session->userdata('peran'),          
         );
-    $data['body']= $this->load->view('tabel_kkv', $data, true);
-    // $this->load->view('template_kk', $data);
-     if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
+    $this->session->set_userdata('asal', 'riwayat');
+    $data['body']= $this->load->view('riwayat_pendafkk', $data, true);
+    if ($peran=='1') {
+      $data['aktif']="riwayatkk";
       $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
+    }else if($peran=='4') {
+      $data['aktif']="riwkk";
       $data['bclass']=" ";
       $this->load->view('template_admin', $data);
     }
-  }
-public function caridatanik($nik){
-    $data=array(
-      "title"=>'Edit Data Keluarga',
-          "aktif"=>"kk",
-          "bclass"=>'',
-          "dataPenduduk"=>$this->PendafKKM->get_dataPenduduk($nik),
-          "pemlk"=>$this->PendafKKM->getdatapennik($nik),
-          "pem"=>$this->PendafKKM->getdatapen(),
-          "bclass"=>" ",
-          $username=$this->session->userdata('user'),
-          $peran=$this->session->userdata('peran'),
-        );
-    $data['body']= $this->load->view('tabel_daftar_kk', $data, true);
-    // $this->load->view('template_kk', $data);
-     if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
-    }
-  }
-  public function searchdatanik(){
-    $nik=$_POST['nik'];
-    $data=array(
-      "title"=>'Edit Data',
-          "aktif"=>"kk",
-          "bclass"=>'',
-          "dataPenduduk"=>$this->PendafKKM->get_dataPenduduk($nik),
-          "pemlk"=>$this->PendafKKM->getdatapennik($nik),
-          "bclass"=>" ",
-          $username=$this->session->userdata('user'),
-          $peran=$this->session->userdata('peran'),
-          
-        );
-    $data['body']= $this->load->view('tabel_daftar_kk', $data, true);
-    // $this->load->view('template_kk', $data);
-     if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
-    }
-
   }
 
-  public function inputKK(){
-    $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
-    $this->form_validation->set_rules('nama_kepala_keluarga', 'nama_kepala_keluarga', 'required');
-    $this->form_validation->set_rules('alamat', 'alamat', 'required');
-    $this->form_validation->set_rules('rt', 'rt', 'required');
-    $this->form_validation->set_rules('rw', 'rw', 'required');
-    $this->form_validation->set_rules('nama_desakelurahan', 'nama_desakelurahan', 'required');
-    $this->form_validation->set_rules('nama_kecamatan', 'nama_kecamatan', 'required');
-    $this->form_validation->set_rules('kabupaten', 'kabupaten', 'required');
-    $this->form_validation->set_rules('kode_pos', 'kode_pos', 'required');
-    $this->form_validation->set_rules('provinsi', 'provinsi', 'required');
-    $nama_kepala_keluarga=$_POST['nama_kepala_keluarga'];
-    $cekper=$this->db->query("select * from data_keluarga where nama_kepala_keluarga='$nama_kepala_keluarga'")->num_rows();
-      if($this->form_validation->run()==FALSE){
-      if($cekper>0){
-      $this->session->set_flashdata('eror',"Username sudah digunakan");
-      }else{
-      $this->session->set_flashdata('eror','Data gagal di inputkan, pastikan mengisi semua data');
+  //detail pendaftaran kk
+  public function detailriwayatkk($id){
+    $data=array(
+      "title"=>'Detail Pendaftaran KK',
+      "aktif"=>"riwayatkk",
+      "bclass"=>'',
+      "datapendaftaran"=>$this->PendafKKM->get_pendaftarankk($id)->result(),
+      "datapendafsyarat"=>$this->PendafKKM->get_pendaftrkk($id)->result(),
+      "bclass"=>" ",
+      $username=$this->session->userdata('user'),
+      $peran=$this->session->userdata('peran'),
+    );
+    $data['body']= $this->load->view('detail_riwayatkk', $data, true);
+    if ($peran=='1') {
+      $data['aktif']="riwayatkk";
+      $this->load->view('template_kk', $data);
+    }else if($peran=='4') {
+      $data['aktif']="riwkk";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
+    $this->session->set_flashdata('sukses', 'Unggah yarat pendaftaran berhasil dilakukan!');
+  }
+
+  //untuk menampilkan data desa yang ditampilkan di dropdown
+  public function getdesa(){
+    $id_kec = $this->input->post('nama_kecamatan');
+    $dataDesa=$this->PendafKKM->get_desa($id_kec);
+    echo '<select class="form-control m-bot15" name="nama_desakelurahan" id="nama_desakelurahan">';
+    echo '<option value="" disabled selected><i>---Pilih Desa/Kelurahan---</i></option>';
+    if(! empty($dataDesa)){
+      foreach ($dataDesa as $d) {
+        echo '<option value="'.$d->id_desakelurahan.'">'.$d->nama_desakelurahan.'</option>';
       }
-      $data=array(
-            "title"=>'Daftar KK Baru',
-            "aktif"=>"kk",
-            "bclass"=>'',
-            'nama_kepala_keluarga' => set_value('nama_kepala_keluarga', ''),
-            'alamat' => set_value('alamat', ''),
-            'rt' => set_value('rt', ''),
-            'rw' => set_value('rw', ''),
-            'nama_desakelurahan' => set_value('nama_desakelurahan', ''),
-            'nama_kecamatan' => set_value('nama_kecamatan', ''),
-            'kabupaten' => set_value('kabupaten', ''),
-            'kode_pos' => set_value('kode_pos', ''),
-            'provinsi' => set_value('provinsi', ''),
-            'id2' => 'has-error',
-            $username=$this->session->userdata('user'),
-            $peran=$this->session->userdata('peran'),
-          );
-      $data['body']= $this->load->view('daftar_kk_baru', $data, true);
-      // $this->load->view('template_kk', $data);
-       if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
+    }else{
+      echo '<option>- Data Belum Tersedia -</option>';
+    }
+      echo '</select>';
+  }
+
+  // public function getkode(){
+  //   $id_des = $this->input->post('nama_desakelurahan');
+  //   $dataDesa=$this->PendafKKM->getkod($id_des);
+  //   echo '<select class="form-control m-bot15" name="nama_desakelurahan" id="nama_desakelurahan">';
+  //   echo '<option value="" disabled selected><i>---Pilih Kode Pos---</i></option>';
+  //   if(! empty($dataDesa)){
+  //     foreach ($dataDesa as $d) {
+  //       echo '<option value="'.$d->id_desakelurahan.'">'.$d->kode_pos.'</option>';
+  //     }
+  //   }else{
+  //     echo '<option>- Data Belum Tersedia -</option>';
+  //   }
+  //     echo '</select>';
+  // }
+  //form unggah syarat
+  public function unggahsyarat($id){  
+    $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
+    $data=array(
+      "title"=>'Unggah syarat Syarat Pendaftaran Kartu Keluarga',
+      "aktif"=>"riwayatkk",
+      "bclass"=>'',
+      "gambar"=>'',
+      "datapendaftaran"=>$this->PendafKKM->get_pendaftarankk($id)->result(),
+      "dok"=>$this->PendafKKM->get_syarat($id)->result(),
+      $username=$this->session->userdata('user'),
+      $peran=$this->session->userdata('peran'),
+    );
+    $data['body']= $this->load->view('unggah_kk', $data, true);
+    if ($peran=='1') {
+      $data['aktif']="riwayatkk";
       $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
+    }else if($peran=='4') {
+      $data['aktif']="riwkk";
       $data['bclass']=" ";
       $this->load->view('template_admin', $data);
     }
+  }
+
+  //untuk upload syarat pendaftaran
+  public function tambahsyarat1($id)
+  {
+    if ($_POST) {
+      $config['upload_path']            = 'images';
+      $config['allowed_types']          = 'jpg|jpeg';
+      $config['max_size']               = '7000';
+      $config['max_filename_increment'] = '1000';
       
-    }elseif($cekper>0){
-      $this->session->set_flashdata('eror',"Username sudah digunakan");
-      redirect('PendafKKC');
-    }else{
-      $data=array(
-        // "idKeluarga"=>getId('data_keluarga','idKeluarga'),
-        "nama_kepala_keluarga"=>$_POST['nama_kepala_keluarga'],
-        "alamat"=>$_POST['alamat'],
-        "rt"=>$_POST['rt'],
-        "rw"=>$_POST['rw'],
-        "nama_desakelurahan"=>$_POST['nama_desakelurahan'],
-        "nama_kecamatan"=>$_POST['nama_kecamatan'],
-        "kabupaten"=>$_POST['kabupaten'],
-        "kode_pos"=>$_POST['kode_pos'],
-        "provinsi"=>$_POST['provinsi'],
-      );
-      $this->db->insert('data_keluarga',$data);
-      $this->session->set_flashdata('sukses',"Tambah data Data Keluarga berhasil dilakukan !");
-      redirect('PendafKKC/');
-    }
+      // $this->load->library('upload', $config);
+      $this->upload->initialize($config);
+      $files= $_FILES['userfile'];
+      $i=0;
+      foreach ($files['name'] as $key => $image) {
+            $_FILES['images[]']['name']= $files['name'][$key];
+            $_FILES['images[]']['type']= $files['type'][$key];
+            $_FILES['images[]']['tmp_name']= $files['tmp_name'][$key];
+            $_FILES['images[]']['error']= $files['error'][$key];
+            $_FILES['images[]']['size']= $files['size'][$key];
 
-}
-  public function inputdatapenduduk($noKK){
-    $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
-    $this->form_validation->set_rules('nama_lengkap', 'nama_lengkap', 'required');
-    $this->form_validation->set_rules('jenis_kelamin', 'jenis_kelamin', 'required');
-    $this->form_validation->set_rules('tempat_lahir', 'tempat_lahir', 'required');
-    $this->form_validation->set_rules('tanggal_lahir', 'tanggal_lahir', 'required');
-    $this->form_validation->set_rules('agama', 'agama', 'required');
-    $this->form_validation->set_rules('pendidikan', 'pendidikan', 'required');
-    $this->form_validation->set_rules('nama_jenispekerjaan', 'nama_jenispekerjaan', 'required');
-    $this->form_validation->set_rules('status_perkawinan', 'status_perkawinan', 'required');
-    $this->form_validation->set_rules('status_hub_dalam_keluarga', 'status_hub_dalam_keluarga', 'required');
-    $this->form_validation->set_rules('kewarganegaraan', 'kewarganegaraan', 'required');
-    $this->form_validation->set_rules('no_paspor', 'no_paspor', 'required');
-    $this->form_validation->set_rules('no_kitas_kitap', 'no_kitas_kitap', 'required');
-    $this->form_validation->set_rules('ayah', 'ayah', 'required');
-    $this->form_validation->set_rules('ibu', 'ibu', 'required');
-    $nama_lengkap=$_POST['nama_lengkap'];
-    $noKK=$_POST['noKK'];
-    $cekper=$this->db->query("select * from data_penduduk where nama_lengkap='$nama_lengkap'")->num_rows();
-      if($this->form_validation->run()==FALSE){
-      if($cekper>0){
-      $this->session->set_flashdata('eror',"Username sudah digunakan");
-      }else{
-      $this->session->set_flashdata('eror','Data gagal di inputkan, pastikan mengisi semua data');
-      }
-      $data=array(
-            "title"=>'Tambah Data Penduduk',
-            "aktif"=>"kk",
-            "bclass"=>'',
-            'nama_lengkap' => set_value('nama_lengkap', ''),
-            'jenis_kelamin' => set_value('jenis_kelamin', ''),
-            'tempat_lahir' => set_value('tempat_lahir', ''),
-            'tanggal_lahir' => set_value('tanggal_lahir', ''),
-            'agama' => set_value('agama', ''),
-            'pendidikan' => set_value('pendidikan', ''),
-            'nama_jenispekerjaan' => set_value('nama_jenispekerjaan', ''),
-            'status_perkawinan' => set_value('status_perkawinan', ''),
-            'status_hub_dalam_keluarga' => set_value('status_hub_dalam_keluarga', ''),
-            'kewarganegaraan' => set_value('kewarganegaraan', ''),
-            'no_paspor' => set_value('no_paspor', ''),
-            'no_kitas_kitap' => set_value('no_kitas_kitap', ''),
-            'ayah' => set_value('ayah', ''),
-            'ibu' => set_value('ibu', ''),
-            'id2' => 'has-error',
-            $username=$this->session->userdata('user'),
-            $peran=$this->session->userdata('peran'),
-          );
-      $data['body']= $this->load->view('tambah_penduduk', $data, true);
-      // $this->load->view('template_kk', $data);
-       if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
-    }
-    }elseif($cekper>0){
-      $this->session->set_flashdata('eror',"Username sudah digunakan");
-      redirect('PendafKKC');
-    }else{
-      $data=array(
-        "idKeluarga_FK"=>getid_keluarga($_POST['noKK']),
-        "nama_lengkap"=>$_POST['nama_lengkap'],
-        "jenis_kelamin"=>$_POST['jenis_kelamin'],
-        "tempat_lahir"=>$_POST['tempat_lahir'],
-        "tanggal_lahir"=>$_POST['tanggal_lahir'],
-        "agama"=>$_POST['agama'],
-        "pendidikan"=>$_POST['pendidikan'],
-        "id_jenispekerjaanFK"=>$_POST['nama_jenispekerjaan'],
-        "status_perkawinan"=>$_POST['status_perkawinan'],
-        "status_hub_dalam_keluarga"=>$_POST['status_hub_dalam_keluarga'],
-        "kewarganegaraan"=>$_POST['kewarganegaraan'],
-        "no_paspor"=>$_POST['no_paspor'],
-        "no_kitas_kitap"=>$_POST['no_kitas_kitap'],
-        "ayah"=>$_POST['ayah'],
-        "ibu"=>$_POST['ibu'],
-      );
-      $this->db->insert('data_penduduk',$data);
-      $this->session->set_flashdata('sukses',"Tambah data penduduk berhasil dilakukan !");
-      redirect('PendafKKC/caridatakk/'.$noKK);
-    }
+            $images[] = $image;
 
-}
-  
-  public function inputdatakeluarga(){
-    $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
-    $this->form_validation->set_rules('nama_kepala_keluarga', 'nama_kepala_keluarga', 'required');
-    $this->form_validation->set_rules('alamat', 'alamat', 'required');
-    $this->form_validation->set_rules('rt', 'rt', 'required');
-    $this->form_validation->set_rules('rw', 'rw', 'required');
-    $this->form_validation->set_rules('nama_desakelurahan', 'nama_desakelurahan', 'required');
-    $this->form_validation->set_rules('nama_kecamatan', 'nama_kecamatan', 'required');
-    $this->form_validation->set_rules('kabupaten', 'kabupaten', 'required');
-    $this->form_validation->set_rules('kode_pos', 'kode_pos', 'required');
-    $this->form_validation->set_rules('provinsi', 'provinsi', 'required');
-    $nama_kepala_keluarga=$_POST['nama_kepala_keluarga'];
-    // $noKk=$_POST['noKK'];
-    $cekper=$this->db->query("select * from data_keluarga where nama_kepala_keluarga='$nama_kepala_keluarga'")->num_rows();
-      if($this->form_validation->run()==FALSE){
-      $data=array(
-            "title"=>'Tambah Data Keluarga',
-            "aktif"=>"kk",
-            "bclass"=>'',
-            'nama_kepala_keluarga' => set_value('nama_kepala_keluarga', ''),
-            'alamat' => set_value('alamat', ''),
-            'rt' => set_value('rt', ''),
-            'rw' => set_value('rw', ''),
-            'nama_desakelurahan' => set_value('nama_desakelurahan', ''),
-            'nama_kecamatan' => set_value('nama_kecamatan', ''),
-            'kabupaten' => set_value('kabupaten', ''),
-            'kode_pos' => set_value('kode_pos', ''),
-            'provinsi' => set_value('provinsi', ''),
-            'id2' => 'has-error',
-            $username=$this->session->userdata('user'),
-            $peran=$this->session->userdata('peran'),
-          );
-      $data['body']= $this->load->view('tambah_keluarga', $data, true);
-      // $this->load->view('template_kk', $data);
-       if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
+            if ($this->upload->do_upload('images[]')) {
+                $data = array(
+                  'gambar' => $this->upload->data('file_name') ,
+                  'status_unggah' => 'Sudah Diunggah');
+
+               $this->db->where("id_detail_syarat",$_POST['id_detail_syarat'][$i]);
+               $this->db->update("detail_syarat",$data);
+
+            } else {
+                print_r($this->upload->display_errors());
+            }
+          $i++;
+        }
+          redirect('PendafKKC/detailriwayatkk/'.$id);
     }
-    }else{
-      $this->model->nama_kepala_keluarga=$_POST['nama_kepala_keluarga'];
-      $this->model->alamat = $_POST['alamat'];
-      $this->model->rt = $_POST['rt'];
-      $this->model->rw = $_POST['rw'];
-      // $this->model->nama_desakelurahan=$_POST['nama_desakelurahan'];
-      // $this->model->kode_pos = $_POST['kode_pos'];
-      $this->model->nama_kecamatan = $_POST['nama_kecamatan'];
-      $this->model->kabupaten = $_POST['kabupaten'];
-      $this->model->provinsi = $_POST['provinsi'];
-      $query1 = $this->model->insertkeluarga();
+  }
 
-      // $this->model->nama_desakelurahan=$_POST['nama_desakelurahan'];
-      // $this->model->kode_pos = $_POST['kode_pos'];
-      // $query2=$this->model->insertdes();
+  //proses unggah syarat
+  // public function tambahsyarat($id){
+  //   print_r($_POST);
+  //   print_r("<br>");
+  //   print_r($_FILES);
+  //   exit();
+  //   if(isset($_POST["simpan"])){
+  //   $this->load->library('upload');
+  //   $image_data = array();
+  //   $files = $_FILES;
+  //   $cpt = count($_FILES['userfile']['name']);
+  //   for($i=0; $i<$cpt; $i++){
+  //       $_FILES['userfile']['name']= $files['userfile']['name'][$i];
+  //       $_FILES['userfile']['type']= $files['userfile']['type'][$i];
+  //       $_FILES['userfile']['tmp_name']= $files['userfile']['tmp_name'][$i];
+  //       $_FILES['userfile']['error']= $files['userfile']['error'][$i];
+  //       $_FILES['userfile']['size']= $files['userfile']['size'][$i];
+ 
+  //       $this->upload->initialize($this->set_upload_options());
+  //       $this->upload->do_upload();
+  //       $image_data[] = $_FILES['userfile']['name'];
+  //   }
+  //   $fileName = implode($image_data);
+  //   $id=$this->model->get_det($id);
+  //   $this->model->userfile = $fileName;
+  //   if($fileName == Null){$status_unggah="Belum Diunggah";}
+  //   else{$status_unggah="Sudah Diunggah";}
+  //   $query1=$this->PendafKKM->update_detail($id, $status_unggah);
 
-      // $this->model->nama_kecamatan = $_POST['nama_kecamatan'];
-      // $query3=$this->model->insertkec();
+  //   // $idp=getid_pen();
+  //   // $getidpenbaru=getidpendaft($idp);
+  //   redirect('PendafKKC/dataPendaftaranKK/'.$id);
+  //   }
+  // } 
 
-      $getidkelbaru=getid_kelbaru();
-      $this->session->set_flashdata('sukses',"Tambah data keluarga berhasil dilakukan !");
-      redirect('PendafKKC/inputdatakeluargabaru/'.$getidkelbaru);
-    }
+  // private function set_upload_options(){
+  //   $config = array();
+  //   $config['upload_path'] ='./images/';
+  //   $config['allowed_types']    = 'jpg|jpeg|png|gif';
+  //   $config['max_size']         = '2048'; // 2 MB
+ 
+  //   return $config;
+  // }
 
-}
-    public function inputdatakeluargabaru($getidkelbaru){  
-    $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
-    $this->form_validation->set_rules('idKeluarga', 'idKeluarga', 'required');
-    $this->form_validation->set_rules('id_petugasFK', 'id_petugasFK', 'required');
-    $this->form_validation->set_rules('tgl_jadi', 'tgl_jadi', 'required');
-    // $idkel = getid_kelterbaru($getidpendbaru);
-    $namakel=getnama_kelbaru($getidkelbaru);
-    $data=array(
-         "title"=>'Daftar ',
-            "aktif"=>"kk",
-            "bclass"=>'',
-            "datakeluargabaru"=>$this->PendafKKM->getdatakel($getidkelbaru,$namakel),
-            "tgl_jadi"=>set_value(''),
-            $username=$this->session->userdata('user'),
-            $peran=$this->session->userdata('peran'),
-    );
-    $data['body']= $this->load->view('buat_kkv_manual', $data, true);
-    // $this->load->view('template_kk', $data);
-     if ($peran=='PetugasKK') {
-      $data['aktif']="kk";
-      $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
-      $data['bclass']=" ";
-      $this->load->view('template_admin', $data);
-    }
-
-    }
-function logout(){  
+  //untuk keluar dari siste
+  public function logout(){  
     $this->session->unset_userdata($userData);
     $this->session->unset_userdata('user');
     $this->session->unset_userdata('pass');
@@ -1073,100 +657,144 @@ function logout(){
     $this->session->set_flashdata('sukses', 'Terimakasih Telah Menggunakan Aplikasi Sebagai Petugas KK Disdukcapil Karanganyar');
     redirect('LoginC'); 
   }
+
+  //menampilkan laporan pendaftaran kk
   public function laporanpendaftarankk(){
-      $data=array(
-          "title"=>'Laporan Pendaftaran Kartu Keluarga',
-          "aktif"=>"laporankk",
-          "bclass"=>'',
-          "pendafkkhari"=>$this->model->pendafkkhari(),
-          "pendafkkbulan"=>$this->model->pendafkkbulan(),
-          "pendafkktahun"=>$this->model->pendafkktahun(),
-          "bclass"=>'',
-          $username=$this->session->userdata('user'),
-          $peran=$this->session->userdata('peran'),
-        );
+    $data=array(
+      "title"=>'Laporan Pendaftaran Kartu Keluarga',
+      "aktif"=>"laporankk",
+      "bclass"=>'',
+      "perhari"=>$this->model->getperhari(),
+      "perbulan"=>$this->model->getperbulan(),
+      "pertahun"=>$this->model->getpertahun(),
+      "bclass"=>'',
+      $username=$this->session->userdata('user'),
+      $peran=$this->session->userdata('peran'),
+    );
     $data['body']= $this->load->view('laporan_kk.php', $data, true);
-     // $this->load->view('template_kk', $data);
-     if ($peran=='PetugasKK') {
+    if ($peran=='1') {
       $data['aktif']="laporankk";
       $this->load->view('template_kk', $data);
-    }else if($peran=='Admin') {
-      $data['aktif']="dtkk";
+    }else if($peran=='4') {
+      $data['aktif']="lapkk";
       $data['bclass']=" ";
       $this->load->view('template_admin', $data);
     }
   }
+
+  //untuk menampilkan nama bulan
+  public function getbulan(){
+    $tahun = $this->input->post('pilih_tahun');
+    if($tahun=="1"){
+      $databul=$this->PendafKKM->getperbulan();
+      if(! empty($databul)){
+        $no=1;
+        foreach ($databul as $d){
+          echo '<tr>';
+            echo '<td colspan="1"><center>'.$no.'</center></td>';
+            echo '<td ><center>'.getnamabulan($d->kategori).'</center></td>';
+            echo '<td colspan="1"><center>'.$d->jum.'</center></td>';
+            echo '</tr>';
+            $no++;
+          }
+      }
+    }else{
+      $databulan=$this->PendafKKM->getbulan($tahun);
+      if(! empty($databulan)){
+        $no=1;
+        foreach ($databulan as $d){
+          echo '<tr>';
+            echo '<td colspan="1"><center>'.$no.'</center></td>';
+            echo '<td ><center>'.getnamabulan($d->kategori).'</center></td>';
+            echo '<td colspan="1"><center>'.$d->jum.'</center></td>';
+            echo '</tr>';
+            $no++;
+          }
+      }
+    }                                  
+  }
+
+  //cetak laporan pendaftaran perhari
   public function cetaklaporankkhari(){
-      ob_start();
-        $data=array(
-          "d"=>$this->model->pendafkkhari(),
-          "tabel"=>"cetak_kk_perhari.php",
-          "judul_lap"=>"LAPORAN PENDAFTARAN KK PERHARI",
-         );
-        $this->load->view('layout_cetak_fix.php', $data);
-
+    ob_start();
+      $data=array(
+        "d"=>$this->model->getperhari(),
+        "tabel"=>"cetak_kk_perhari.php",
+        "judul_lap"=>"LAPORAN PENDAFTARAN KARTU KELUARGA PERHARI",
+      );
+      $this->load->view('layout_cetak_fix.php', $data);
       $html = ob_get_contents();
           ob_end_clean();
-          
           require_once('./assets/html2pdf/html2pdf.class.php');
       $pdf = new HTML2PDF('P','A4','en');
       $pdf->WriteHTML($html);
-      $pdf->Output('Laporan Pendaftaran KK Perhari.pdf', 'I');
+      $pdf->Output('Laporan Pendaftaran Kartu Keluarga Perhari.pdf', 'I');
   }
+
+  //cetak laporan pendaftaran perbulan
   public function cetaklaporankkbulan(){
-      ob_start();
-        $data=array(
-          "d"=>$this->model->pendafkkbulan(),
-          "tabel"=>"cetak_kk_perbulan.php",
-          "judul_lap"=>"LAPORAN PENDAFTARAN KK PERBULAN",
-         );
-        $this->load->view('layout_cetak_fix.php', $data);
-
+    ob_start();
+      $data=array(
+        "d"=>$this->model->getperbulan(),
+        "tabel"=>"cetak_kk_perbulan.php",
+        "judul_lap"=>"LAPORAN PENDAFTARAN KARTU KELUARGA PERBULAN",
+      );
+      $this->load->view('layout_cetak_fix.php', $data);
       $html = ob_get_contents();
           ob_end_clean();
-          
           require_once('./assets/html2pdf/html2pdf.class.php');
       $pdf = new HTML2PDF('P','A4','en');
       $pdf->WriteHTML($html);
-      $pdf->Output('Laporan Pendaftaran KK Perbulan.pdf', 'I');
+      $pdf->Output('Laporan Pendaftaran Kartu Keluarga Perbulan.pdf', 'I');
   }
-    public function cetaklaporankktahun(){
-      ob_start();
-        $data=array(
-          "d"=>$this->model->pendafkktahun(),
-          "tabel"=>"cetak_kk_pertahun.php",
-          "judul_lap"=>"LAPORAN PENDAFTARAN KK PERTAHUN",
-         );
-        $this->load->view('layout_cetak_fix.php', $data);
 
+  //cetak laporan pendaftaran pertahun
+  public function cetaklaporankktahun(){
+    ob_start();
+      $data=array(
+        "d"=>$this->model->getpertahun(),
+        "tabel"=>"cetak_kk_pertahun.php",
+        "judul_lap"=>"LAPORAN PENDAFTARAN KARTU KELUARGA PERTAHUN",
+      );
+      $this->load->view('layout_cetak_fix.php', $data);
       $html = ob_get_contents();
           ob_end_clean();
-          
           require_once('./assets/html2pdf/html2pdf.class.php');
       $pdf = new HTML2PDF('P','A4','en');
       $pdf->WriteHTML($html);
-      $pdf->Output('Laporan Pendaftaran KK Pertahun.pdf', 'I');
+      $pdf->Output('Laporan Pendaftaran Kartu Keluarga Pertahun.pdf', 'I');
   }
-   public function cetakpendaftarankk($id){
-    $getidpendbaru=getid_pendterbaru();
-      ob_start();
-        $data=array(
-          "d"=>$this->model->getdatakeluarga($id, $getidpendbaru),
-          // "idKel"=>getid_keluargaFK($id),
-          // "det"=>$this->model->getdatapenda($id),
-          // "noKK"=>$noKK,
-          "tabel"=>"cetak_tandaterimakk.php",
-          "judul_lap"=>"Tanda Terima Berkas KK",
-          // "d"=>$this->PendafKKM->getdata_keluarga($idkel, $getidpendbaru),
-         );
-        $this->load->view('layout_cetak_fix.php', $data);
 
+  //cetak surat pengambilan berkas kk
+  public function cetakpendaftarankk($id){
+    ob_start();
+      $data=array(
+        "d"=>$this->model->getDataPendaftaranKK($id)->row_array(),
+        "tabel"=>"cetak_tandaterimakk.php",
+        "judul_lap"=>"Tanda Terima Berkas KK",
+      );
+      $this->load->view('layout_cetak_fix.php', $data);
       $html = ob_get_contents();
           ob_end_clean();
-          
           require_once('./assets/html2pdf/html2pdf.class.php');
-      $pdf = new HTML2PDF('P','A4','en');
+      $pdf = new HTML2PDF('L','A5','en');
       $pdf->WriteHTML($html);
       $pdf->Output('Tanda Terima Berkas KK.pdf', 'I');
   }
+
+  // public function cetakpendaftarankkbynik($id){
+  //   ob_start();
+  //     $data=array(
+  //       "d"=>$this->model->getDataPendaftaranKK($id)->row_array(),
+  //       "tabel"=>"cetak_tandaterimakkbynik.php",
+  //       "judul_lap"=>"Tanda Terima Berkas KK",
+  //     );
+  //     $this->load->view('layout_cetak_fix.php', $data);
+  //     $html = ob_get_contents();
+  //         ob_end_clean();
+  //         require_once('./assets/html2pdf/html2pdf.class.php');
+  //     $pdf = new HTML2PDF('L','A5','en');
+  //     $pdf->WriteHTML($html);
+  //     $pdf->Output('Tanda Terima Berkas KK.pdf', 'I');
+  // }
 }

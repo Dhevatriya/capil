@@ -1,244 +1,218 @@
 <section id="main-content">
-<body>
+        <?php
+      header("Cache-control:no cache");
+      session_cache_limiter("private_no_expire");
+      ?>
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Laporan Pendaftaran Pindah
+      </h1>
+    </section>
 
-    <section class="wrapper">
-      <div class="row">
-        <div class="col-lg-12">
-          <ol class="breadcrumb">
-            <li><b>Laporan Pendaftaran Surat Pindah</b> </li>
-          </ol>
-        </div>
-      </div>
+    <!-- Main content -->
+    <section class="content">
+
+      <div class=" row">
+        <div class="col-lg-6 ">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title"><a href="<?php echo base_url(); ?>PendafPindahC/cetaklaporanpindahhari/" ><button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-print"></span></button></a>Laporan Pendaftaran Pindah Perhari</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+              <thead>
+                        <tr>
+                          <th><center> No </center></th>
+                          <th><center> Tanggal </center></th>
+                          <th><center> Total </center></th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                      <?php $no=0; foreach ($perharipindah as $value): $no++; ?>
+                      <tr>   
+                          <td><center><?php echo $no ?></center></td>
+                          <td><center><?php echo $value->kategori_hari; ?></center></td>
+                          <td><center><?php echo $value->jum; ?></center></td>
+                      </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+              </table>
+                </div>
+              </div>
+            </div>
+                    <div class="col-lg-6 ">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title"><a href="<?php echo base_url(); ?>PendafPindahC/cetaklaporanpindahbulan/"><button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-print"></span></button></a>Laporan Pendaftaran Pindah Perbulan</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example3" class="table table-bordered table-striped">
+                                 <thead>
+                        <tr>
+                          <th><center> No </center></th>
+                          <th><center> Bulan </center></th>
+                          <th><center> Total </center></th>
+                          <!-- <th></th> -->
+                          <!-- <th><center>Keluar</center></th> -->
+                        </tr>
+                    </thead>
+                    <tbody id="bulantahun"> 
+                     <?php $no=0; foreach ($perbulanpindah as $value): $no++; ?>
+                      <tr>   
+                          <td><center>  <?php echo $no ?></center></td>
+                          <td><center><?php echo getnamabulan($value->kategori_bulan) ?>  <?php echo $value->kategori_tahun; ?></center></td>
+                          <td><center><?php echo $value->jum; ?></center></td>
+                          <!-- <td colspan="2"><?php echo $no ?></td> -->
+                      </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+              </table>
+                </div>
+              </div>
+            </div>
+      <div class="col-lg-6 ">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title"><a href="<?php echo base_url(); ?>PendafPindahC/cetaklaporanpindahtahun/"><button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-print"></span></button></a>Laporan Pendaftaran Pindah Pertahun</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example4" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                          <th><center> No </center></th>
+                          <th><center> Tahun </center></th>
+                          <th><center> Total </center></th>
+                          <!-- <th></th> -->
+                          <!-- <th><center>Keluar</center></th> -->
+                        </tr>
+                    </thead>
+                    <tbody> 
+                     <?php $no=0; foreach ($pertahunpindah as $value): $no++; ?>
+
+                      <tr>   
+                          <td><center>  <?php echo $no ?></center></td>
+                          <td><center><?php echo $value->kategori_tahun; ?></center></td>
+                          <td><center><?php echo $value->jum; ?></center></td>
+                          <!-- <td colspan="2"><?php echo $no ?></td>/ -->
+                      </tr>
+                      
+                      <?php endforeach; ?>
+
+                    </tbody>
+              </table>
+                </div>
+              </div>
+            </div>
+        <div class="col-lg-6 ">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title"><a href="<?php echo base_url(); ?>PendafPindahC/cetaklaporanpindahdatanghari/" ><button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-print"></span></button></a>Laporan Pendaftaran Pindah Datang Perhari</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example5" class="table table-bordered table-striped">
+              <thead>
+                        <tr>
+                          <th><center> No </center></th>
+                          <th><center> Tanggal </center></th>
+                          <th><center> Total </center></th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                      <?php $no=0; foreach ($perhari as $value): $no++; ?>
+                      <tr>   
+                          <td><center><?php echo $no ?></center></td>
+                          <td><center><?php echo $value->kategori_hari; ?></center></td>
+                          <td><center><?php echo $value->jum; ?></center></td>
+                      </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+              </table>
+                </div>
+              </div>
+            </div>
+                    <div class="col-lg-6 ">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title"><a href="<?php echo base_url(); ?>PendafPindahC/cetaklaporanpindahdatangbulan/"><button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-print"></span></button></a>Laporan Pendaftaran Pindah Datang Perbulan</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example6" class="table table-bordered table-striped">
+                                 <thead>
+                        <tr>
+                          <th><center> No </center></th>
+                          <th><center> Bulan </center></th>
+                          <th><center> Total </center></th>
+                          <!-- <th></th> -->
+                          <!-- <th><center>Keluar</center></th> -->
+                        </tr>
+                    </thead>
+                    <tbody id="bulantahun"> 
+                     <?php $no=0; foreach ($perbulan as $value): $no++; ?>
+                      <tr>   
+                          <td><center>  <?php echo $no ?></center></td>
+                          <td><center><?php echo getnamabulan($value->kategori_bulan) ?>  <?php echo $value->kategori_tahun; ?></center></td>
+                          <td><center><?php echo $value->jum; ?></center></td>
+                          <!-- <td colspan="2"><?php echo $no ?></td> -->
+                      </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+              </table>
+                </div>
+              </div>
+            </div>
+      <div class="col-lg-6 ">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title"><a href="<?php echo base_url(); ?>PendafPindahC/cetaklaporanpindahdatangtahun/"><button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-print"></span></button></a>Laporan Pendaftaran Pindah Datang Pertahun</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example7" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                          <th><center> No </center></th>
+                          <th><center> Tahun </center></th>
+                          <th><center> Total </center></th>
+                          <!-- <th></th> -->
+                          <!-- <th><center>Keluar</center></th> -->
+                        </tr>
+                    </thead>
+                    <tbody> 
+                     <?php $no=0; foreach ($pertahun as $value): $no++; ?>
+
+                      <tr>   
+                          <td><center>  <?php echo $no ?></center></td>
+                          <td><center><?php echo $value->kategori_tahun; ?></center></td>
+                          <td><center><?php echo $value->jum; ?></center></td>
+                          <!-- <td colspan="2"><?php echo $no ?></td>/ -->
+                      </tr>
+                      
+                      <?php endforeach; ?>
+
+                    </tbody>
+              </table>
+                </div>
+              </div>
+            </div>
       <!-- <br> -->
-        <div class="row">
-
-          <div class="col-lg-6">
-            <section class="panel">
-              <header class="panel-heading" >
-                <a href="<?php echo site_url('PendafPindahC/cetaklaporanpindahhari/'); ?>" ><button type="submit" class="btn btn-danger btn-sm"><span class="icon_printer-alt"></span></button></a>
-                <b>Jumlah Pendaftaran Surat Pindah Perhari</b>
-              </header>
-              <center>
-                <div class="panel-body" style="text-align:center;">
-                  <table class="table table-bordered datatable-columns" >
-                    <thead>
-                        <tr>
-                          <th><center> No </center></th>
-                          <th><center> Tanggal </center></th>
-                          <th><center> Total </center></th>
-                        </tr>
-                    </thead>
-                    <tbody> 
-                      <?php $no=0; foreach ($pendafpindahhari as $value): $no++; ?>
-
-                      <tr>   
-                          <td colspan="1"></td>
-                          <td><center><?php echo $value->tanggal; ?></center></td>
-                          <td><center><?php echo $value->total; ?></center></td>
-                          <td colspan="2"><?php echo $no ?></td>
-                      </tr>
-                      
-                      <?php endforeach; ?>
-
-                    </tbody>
-                  </table>
-                </div>
-              </center>
-            </section>
-          </div>
-
-          <div class="col-lg-6">
-            <section class="panel">
-              <header class="panel-heading" >
-                <a href="<?php echo site_url('PendafPindahC/cetaklaporanpindahbulan/'); ?>" ><button type="submit" class="btn btn-danger btn-sm"><span class="icon_printer-alt"></span></button></a>
-                <b>Jumlah Pendaftaran Surat Pindah Perbulan</b>
-              </header>
-              <center>
-                <div class="panel-body" style="text-align:center;">
-                  <table class="table table-bordered datatable-columns" >
-                    <thead>
-                        <tr>
-                          <th><center> No </center></th>
-                          <th><center> Bulan </center></th>
-                          <th><center> Total </center></th>
-                          <th></th>
-                          <!-- <th><center>Keluar</center></th> -->
-                        </tr>
-                    </thead>
-                    <tbody> 
-                     <?php $no=0; foreach ($pendafpindahbulan as $value): $no++; ?>
-
-                      <tr>   
-                          <td colspan="1"></td>
-                          <td><center>Bulan ke <?php echo $value->bulan; ?> Tahun <?php echo $value->tahun; ?></center></td>
-                          <td><center><?php echo $value->total; ?></center></td>
-                          <td colspan="2"><?php echo $no ?></td>
-                      </tr>
-                      
-                      <?php endforeach; ?>
-
-                    </tbody>
-                  </table>
-                </div>
-              </center>
-            </section>
-          </div>
-
-          <div class="col-lg-6">
-            <section class="panel">
-              <header class="panel-heading" >
-                <a href="<?php echo site_url('PendafPindahC/cetaklaporanpindahtahun/'); ?>" ><button type="submit" class="btn btn-danger btn-sm"><span class="icon_printer-alt"></span></button></a>
-                <b>Jumlah Pendaftaran Surat Pindah Pertahun</b>
-              </header>
-              <center>
-                <div class="panel-body" style="text-align:center;">
-                  <table class="table table-bordered datatable-columns" >
-                    <thead>
-                        <tr>
-                          <th><center> No </center></th>
-                          <th><center> Tahun </center></th>
-                          <th><center> Total </center></th>
-                          <th></th>
-                          <!-- <th><center>Keluar</center></th> -->
-                        </tr>
-                    </thead>
-                    <tbody> 
-                     <?php $no=0; foreach ($pendafpindahtahun as $value): $no++; ?>
-
-                      <tr>   
-                          <td colspan="1"></td>
-                          <td><center><?php echo $value->tahun; ?></center></td>
-                          <td><center><?php echo $value->total; ?></center></td>
-                          <td colspan="2"><?php echo $no ?></td>
-                      </tr>
-                      
-                      <?php endforeach; ?>
-
-                    </tbody>
-                  </table>
-                </div>
-              </center>
-            </section>
-          </div>
-                    <div class="col-lg-6">
-            <section class="panel">
-              <header class="panel-heading" >
-                <a href="<?php echo site_url('PendafPindahC/cetaklaporanpindahdatanghari/'); ?>" ><button type="submit" class="btn btn-danger btn-sm"><span class="icon_printer-alt"></span></button></a>
-                <b>Jumlah Pendaftaran Surat Pindah Datang Perhari</b>
-              </header>
-              <center>
-                <div class="panel-body" style="text-align:center;">
-                  <table class="table table-bordered datatable-columns" >
-                    <thead>
-                        <tr>
-                          <th><center> No </center></th>
-                          <th><center> Tanggal </center></th>
-                          <th><center> Total </center></th>
-                        </tr>
-                    </thead>
-                    <tbody> 
-                      <?php $no=0; foreach ($pendafpindahdatanghari as $value): $no++; ?>
-
-                      <tr>   
-                          <td colspan="1"></td>
-                          <td><center><?php echo $value->tanggal; ?></center></td>
-                          <td><center><?php echo $value->total; ?></center></td>
-                          <td colspan="2"><?php echo $no ?></td>
-                      </tr>
-                      
-                      <?php endforeach; ?>
-
-                    </tbody>
-                  </table>
-                </div>
-              </center>
-            </section>
-          </div>
-
-          <div class="col-lg-6">
-            <section class="panel">
-              <header class="panel-heading" >
-                <a href="<?php echo site_url('PendafPindahC/cetaklaporanpindahdatangbulan/'); ?>" ><button type="submit" class="btn btn-danger btn-sm"><span class="icon_printer-alt"></span></button></a>
-                <b>Jumlah Pendaftaran Surat Pindah Datang Perbulan</b>
-              </header>
-              <center>
-                <div class="panel-body" style="text-align:center;">
-                  <table class="table table-bordered datatable-columns" >
-                    <thead>
-                        <tr>
-                          <th><center> No </center></th>
-                          <th><center> Bulan </center></th>
-                          <th><center> Total </center></th>
-                          <th></th>
-                          <!-- <th><center>Keluar</center></th> -->
-                        </tr>
-                    </thead>
-                    <tbody> 
-                     <?php $no=0; foreach ($pendafpindahdatangbulan as $value): $no++; ?>
-
-                      <tr>   
-                          <td colspan="1"></td>
-                          <td><center>Bulan ke <?php echo $value->bulan; ?> Tahun <?php echo $value->tahun; ?></center></td>
-                          <td><center><?php echo $value->total; ?></center></td>
-                          <td colspan="2"><?php echo $no ?></td>
-                      </tr>
-                      
-                      <?php endforeach; ?>
-
-                    </tbody>
-                  </table>
-                </div>
-              </center>
-            </section>
-          </div>
-
-          <div class="col-lg-6">
-            <section class="panel">
-              <header class="panel-heading" >
-                <a href="<?php echo site_url('PendafPindahC/cetaklaporanpindahdatangtahun/'); ?>" ><button type="submit" class="btn btn-danger btn-sm"><span class="icon_printer-alt"></span></button></a>
-                <b>Jumlah Pendaftaran Surat Pindah Datang Pertahun</b>
-              </header>
-              <center>
-                <div class="panel-body" style="text-align:center;">
-                  <table class="table table-bordered datatable-columns" >
-                    <thead>
-                        <tr>
-                          <th><center> No </center></th>
-                          <th><center> Tahun </center></th>
-                          <th><center> Total </center></th>
-                          <th></th>
-                          <!-- <th><center>Keluar</center></th> -->
-                        </tr>
-                    </thead>
-                    <tbody> 
-                     <?php $no=0; foreach ($pendafpindahdatangtahun as $value): $no++; ?>
-
-                      <tr>   
-                          <td colspan="1"></td>
-                          <td><center><?php echo $value->tahun; ?></center></td>
-                          <td><center><?php echo $value->total; ?></center></td>
-                          <td colspan="2"><?php echo $no ?></td>
-                      </tr>
-                      
-                      <?php endforeach; ?>
-
-                    </tbody>
-                  </table>
-                </div>
-              </center>
-            </section>
           </div>
   </section>
 </section>
- </div>
- </section>
- </body> 
+</body>
+
   <script> 
     function getbulan(){
       var pilih_tahun = $("#pilih_tahun").val();
       $.ajax({
         type: "POST",
-        url : "<?php echo base_url(); ?>TemplateC/getbulan",
+        url : "<?php echo base_url(); ?>PendafPindahC/getbulan",
         data: "pilih_tahun="+pilih_tahun,
         success: function(msg){
           $('#bulantahun').html(msg);
@@ -246,6 +220,3 @@
       });
     };
   </script>
-
-  
-

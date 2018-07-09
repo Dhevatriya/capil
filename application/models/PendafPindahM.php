@@ -1,205 +1,218 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class PendafPindahM extends CI_Model {
-   function getnoNIK($nik){
-        $hsl=$this->db->query("SELECT nik, nama_lengkap, jenis_kelamin,tempat_lahir,tanggal_lahir,agama,pendidikan,nama_jenispekerjaan, status_perkawinan, status_hub_dalam_keluarga, kewarganegaraan, no_paspor, no_kitas_kitap, ayah, ibu FROM jenis_pekerjaan, data_penduduk WHERE jenis_pekerjaan.id_jenispekerjaan = data_penduduk.id_jenispekerjaanFK and nik='$nik'");
-        if($hsl->num_rows()>0){
-            foreach ($hsl->result() as $data) {
-                $hasil=array(
-                    'nik' => $data->nik,
-                    'nama_lengkap' => $data->nama_lengkap,
-                    'jenis_kelamin' => $data->jenis_kelamin,
-                    'tempat_lahir' => $data->tempat_lahir,
-                    'tanggal_lahir' => $data->tanggal_lahir,
-                    'agama' => $data->agama,
-                    'pendidikan' => $data->pendidikan,
-                    'nama_jenispekerjaan' => $data->nama_jenispekerjaan,
-                    'status_perkawinan' => $data->status_perkawinan,
-                    'status_hub_dalam_keluarga' => $data->status_hub_dalam_keluarga,
-                    'kewarganegaraan' => $data->kewarganegaraan,
-                    'no_paspor' => $data->no_paspor,
-                    'no_kitas_kitap' => $data->no_kitas_kitap,
-                    'ayah' => $data->ayah,
-                    'ibu' => $data->ibu,
-                    );
-            }
-        }
-        return $hasil;
+    function __construct()
+    {
+        parent::__construct();
     }
-        public function getpendkk($id){
-        $q = $this->db->query("SELECT * from data_penduduk where idPenduduk ='$id'")->result();
-        return $q;
-    }
-    public function getDataPenduduk($nik){
-        $q = $this->db->query("SELECT nik, nama_lengkap, jenis_kelamin,tempat_lahir,tanggal_lahir,agama,pendidikan,nama_jenispekerjaan, status_perkawinan, status_hub_dalam_keluarga, kewarganegaraan, no_paspor, no_kitas_kitap, ayah, ibu FROM data_keluarga, data_penduduk, jenis_pekerjaan WHERE data_keluarga.idKeluarga=data_penduduk.idKeluarga_FK and jenis_pekerjaan.id_jenispekerjaan = data_penduduk.id_jenispekerjaanFK and nik='$nik'")->result();
-        return $q;
-    }
-    public function getidkel($id){
-        $q= $this ->db->query("SELECT idKeluarga_FK from data_penduduk where nik = $id")->row_array();
-        return $q["idKeluarga_FK"];
-    }
-    public function getpen(){
-        $q = $this->db->query("SELECT * from pendaftaran")->result();
-        return $q;
-    }
-    public function pendafakte(){
-        $q = $this->db->query("SELECT nik, nama_lengkap, tgl_buat, tgl_jadi from data_penduduk, data_keluarga, pendaftaran where pendaftaran.idKeluargaFK = data_keluarga.idKeluarga and data_keluarga.idKeluarga = data_penduduk.idKeluarga_FK")->result();
-        return $q;
-    }
-    public function get_data_pen_det($nik){
-        $q = $this->db->query("SELECT * from data_penduduk WHERE nik='$nik'")->result();
-        return $q;
-    }
-    function getdataakte(){
-        $q=$this->db->query("SELECT * from data_keluarga, data_penduduk, pendaftaran Where data_keluarga.idKeluarga=pendaftaran.idKeluargaFK and data_keluarga.idKeluarga=data_penduduk.idKeluarga_FK")->result();
-        return $q;
-    }
-    public function get_petugas($id){
-        $q = $this->db->query("SELECT * from petugas WHERE id_petugas='$id'")->result();
-        return $q;
-    }
-    public function get_data_petugas($u, $p){
-        $q = $this->db->query("SELECT * FROM petugas WHERE peran='PetugasAkte' AND username='$u' AND password='$p'")->row_array();
-        return $q;
-    }
-    public function get_detail($id){
-        $q = $this->db->query("SELECT * FROM data_keluarga, data_penduduk, pendaftaran, petugas WHERE id_petugas= id_petugasFK AND idKeluarga=idKeluarga_FK AND idKeluarga = idKeluargaFK AND nik=$id")->result();
-        return $q;
-    }
-    public function get_detail_pemeriksaan($nik, $noKK){
-        $q = $this->db->query("SELECT * from data_penduduk, data_keluarga, petugas, pendaftaran WHERE petugas.id_petugas=pendaftaran.id_petugasFK AND data_keluarga.idKeluarga = pendaftaran.idKeluargaFK AND data_keluarga.idKeluarga = data_penduduk.idKeluarga_FK AND data_keluarga.idKeluarga_FK=$nik AND pendaftaran.idKeluargaFK=$noKK")->result();
-        return $q;
-    }
-    public function getidpenduduk($nik){
-        $q = $this->db->query("SELECT idPenduduk from data_penduduk WHERE nik='$nik'")->row_array();
-        return $q['idPenduduk'];
-    }
-    public function getjenis(){
-        $q=$this->db->query("SELECT * FROM jenis_pekerjaan")->result();
-        return $q;
-    }
-        public function getjenisp(){
-        $q=$this->db->query("SELECT * FROM jenis_pekerjaan, data_penduduk where id_jenispekerjaan = id_jenispekerjaanFK")->row_array();
-        return $q;
-    }
-            public function getjeniskerja($id){
-        $q=$this->db->query("SELECT nama_jenispekerjaan FROM jenis_pekerjaan, data_penduduk where jenis_pekerjaan.id_jenispekerjaan = data_penduduk.id_jenispekerjaanFK and idPenduduk='$id'")->result();
-        return $q;
-    }
-        public function getdatapedkkc($nik, $id){
-        $q=$this->db->query("SELECT DISTINCT * FROM data_keluarga, data_penduduk, pendaftaran WHERE data_keluarga.idKeluarga = data_penduduk.idKeluarga_FK and data_keluarga.idKeluarga = pendaftaran.idKeluargaFK and nik='$nik' and id_pendaftaran='$id'")->result();
-        return $q;
-    }
-    public function insertpendaftranpindah(){
-        $nik=$_POST['nik'];
-        $idKeluarga=$this->PendafPindahM->getidkel($nik);
-        $id_petugas=$this->session->userdata('id');
-        // $status=$this->session->userdata('status');
+    public function update_detail($id, $status_unggah){
         $data = array(
-        "idKeluargaFK"=>$idKeluarga,
-        "tgl_buat"=>date('y/m/d'),
-        "tgl_jadi"=>$_POST['tgl_jadi'],
-        "id_petugasFK"=>$id_petugas,
-        "status"=>'pindah'
+            "gambar"=>$this->userfile,
+            "status_unggah"=>$status_unggah,
         );
-        $this->db->insert('pendaftaran',$data);
-        return $this->db->affected_rows();
-        
+        $this->db->where('id_pendaftaranFK', $id);
+        $this->db->update('detail_syarat',$data);
+        return $this->db->affected_rows();       
     }
-        public function insertpendaftranpindahdatang(){
-        $nik=$_POST['nik'];
-        $idKeluarga=$this->PendafPindahM->getidkel($nik);
-        $id_petugas=$this->session->userdata('id');
-        $data = array(
-        "idKeluargaFK"=>$idKeluarga,
-        "tgl_buat"=>date('y/m/d'),
-        "tgl_jadi"=>$_POST['tgl_jadi'],
-        "id_petugasFK"=>$id_petugas,
-        "status"=>'pindahdatang'
-        );
-        $this->db->insert('pendaftaran',$data);
-        return $this->db->affected_rows();
-        
+    public function get_syaratp($id_pendaftaran){
+        $q = $this->db->query("SELECT status_unggah, id_pendaftaran, id_pendaftaranFK, id_syaratFK, id_detail_syarat, judul_syarat, gambar from syarat, detail_syarat, pendaftaran WHERE pendaftaran.id_pendaftaran=detail_syarat.id_pendaftaranFK and syarat.id_syarat=detail_syarat.id_syaratFK and id_pendaftaranFK='$id_pendaftaran' and id_status_pendafFK='3'");
+        return $q;
     }
-
-    public function updatependuduk($idPen){
+    public function getsyaratp($id_pendaftaranFK){
+        $q = $this->db->query("SELECT id_syaratFK from syarat, detail_syarat WHERE syarat.id_syarat=detail_syarat.id_syaratFK AND id_pendaftaranFK='$id_pendaftaranFK' and syarat.Deleted='0' GROUP BY id_syaratFK");
+        return $q;
+    }
+    public function getsyaratpindah($id_pendaftaranFK){
+        $q = $this->db->query("SELECT * FROM syarat WHERE id_syarat not in (SELECT id_syaratFK FROM detail_syarat WHERE id_pendaftaranFK='$id_pendaftaranFK') AND syarat.Deleted='0'");
+        return $q;
+    }
+    public function get_detp($id){
+        $q = $this->db->query("SELECT * from detail_syarat, pendaftaran WHERE pendaftaran.id_pendaftaran=detail_syarat.id_pendaftaranFK and id_pendaftaran='$id'")->result();
+        return $q;
+    }
+        public function get_syaratpd($id_pendaftaran){
+        $q = $this->db->query("SELECT * from syarat, detail_syarat, pendaftaran WHERE pendaftaran.id_pendaftaran=detail_syarat.id_pendaftaranFK and syarat.id_syarat=detail_syarat.id_syaratFK and pendaftaran.id_pendaftaran='$id_pendaftaran'");
+        return $q;
+    }
+    public function get_detpd($id){
+        $q = $this->db->query("SELECT * from detail_syarat, pendaftaran WHERE pendaftaran.id_pendaftaran=detail_syarat.id_pendaftaranFK and id_pendaftaran='$id'")->result();
+        return $q;
+    }
+    public function getdok(){
+        $q = $this->db->query("SELECT * FROM syarat where syarat.Deleted='0' GROUP BY id_syarat");
+        return $q;
+    }
+    public function getdokp(){
+        $q = $this->db->query("SELECT * FROM syarat where syarat.Deleted='0' GROUP BY id_syarat");
+        return $q;
+    }
+    public function getstatus(){
+        $q = $this->db->query("SELECT id_status_pendaftaran FROM status_pendaftaran where id_status_pendaftaran='3' and status_pendaftaran.Deleted='0'")->row_array();
+        return $q['id_status_pendaftaran'];
+    } 
+    public function getstatuspd(){
+        $q = $this->db->query("SELECT id_status_pendaftaran FROM status_pendaftaran where id_status_pendaftaran='4' and status_pendaftaran.Deleted='0'")->row_array();
+        return $q['id_status_pendaftaran'];
+    } 
+    public function get_pendaftaranpindah($id){
+        $q = $this->db->query("SELECT DISTINCT(id_pendaftaran), nik, nama_lengkap, jenis_kelamin, tempat_lahir, tanggal_lahir, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, tgl_buat, tgl_jadi, data_asal, data_tujuan, nama_petugas, nama_status_pendaftaran FROM pendaftaran, desakelurahan, kecamatan, petugas, detail_syarat, status_pendaftaran WHERE pendaftaran.id_pendaftaran=detail_syarat.id_pendaftaranFK AND petugas.id_petugas = pendaftaran.id_petugasFK AND kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK AND desakelurahan.id_desakelurahan = pendaftaran.id_desakelurahanFK AND status_pendaftaran.id_status_pendaftaran=pendaftaran.id_status_pendafFK AND id_pendaftaran='$id' ORDER BY `pendaftaran`.`tgl_buat` DESC");
+        return $q;
+    }
+    public function get_pendaftaranpindahdatang($id){
+        $q = $this->db->query("SELECT DISTINCT(id_pendaftaran), nik, nama_lengkap, jenis_kelamin, tempat_lahir, tanggal_lahir, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, tgl_buat, tgl_jadi, data_asal, data_tujuan, nama_petugas, nama_status_pendaftaran FROM pendaftaran, desakelurahan, kecamatan, petugas, detail_syarat, status_pendaftaran WHERE pendaftaran.id_pendaftaran=detail_syarat.id_pendaftaranFK AND petugas.id_petugas = pendaftaran.id_petugasFK AND kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK AND desakelurahan.id_desakelurahan = pendaftaran.id_desakelurahanFK AND status_pendaftaran.id_status_pendaftaran=pendaftaran.id_status_pendafFK AND id_pendaftaran='$id' ORDER BY `pendaftaran`.`tgl_buat` DESC");
+        return $q;
+    }
+        public function get_syarat($id_pendaftaran){
+        $q = $this->db->query("SELECT status_unggah, id_pendaftaran, id_pendaftaranFK, id_syaratFK, id_detail_syarat, judul_syarat, gambar from syarat, detail_syarat, pendaftaran WHERE pendaftaran.id_pendaftaran=detail_syarat.id_pendaftaranFK and syarat.id_syarat=detail_syarat.id_syaratFK and id_pendaftaranFK='$id_pendaftaran'");
+        return $q;
+    }
+        public function get_det($id){
+        $q = $this->db->query("SELECT * from detail_syarat, pendaftaran WHERE pendaftaran.id_pendaftaran=detail_syarat.id_pendaftaranFK and id_pendaftaranFK='$id'")->row_array();
+        return $q['id_pendaftaranFK'];
+    }
+    public function get_pendafpindah(){
+        $q = $this->db->query("SELECT DISTINCT(id_pendaftaran), nik, nama_lengkap, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, tgl_buat, tgl_jadi, data_asal, data_tujuan, status_unggah FROM pendaftaran, desakelurahan, kecamatan, detail_syarat, status_pendaftaran WHERE pendaftaran.id_pendaftaran=detail_syarat.id_pendaftaranFK and status_pendaftaran.id_status_pendaftaran = pendaftaran.id_status_pendafFK and kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK AND desakelurahan.id_desakelurahan = pendaftaran.id_desakelurahanFK AND id_status_pendafFK='3' and status_unggah ='Belum Diunggah' ORDER BY `pendaftaran`.`tgl_buat` DESC")->result();
+        return $q;
+    }
+    public function get_pendafpindahdatang(){
+        $q = $this->db->query("SELECT DISTINCT(id_pendaftaran), nik, nama_lengkap, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, tgl_buat, tgl_jadi, data_asal, data_tujuan, status_unggah FROM pendaftaran, desakelurahan, kecamatan, detail_syarat, status_pendaftaran WHERE pendaftaran.id_pendaftaran=detail_syarat.id_pendaftaranFK and status_pendaftaran.id_status_pendaftaran = pendaftaran.id_status_pendafFK and kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK AND desakelurahan.id_desakelurahan = pendaftaran.id_desakelurahanFK AND id_status_pendafFK='4' and status_unggah ='Belum Diunggah' ORDER BY `pendaftaran`.`tgl_buat` DESC")->result();
+        return $q;
+    }
+    public function get_pendaftpindah(){
+        $q = $this->db->query("SELECT DISTINCT(id_pendaftaran), nik, nama_lengkap, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, tgl_buat, tgl_jadi, data_asal, data_tujuan FROM pendaftaran, desakelurahan, kecamatan, status_pendaftaran WHERE status_pendaftaran.id_status_pendaftaran = pendaftaran.id_status_pendafFK and kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK AND desakelurahan.id_desakelurahan = pendaftaran.id_desakelurahanFK AND id_status_pendafFK='3' ORDER BY `pendaftaran`.`tgl_buat` DESC")->result();
+        return $q;
+    }
+    public function get_pendaftpindahdatang(){
+        $q = $this->db->query("SELECT DISTINCT(id_pendaftaran), nik, nama_lengkap, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, tgl_buat, tgl_jadi, data_asal, data_tujuan FROM pendaftaran, desakelurahan, kecamatan, status_pendaftaran WHERE status_pendaftaran.id_status_pendaftaran = pendaftaran.id_status_pendafFK and kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK AND desakelurahan.id_desakelurahan = pendaftaran.id_desakelurahanFK AND id_status_pendafFK='4' ORDER BY `pendaftaran`.`tgl_buat` DESC")->result();
+        return $q;
+    }
+    public function get_pendaftrp($id){
+        $q = $this->db->query("SELECT DISTINCT(id_pendaftaran), gambar, judul_syarat FROM pendaftaran, detail_syarat, syarat WHERE syarat.id_syarat=detail_syarat.id_syaratFK and pendaftaran.id_pendaftaran=detail_syarat.id_pendaftaranFK AND id_pendaftaran='$id' ORDER BY `pendaftaran`.`tgl_buat` DESC");
+        return $q;
+    }
+    public function getdatapedpindah($nik, $id){
+        $q=$this->db->query("SELECT DISTINCT * FROM data_keluarga, data_penduduk, pendaftaran WHERE data_keluarga.idKeluarga = data_penduduk.idKeluarga_FK and data_penduduk.idPenduduk = pendaftaran.idPenduduk_FK and nik='$nik' and id_pendaftaran='$id'")->result();
+        return $q;
+    }
+    public function insertpindah(){
         $data = array(
             "nik"=>$this->nik,
             "nama_lengkap"=>$this->nama_lengkap,
             "jenis_kelamin"=>$this->jenis_kelamin,
             "tempat_lahir"=>$this->tempat_lahir,
             "tanggal_lahir"=>$this->tanggal_lahir,
-            "agama"=>$this->agama,
-            "pendidikan"=>$this->pendidikan,
-            "id_jenispekerjaanFK"=>$this->nama_jenispekerjaan,
-            "status_perkawinan"=>$this->status_perkawinan,
-            "status_hub_dalam_keluarga"=>$this->status_hub_dalam_keluarga,
-            "kewarganegaraan"=>$this->kewarganegaraan,
-            "no_paspor"=>$this->no_paspor,
-            "no_kitas_kitap"=>$this->no_kitas_kitap,
-            "ayah"=>$this->ayah,
-            "ibu"=>$this->ibu,
+            "alamat"=>$this->alamat,
+            "rt"=>$this->rt,
+            "rw"=>$this->rw,
+            "data_asal"=>$this->data_asal,
+            "data_tujuan"=>$this->data_tujuan,
+            "id_desakelurahanFK"=>$this->nama_desakelurahan,
+            "id_petugasFK"=>$this->id_petugasFK,
+            "tgl_buat"=>date('y-m-d'),
+            "tgl_jadi"=>$this->tgl_jadi,
+            "id_status_pendafFK"=>$this->id_status_pendafFK,
         );
-        $this->db->where('idPenduduk', $idPen);
-        $this->db->update('data_penduduk',$data);
-        return $this->db->affected_rows();
-        
+        $this->db->insert('pendaftaran',$data);
+        return $this->db->affected_rows(); 
     }
-        public function updatejenispekerjaan($idpeker){
+    public function insertdetail($iddok,$idpend){
         $data = array(
-            "nama_jenispekerjaan"=>$this->nama_jenispekerjaan,
+            "id_syaratFK"=>$iddok,
+            "id_pendaftaranFK"=>$idpend,
         );
-        $this->db->where('id_jenispekerjaan', $idpeker);
-        $this->db->update('jenis_pekerjaan',$data);
-        return $this->db->affected_rows();
-        
+        $this->db->insert('detail_syarat',$data);
+        return $this->db->affected_rows();      
     }
-    public function get_data_pend(){
-        $q = $this->db->query("SELECT  nik, nama_lengkap, jenis_kelamin,tempat_lahir,tanggal_lahir,agama,pendidikan,nama_jenispekerjaan, status_perkawinan, status_hub_dalam_keluarga, kewarganegaraan, no_paspor, no_kitas_kitap, ayah, ibu FROM data_penduduk, jenis_pekerjaan where jenis_pekerjaan.id_jenispekerjaan = data_penduduk.id_jenispekerjaanFK");
+    public function updatepend($idPen){
+        $data = array(
+            "nik"=>$this->nik,
+            "nama_lengkap"=>$this->nama_lengkap,
+            "jenis_kelamin"=>$this->jenis_kelamin,
+            "tempat_lahir"=>$this->tempat_lahir,
+            "tanggal_lahir"=>$this->tanggal_lahir,
+            "alamat"=>$this->alamat,
+            "rt"=>$this->rt,
+            "rw"=>$this->rw,
+            "id_desakelurahanFK"=>$this->nama_desakelurahan,
+            "tgl_jadi"=>$this->tgl_jadi,
+            "data_asal"=>$this->data_asal,
+            "data_tujuan"=>$this->data_tujuan,
+        );
+        $this->db->where('id_pendaftaran', $idPen);
+        $this->db->update('pendaftaran',$data);
+        return $this->db->affected_rows();    
+    }
+    public function get_data_petugas($u, $p){
+        $q = $this->db->query("SELECT * FROM petugas, user_role WHERE user_role.id_user_role=petugas.id_user_roleFK AND username='$u' AND id_user_roleFK='$p'")->row_array();
         return $q;
     }
-    public function getdatapennik($nik){
-    $q=$this->db->query("SELECT * FROM data_penduduk, jenis_pekerjaan where  jenis_pekerjaan.id_jenispekerjaan = data_penduduk.id_jenispekerjaanFK and nik='$nik'")->result();
-    return $q;
-  }
-      public function getdata_penduduk($idkel,$idpendf, $idpend){
-    $q=$this->db->query("SELECT id_pendaftaran, nik, nama_lengkap, alamat, rt, rw, nama_desakelurahan, nama_kecamatan, kabupaten, kode_pos, kabupaten, tgl_buat,tgl_jadi FROM desakelurahan, kecamatan, data_penduduk, data_keluarga, pendaftaran where idKeluarga='$idkel' and id_pendaftaran='$idpendf'and kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK and kecamatan.id_kecamatan = data_keluarga.idkecamatan_FK and idPenduduk='$idpend'")->result();
-    return $q;
-    }
-      public function getdatapedkk($nik, $id){
-        $q=$this->db->query("SELECT DISTINCT * FROM data_keluarga, data_penduduk, pendaftaran WHERE data_keluarga.idKeluarga = data_penduduk.idKeluarga_FK and data_keluarga.idKeluarga = pendaftaran.idKeluargaFK and nik='$nik' and id_pendaftaran='$id'")->result();
+    public function getDataPendaftaran($idpendf){
+        $q=$this->db->query("SELECT * FROM petugas, kecamatan, desakelurahan, pendaftaran where petugas.id_petugas=pendaftaran.id_petugasFK AND kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK AND desakelurahan.id_desakelurahan = pendaftaran.id_desakelurahanFK AND id_pendaftaran='$idpendf'");
         return $q;
     }
-
-  public function datapindah($id, $nama){
-        $q=$this->db->query("SELECT * FROM data_penduduk where nik='$id' and nama_lengkap='$nama'")->result();
-    return $q;
-  } 
-        public function get_penduduk_det($id){
-        $q = $this->db->query("SELECT * FROM data_penduduk, jenis_pekerjaan WHERE jenis_pekerjaan.id_jenispekerjaan = data_penduduk.id_jenispekerjaanFK and nik='$id'");
+    public function getidpendaf($id){
+        $q = $this->db->query("SELECT * FROM pendaftaran, kecamatan, desakelurahan WHERE desakelurahan.id_desakelurahan = pendaftaran.id_desakelurahanFK AND kecamatan.id_kecamatan=desakelurahan.id_kecamatanFK AND id_pendaftaran='$id'")->row_array();
+        return $q['id_pendaftaran'];
+    }
+    public function getdata_pendaftaran($idpendf){
+        $q=$this->db->query("SELECT DISTINCT(id_pendaftaran), nik, nama_lengkap,jenis_kelamin, tanggal_lahir, tempat_lahir, data_asal, data_tujuan, alamat, rt, rw, tgl_buat, tgl_jadi, nama_kecamatan, nama_desakelurahan, nama_status_pendaftaran, id_pendaftaranFK, status_unggah FROM desakelurahan, kecamatan, pendaftaran, status_pendaftaran, detail_syarat where pendaftaran.id_pendaftaran = detail_syarat.id_pendaftaranFK AND status_pendaftaran.id_status_pendaftaran=pendaftaran.id_status_pendafFK and kecamatan.id_kecamatan= desakelurahan.id_kecamatanFK AND desakelurahan.id_desakelurahan = pendaftaran.id_desakelurahanFK AND id_pendaftaran='$idpendf'")->result();
         return $q;
     }
-    public function getnama($nik){
-        $q = $this->db->query("SELECT nama_lengkap FROM data_penduduk WHERE nik='$nik'")->result();
+    public function get_penduduk_det($id){
+        $q = $this->db->query("SELECT * FROM pendaftaran, desakelurahan, kecamatan WHERE desakelurahan.id_desakelurahan = pendaftaran.id_desakelurahanFK AND kecamatan.id_kecamatan=desakelurahan.id_kecamatanFK and id_pendaftaran='$id'");
         return $q;
+    }
+    public function getkec(){
+        $q=$this->db->query("SELECT * FROM kecamatan")->result();
+        return $q;
+    }
+    public function get_desa($id) {
+        $q = $this->db->query("SELECT * FROM desakelurahan WHERE id_kecamatanFK='$id'")->result();
+        return $q;
+    }
+    public function getdes(){
+        $q=$this->db->query("SELECT * FROM desakelurahan")->result();
+        return $q;
+    }
+    public function getpertahunpindah(){
+        return $this->db->query("SELECT YEAR(tgl_buat) AS kategori_tahun, COUNT(*) AS jum FROM pendaftaran WHERE id_status_pendafFK='3' GROUP BY YEAR(tgl_buat) desc")->result();
+    }
+    public function getperbulanpindah(){
+            return $this->db->query("SELECT MONTH(tgl_buat) AS kategori_bulan, YEAR(tgl_buat) AS kategori_tahun, COUNT(*) AS jum FROM pendaftaran WHERE id_status_pendafFK='3' GROUP BY MONTH(tgl_buat) desc")->result();
+    }
+    public function getperharipindah(){
+            return $this->db->query("SELECT tgl_buat AS kategori_hari, COUNT(*) AS jum FROM pendaftaran WHERE id_status_pendafFK='3' GROUP BY tgl_buat desc")->result();
+    } 
+    public function getbulanpindah($tahun){
+        return $this->db->query("SELECT MONTH(tgl_buat) AS kategori, COUNT(*) AS jum FROM pendaftaran WHERE YEAR(tgl_buat)='$tahun' AND  id_status_pendafFK='3' GROUP BY MONTH(tgl_buat) desc")->result();
+    }
+        public function getpertahun(){
+        return $this->db->query("SELECT YEAR(tgl_buat) AS kategori_tahun, COUNT(*) AS jum FROM pendaftaran WHERE id_status_pendafFK='4' GROUP BY YEAR(tgl_buat) desc")->result();
+    }
+    public function getperbulan(){
+            return $this->db->query("SELECT MONTH(tgl_buat) AS kategori_bulan, YEAR(tgl_buat) AS kategori_tahun, COUNT(*) AS jum FROM pendaftaran WHERE id_status_pendafFK='4' GROUP BY MONTH(tgl_buat) desc")->result();
+    }
+    public function getperhari(){
+            return $this->db->query("SELECT tgl_buat AS kategori_hari, COUNT(*) AS jum FROM pendaftaran WHERE id_status_pendafFK='4' GROUP BY tgl_buat desc")->result();
+    } 
+    public function getbulan($tahun){
+        return $this->db->query("SELECT MONTH(tgl_buat) AS kategori, COUNT(*) AS jum FROM pendaftaran WHERE YEAR(tgl_buat)='$tahun' AND  id_status_pendafFK='4' GROUP BY MONTH(tgl_buat) desc")->result();
     }
     public function pendafpindahtahun(){
-        return $pendafpindahtahun =$this->db->query("SELECT  YEAR(pendaftaran.tgl_buat) AS tahun, SUM(pendaftaran.status='pindah') AS total FROM pendaftaran GROUP BY YEAR(pendaftaran.tgl_buat)")->result();
+        return $pendafpindahtahun =$this->db->query("SELECT * FROM pendaftaran where id_status_pendafFK='3' and YEAR(pendaftaran.tgl_buat)=YEAR(NOW()) GROUP BY id_pendaftaran");
     }
-
     public function pendafpindahbulan(){
-        return $pendafpindahbulan = $this->db->query("SELECT MONTH(pendaftaran.tgl_buat) AS bulan, YEAR(pendaftaran.tgl_buat) AS tahun, SUM(pendaftaran.status='pindah') AS total FROM pendaftaran GROUP BY MONTH(pendaftaran.tgl_buat)")->result();
+    return $pendafpindahbulan =$this->db->query("SELECT * FROM pendaftaran where id_status_pendafFK='3' and MONTH(pendaftaran.tgl_buat)=MONTH(NOW()) GROUP BY id_pendaftaran");
     }
     public function pendafpindahhari(){
-        return $pendafpindahhari = $this->db->query("SELECT pendaftaran.tgl_buat AS tanggal, SUM(pendaftaran.status='pindah') AS total FROM pendaftaran GROUP BY pendaftaran.tgl_buat")->result();
+    return $pendafpindahbulan =$this->db->query("SELECT * FROM pendaftaran where id_status_pendafFK='3' and SUBSTR(pendaftaran.tgl_buat, 1,10)=DATE(NOW()) GROUP BY id_pendaftaran");
     }
-      public function pendafpindahdatangtahun(){
-        return $pendafpindahdatangtahun =$this->db->query("SELECT  YEAR(pendaftaran.tgl_buat) AS tahun, SUM(pendaftaran.status='pindahdatang') AS total FROM pendaftaran GROUP BY YEAR(pendaftaran.tgl_buat)")->result();
+    public function pendafpindahdtahun(){
+        return $pendafpindahdtahun =$this->db->query("SELECT * FROM pendaftaran where id_status_pendafFK='4' and YEAR(pendaftaran.tgl_buat)=YEAR(NOW()) GROUP BY id_pendaftaran");
     }
-
-    public function pendafpindahdatangbulan(){
-        return $pendafpindahdatangbulan = $this->db->query("SELECT MONTH(pendaftaran.tgl_buat) AS bulan, YEAR(pendaftaran.tgl_buat) AS tahun, SUM(pendaftaran.status='pindahdatang') AS total FROM pendaftaran GROUP BY MONTH(pendaftaran.tgl_buat)")->result();
+    public function pendafpindahdbulan(){
+        return $pendafpindahdbulan =$this->db->query("SELECT * FROM pendaftaran where id_status_pendafFK='4' and MONTH(pendaftaran.tgl_buat)=MONTH(NOW()) GROUP BY id_pendaftaran");
     }
-    public function pendafpindahdatanghari(){
-        return $pendafpindahdatanghari = $this->db->query("SELECT pendaftaran.tgl_buat AS tanggal, SUM(pendaftaran.status='pindahdatang') AS total FROM pendaftaran GROUP BY pendaftaran.tgl_buat")->result();
+    public function pendafpindahdhari(){
+        return $pendafpindahdbulan =$this->db->query("SELECT * FROM pendaftaran where id_status_pendafFK='4' and SUBSTR(pendaftaran.tgl_buat, 1,10)=DATE(NOW()) GROUP BY id_pendaftaran");
     }
 }

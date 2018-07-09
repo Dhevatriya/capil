@@ -1,5 +1,5 @@
 <!-- <div style="position: absolute; top:185; left:92; font-size: 12pt; color: black;"> -->
-<div style="position: absolute; top:210; left:70; font-size: 12pt; color: black;" align="center"> 
+<div style="position: absolute; top:160; left:70; font-size: 10pt; color: black;" align="center"> 
       <table border="1" align="center" cellspacing="" cellpadding="10" >
         <tbody>
           <tr style="background-color:#D8D8D8;">
@@ -12,8 +12,8 @@
             foreach($d as $val){ ?>
           <tr style="background-color:#F4F4F4;">
             <td style="border: 1px solid; text-align:center; padding:5;"><?php echo $no; ?></td>
-            <td style="border: 1px solid; text-align:center; padding:5;"><?php echo $val->tanggal; ?></td>
-            <td style="border: 1px solid; text-align:center; padding:5;"><?php echo $val->total; ?></td>
+            <td style="border: 1px solid; text-align:center; padding:5;"><?php echo $val->kategori_hari; ?></td>
+            <td style="border: 1px solid; text-align:center; padding:5;"><?php echo $val->jum; ?></td>
           </tr>                       
           <?php  $no++;} ?>
         <?php }else{ ?>

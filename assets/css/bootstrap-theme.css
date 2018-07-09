@@ -1,4 +1,4 @@
-panel/*!
+/*!
  * Bootstrap v3.0.0
  *
  * Copyright 2013 Twitter, Inc
@@ -647,6 +647,7 @@ pre code {
   margin-left: auto;
   padding-left: 15px;
   padding-right: 15px;
+  padding-top: 100px;
 }
 .container:before,
 .container:after {
@@ -3937,8 +3938,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
   color: #2b2b2b;
 }
 .navbar-inverse {
-  background-color: #222222;
-  border-color: #080808;
+  background-color: #333333;
+  border-color: #333333;
 }
 .navbar-inverse .navbar-brand {
   color: #d7d7d7;
@@ -4037,7 +4038,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   color: #ffffff;
 }
 .breadcrumb {
-  padding: 8px 15px;
+  padding: 8px  15px;
   margin-bottom: 20px;
   list-style: none;
   background-color: #ffffff;

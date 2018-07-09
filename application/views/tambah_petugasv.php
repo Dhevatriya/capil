@@ -1,14 +1,21 @@
 <section id="main-content">
-    <section class="wrapper">
-      <div class="row">
-        <div class="col-lg-12">
-          <!-- <h3 class="page-header"><i class="fa fa-files-o"></i>DataPetugas</h3> -->
-          <ol class="breadcrumb">
-            <li><a href="<?php echo site_url('AdminC//'); ?>"><i class="fa fa-user-md"></i> Data Petugas</a></li>
-            <li><i class="icon-file-plus"></i>Tambah Petugas</li>
-          </ol>
-        </div>
-      </div>
+        <?php
+      header("Cache-control:no cache");
+      session_cache_limiter("private_no_expire");
+      ?>
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Form Tambah Data Petugas
+      </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+              <h3 class="box-title">Tambah Petugas</h3>
+            </div>
 
       <?php
         $data=$this->session->flashdata('sukses');
@@ -23,20 +30,11 @@
 
               <!-- Form validations -->              
       <div class="row">
-        <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('AdminC/inputpetugas');?>">
+        <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=base_url();?>AdminC/tambahPetugasProses">
           <div class="col-lg-12">
               <section class="panel">
-                  <header class="panel-heading">
-                      Form Tambah Petugas
-                  </header>
                   <div class="panel-body">
                       <div class="form">
-                        <!--  <div class="form-group ">
-                            <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;"> ID <span class="required">*</span></label>
-                            <div class="col-lg-8">
-                                <input class="form-control " id="id_petugas" name="id_petugas" type="number" value="<?php echo getId('petugas','id_petugas'); ?>" readonly/>
-                            </div>
-                          </div>  -->
                           <div class="form-group ">
                             <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Nama Petugas<span class="required">*</span></label>
                             <div class="col-lg-8 <?php if(form_error('nama_petugas')!='') echo $id2; ?>">
@@ -60,38 +58,47 @@
 
                           </div>
                           <div class="form-group ">
-                              <label for="curl" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Username<span class="required">*</span></label>
+                              <label for="curl" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Nama Pengguna<span class="required">*</span></label>
                               <div class="col-lg-8 <?php if(form_error('username')!='') echo $id2; ?>">
-                                  <input class="form-control " id="username" type="text" name="username" placeholder="Masukkan Username" value="<?php echo $username; ?>" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
+                                  <input class="form-control " id="username" type="text" name="username" placeholder="Masukkan Nama Pengguna" value="<?php echo $username; ?>" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
                                   <?php echo form_error('username');?>
                               </div>
                           </div>
                           <div class="form-group ">
-                              <label for="curl" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Password<span class="required">*</span></label>
+                              <label for="curl" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Kata Sandi<span class="required">*</span></label>
                               <div class="col-lg-8 <?php if(form_error('password')!='') echo $id2; ?>">
-                                  <input class="form-control " id="password" type="password" name="password" placeholder="Masukkan Password" value="<?php echo $password; ?>" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
+                                  <input class="form-control " id="password" type="password" name="password" placeholder="Masukkan Kata Sandi" value="<?php echo $password; ?>" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
                                   <?php echo form_error('password');?>
                               </div>
                           </div>
-                         <!--  <div class="form-group ">
-                              <label for="cname" class="control-label col-lg-2">Peran<span class="required">*</span></label>
-                              <div class="col-lg-10">
-                                  <input class="form-control" id="peran" name="peran" type="text" value="analis>" readonly/>
-                              </div>
-                            </div>  -->
+                            <div class="form-group ">
+                              <label for="curl" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Peran<span class="required">*</span></label>
+                              <div class="col-lg-8 <?php if(form_error('peran')!='') echo $id2; ?>">
+                              <select data-placeholder="Pilih Peran" name="peran" required class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
+                                <option value="" disabled selected><i>---Pilih Peran---</i></option>
+                                <?php foreach ($pern as $data2) {  ?>
+                                    <option value="<?php echo $data2->id_user_role;?>" <?php if ($data2->id_user_role==$id_user_roleFK): echo "selected"?> <?php endif ?> ><?php echo $data2->peran;?></option>
+                                  <?php  } ?>
+                              </select>
+                              <?php echo form_error('peran');?>
+                            </div>
+                          </div>
+   
                           <center>
-                              <div class="col-lg-12">
-                                  <button class="btn btn-primary" name="simpan" type="submit">Simpan</button>
-                                  <a href="<?php echo site_url('AdminC/') ?>"><button class="btn btn-default" name="batal" type="button">Batal</button></a>
+                              <div class="box-footer">
+                                  <button class="btn btn-primary" name="simpan" type="submit">Tambah</button>
+                                  <a href="<?php echo base_url() ?>AdminC/daftarPetugas"><button class="btn btn-default" name="batal" type="button">Batal</button></a>
                               </div>
                           </center>
                       </div>
                   </div>
               </section>
           </div>
+
         </form>
       </div>
     </section>
+  </div>
 </section>
 
   <script src="<?php echo base_url(); ?>/assets/js/jquery.js"></script>

@@ -2,48 +2,44 @@
 function in_access()
 {
     $ci=& get_instance();
-    if($ci->session->userData('peran')=='PetugasKK'){
+    if($ci->session->userData('peran')=='1'){
         redirect('PendafKKC');
-    }else if($ci->session->userData('peran')=='PetugasAkte'){
+    }else if($ci->session->userData('peran')=='2'){
         redirect('PendafAkteC');
-    }else if($ci->session->userData('peran')=='PetugasPindah'){
+    }else if($ci->session->userData('peran')=='3'){
         redirect('PendafPindahC');
-    }else if($ci->session->userData('peran')=='Admin'){
+    }else if($ci->session->userData('peran')=='4'){
         redirect('AdminC');
     }
 }
-
 function no_access()
 {
     $ci=& get_instance();
-    if($ci->session->userData('peran')!='PetugasKK' && $ci->session->userData('peran')!='Admin'){
+    if($ci->session->userData('peran')!='1' && $ci->session->userData('peran')!='4'){
         redirect('LoginC');
     }
 }
-
 function no_access_akte()
 {
     $ci=& get_instance();
-    if($ci->session->userData('peran')!='PetugasAkte' && $ci->session->userData('peran')!='Admin'){
+    if($ci->session->userData('peran')!='2' && $ci->session->userData('peran')!='4'){
         redirect('LoginC');
     }
 }
-
 function no_access_pindah()
 {
     $ci=& get_instance();
-    if($ci->session->userData('peran')!='PetugasPindah' && $ci->session->userData('peran')!='Admin'){
+    if($ci->session->userData('peran')!='3' && $ci->session->userData('peran')!='4'){
         redirect('LoginC');
     }
 }
 function no_access_adm()
 {
     $ci=& get_instance();
-    if($ci->session->userData('peran')!='Admin'){
+    if($ci->session->userData('peran')!='4'){
         redirect('LoginC');
     }
 }
-
 function menuaktif($aktif,$menu){   
     if($aktif==$menu){
         return "active";
@@ -51,7 +47,6 @@ function menuaktif($aktif,$menu){
         return "";
     }
 }
-
 function getidkec($namakec){
     $ci=& get_instance();
     $q = $ci->db->query("SELECT id_kec FROM kecamatan WHERE nama_kec='namakec'");
@@ -67,7 +62,6 @@ function getId($tabel,$id)
         foreach($q->result() as $k)
         {
             $kd = ((int)$k->kd_max)+1;
-            // $kd = sprintf("%09s", $tmp);
         }
     }
     else
@@ -76,8 +70,6 @@ function getId($tabel,$id)
     }
     return $kd;
 }
-
-
 function getnamabulan($bulan){
     if($bulan==1){
         return "Januari";
@@ -105,22 +97,21 @@ function getnamabulan($bulan){
         return "Desember";
     }
 }
-
 function getnamapetugas($id){
     $ci=& get_instance();
     $q = $ci->db->query("SELECT nama_petugas FROM petugas WHERE id_petugas='$id'")->row_array();
     return $q['nama_petugas'];
 }
-
-// function login_analis()
-// {
-//     $ci=& get_instance();
-//     if($ci->session->userdata('user')){
-//         return user;
-//     }
-// }
-
-
+function getsyaratpen($id){
+    $ci=& get_instance();
+    $q = $ci->db->query("SELECT judul_syarat FROM syarat WHERE id_syarat='$id'")->row_array();
+    return $q['judul_syarat'];
+}
+function getdesakel($id){
+    $ci=& get_instance();
+    $q = $ci->db->query("SELECT nama_desakelurahan FROM desakelurahan WHERE id_desakelurahan='$id'")->row_array();
+    return $q['nama_desakelurahan'];
+}
 function getnoKK($id){
     $ci=& get_instance();
     $q = $ci->db->query("SELECT noKK from data_keluarga, data_penduduk where data_keluarga.idKeluarga = data_penduduk.idKeluarga_FK and idPenduduk = $id")->row_array();
@@ -131,9 +122,9 @@ function get_petugas($id){
     $q = $ci->db->query("SELECT * from petugas WHERE id_petugas='$id'")->row_array();
     return $q;
 }
-function getid_keluarga($noKK){
+function getid_keluarga($id){
     $ci=& get_instance();
-    $q = $ci->db->query("SELECT idKeluarga from data_keluarga WHERE noKK='$noKK'")->row_array();
+    $q = $ci->db->query("SELECT idKeluarga from data_keluarga WHERE idKeluarga='$id'")->row_array();
     return $q['idKeluarga'];
 }
 function getid_keluargaFK($idPend){
@@ -146,15 +137,20 @@ function getid_pendterbaru(){
     $q = $ci->db->query("SELECT max(id_pendaftaran) as id_pendaftaran from pendaftaran")->row_array();
     return $q['id_pendaftaran'];
 }
-function getid_kelterbaru($idpendaf){
+function getidpendaft($id){
     $ci=& get_instance();
-    $q = $ci->db->query("SELECT idKeluargaFK from pendaftaran WHERE id_pendaftaran='$idpendaf'")->row_array();
-    return $q['idKeluargaFK'];
+    $q = $ci->db->query("SELECT id_pendaftaranFK from detail_syarat, pendaftaran WHERE detail_syarat.id_pendaftaranFK=pendaftaran.id_pendaftaran and id_pendaftaran='$id'")->row_array();
+    return $q['id_pendaftaranFK'];
 }
-function getid_kelbaru(){
+function getid_penbaru(){
     $ci=& get_instance();
-    $q = $ci->db->query("SELECT max(idKeluarga) as idKeluarga from data_keluarga")->row_array();
-    return $q['idKeluarga'];
+    $q = $ci->db->query("SELECT max(id_pendaftaran) as id_pendaftaran from pendaftaran")->row_array();
+    return $q['id_pendaftaran'];
+}
+function getid_pen(){
+    $ci=& get_instance();
+    $q = $ci->db->query("SELECT id_pendaftaran from pendaftaran")->row_array();
+    return $q['id_pendaftaran'];
 }
 function getnama_kelbaru($nama){
     $ci=& get_instance();
@@ -164,12 +160,22 @@ function getnama_kelbaru($nama){
 function getnok($nok){
     $ci=& get_instance();
     $q = $ci->db->query("SELECT noKK from data_keluarga where idKeluarga ='$nok'")->row_array();
-    return $q['idKeluarga'];
+    return $q['noKK'];
 }
 function getidnok($no){
     $ci=& get_instance();
     $q = $ci->db->query("SELECT noKK from data_keluarga where noKK ='$no'")->row_array();
     return $q['noKK'];
+}
+function getidpendd($no){
+    $ci=& get_instance();
+    $q = $ci->db->query("SELECT idPenduduk from data_penduduk where idKeluarga_FK ='$no'")->row_array();
+    return $q['idKeluarga_FK'];
+}
+function getidpend($no){
+    $ci=& get_instance();
+    $q = $ci->db->query("SELECT idPenduduk from data_penduduk, pendaftaran, data_keluarga where idKeluarga= idKeluargaFK and idKeluarga=idKeluarga_FK and id_pendaftaran ='$no'")->row_array();
+    return $q['idPenduduk'];
 }
 function getnik($id){
     $ci=& get_instance();
@@ -181,18 +187,38 @@ function getnamanik($nama){
     $q = $ci->db->query("SELECT nama_lengkap from data_penduduk where nik ='$nama'")->row_array();
     return $q['nama_lengkap'];
 }
-function getjenispekerjaan($id){
+function get_dok($id){
     $ci=& get_instance();
-    $q = $ci->db->query("SELECT nama_jenispekerjaan FROM jenis_pekerjaan, data_penduduk where jenis_pekerjaan.id_jenispekerjaan = data_penduduk.id_jenispekerjaanFK and idPenduduk='$id'")->row_array();
-    return $q['nama_jenispekerjaan'];
-}
-function getid_jenisFK($idker){
-    $ci=& get_instance();
-    $q = $ci->db->query("SELECT id_jenispekerjaanFK from data_penduduk WHERE idPenduduk='$idker'")->row_array();
-    return $q['id_jenispekerjaanFK'];
+    $q = $ci->db->query("SELECT id_syarat from syarat, status_pendaftaran where status_pendaftaran.id_status_pendaftaran=syarat.id_status_pendaftaranFK and status_pendaftaran.id_status_pendaftaran ='$id'")->row_array();
+    return $q['id_syarat'];
 }
 function getid_petugas($id){
     $ci=& get_instance();
     $q = $ci->db->query("SELECT id_petugas from petugas WHERE nama_petugas='$id'")->row_array();
     return $q['nama_petugas'];
+}
+function getidpendaf($id){
+    $ci=& get_instance();
+    $q = $ci->db->query("SELECT idKeluarga_FK from data_penduduk where idPenduduk='$id'")->row_array();
+    return $q['idPenduduk'];   
+}
+function getidk($id){
+    $ci=& get_instance();
+    $q = $ci->db->query("SELECT idKeluarga from data_keluarga where idKeluarga='$id'")->row_array();
+    return $q['idKeluarga'];   
+}
+function getidp($id){
+    $ci=& get_instance();
+    $q = $ci->db->query("SELECT idPenduduk from data_penduduk where idPenduduk='$id'")->row_array();
+    return $q['idPenduduk'];   
+}
+function getsyarat($id_syarat){
+    $ci=& get_instance();
+    $q = $ci->db->query("SELECT * from syarat, status_pendaftaran WHERE syarat.id_status_pendaftaranFK=status_pendaftaran.id_status_pendaftaran and syarat.id_syarat='$id_syarat'")->result();
+    return $q;
+}
+function getdesaa($id_desakelurahan){
+    $ci=& get_instance();
+    $q = $ci->db->query("SELECT id_kecamatanFK from desakelurahan WHERE desakelurahan.id_desakelurahan='$id_desakelurahan'")->row_array();
+    return $q['id_kecamatanFK'];
 }
