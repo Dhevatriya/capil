@@ -53,6 +53,7 @@ var $data= array();
       "nama_desakelurahan"=>'',
       "tgl_jadi"=>'',
       "id_syarat"=>'',
+      "no_registrasi"=>'',
       "nama_status_pendaftaran"=>'',
       "des"=>$this->PendafKKM->getdes(),
       "kec"=>$this->PendafKKM->getkec(),
@@ -76,7 +77,11 @@ var $data= array();
   //proses pendaftaran kk
   public function inputPendaftaranKKProses(){
     $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
+    $this->form_validation->set_rules('no_registrasi', 'no_registrasi','required');
     $this->form_validation->set_rules('nama_kepala_keluarga', 'nama_kepala_keluarga', 'required');
+    $this->form_validation->set_rules('alamat', 'alamat','required');
+    $this->form_validation->set_rules('rt', 'rt', 'required');
+    $this->form_validation->set_rules('rw', 'rw', 'required');
     $this->form_validation->set_rules('nama_kecamatan', 'nama_kecamatan', 'required');
     $this->form_validation->set_rules('nama_desakelurahan', 'nama_desakelurahan', 'required');
     $this->form_validation->set_rules('tgl_jadi', 'tgl_jadi', 'required');
@@ -87,6 +92,7 @@ var $data= array();
             "title"=>'Tambah Data Keluarga',
             "aktif"=>"kk",
             "bclass"=>'',
+            'no_registrasi'=>'',
             'noKK' => set_value('noKK', ''),
             'nik' => set_value('nik', ''),
             "des"=>$this->PendafKKM->getdes(),
@@ -120,6 +126,7 @@ var $data= array();
     }else{
       $ids=$this->PendafKKM->getstatus();
       $id=$this->session->userdata('id');
+      $this->model->no_registrasi=$_POST['no_registrasi'];
       $this->model->noKK=$_POST['noKK'];
       $this->model->nik=$_POST['nik'];
       $this->model->nama_kepala_keluarga=$_POST['nama_kepala_keluarga'];
@@ -128,7 +135,7 @@ var $data= array();
       $this->model->rw = $_POST['rw'];
       $this->model->nama_desakelurahan = $_POST['nama_desakelurahan'];
       $this->model->id_petugasFK = $id;
-      $this->model->tgl_buat=date('y-m-d');
+      $this->model->tgl_daftar=date('y-m-d');
       $this->model->tgl_jadi=$_POST['tgl_jadi'];
       $this->model->id_status_pendafFK=$ids;
       $query1 = $this->model->insertkk();
@@ -161,7 +168,7 @@ var $data= array();
       $username=$this->session->userdata('user'),
       $peran=$this->session->userdata('peran'),
     );
-    $data['body']= $this->load->view('form_pengambilan_kk_baru_manual', $data, true);
+    $data['body']= $this->load->view('form_pengambilan_kk', $data, true);
     if ($peran=='1') {
       $data['aktif']="kk";
       $this->load->view('template_kk', $data);
@@ -199,7 +206,11 @@ var $data= array();
   //edit pendaftaran kk proses
   public function editpendaftarankkproses(){
     $this->form_validation->set_error_delimiters('<div style="color:red; margin-bottom:2px">', '</div>');
+    $this->form_validation->set_rules('no_registrasi', 'no_registrasi','required');
     $this->form_validation->set_rules('nama_kepala_keluarga', 'nama_kepala_keluarga','required');
+    $this->form_validation->set_rules('alamat', 'alamat','required');
+    $this->form_validation->set_rules('rt', 'rt', 'required');
+    $this->form_validation->set_rules('rw', 'rw', 'required');
     $this->form_validation->set_rules('nama_desakelurahan', 'nama_desakelurahan', 'required');
     $this->form_validation->set_rules('nama_kecamatan', 'nama_kecamatan','required');
     $this->form_validation->set_rules('tgl_jadi', 'tgl_jadi','required');
@@ -210,6 +221,7 @@ var $data= array();
         "title"=>'Edit Data Keluarga',
         "aktif"=>"kk",
         "bclass"=>" ",
+        'no_registrasi'=>set_value('no_registrasi',''),
         'noKK' => set_value('noKK', ''),
         'nik' => set_value('nik', ''),
         'nama_kepala_keluarga' => set_value('nama_kepala_keluarga', ''),
@@ -235,6 +247,7 @@ var $data= array();
       }
     }else{
       $id_pendaftaran = $this->PendafKKM->getidpendaf($_POST['id_pendaftaran']);
+      $this->model->no_registrasi= $_POST['no_registrasi'];
       $this->model->noKK= $_POST['noKK'];
       $this->model->nik= $_POST['nik'];
       $this->model->nama_kepala_keluarga = $_POST['nama_kepala_keluarga'];
@@ -294,6 +307,43 @@ var $data= array();
     }
   }
 
+  public function tambahsyaratkk($id){
+     $data=array(
+      "title"=>'Detail Syarat Pendaftaran KK',
+      "aktif"=>"syaratkk",
+      "bclass"=>'',
+      "datapendaftaran"=>$this->PendafKKM->get_pendaftarankk($id)->row_array(),
+      "syarat"=>$this->PendafKKM->getsyaratkk($id)->result_array(),
+      "dok"=>$this->PendafKKM->getdok()->result(),
+      "id_syaratFK"=>'',
+      "id_syarat"=>'',
+      "judul_syarat"=>'',
+      "bclass"=>" ",
+      $username=$this->session->userdata('user'),
+      $peran=$this->session->userdata('peran'),
+    );
+    $data['body']= $this->load->view('tambah_syaratkk', $data, true);
+    if ($peran=='1') {
+      $data['aktif']="syaratkk";
+      $this->load->view('template_kk', $data);
+    }else if($peran=='4') {
+      $data['aktif']="adsyaratkk";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
+  }
+
+  public function tambahSyaratKKProses($id){
+    $str=implode(" ", $_POST['id_syarat']);
+      $arr=explode(" ", $str);
+      for($i=0; $i<count($arr); $i++){
+        $id_syarat = $arr[$i];
+        $query = $this->model->updatesyarat($id_syarat, $id);
+      }
+      $this->session->set_flashdata('sukses',"Tambah Pendaftaran KK berhasil dilakukan !");
+      redirect('PendafKKC/detailsyaratkk/'.$id);
+  }
+
   //tabel yang belum diunggah pendaftaran kk
   public function riwayatpendafkk(){
     $data=array(
@@ -338,7 +388,6 @@ var $data= array();
       $data['bclass']=" ";
       $this->load->view('template_admin', $data);
     }
-    $this->session->set_flashdata('sukses', 'Unggah yarat pendaftaran berhasil dilakukan!');
   }
 
   //untuk menampilkan data desa yang ditampilkan di dropdown
@@ -382,7 +431,7 @@ var $data= array();
   }
 
   //untuk upload syarat pendaftaran
-  public function tambahsyarat1($id)
+  public function uploadSyaratKK($id)
   {
     if ($_POST) {
       $config['upload_path']            = 'images';
@@ -420,6 +469,27 @@ var $data= array();
     }
   }
 
+   public function updateSyarat($id){
+    $id_detail_syarat = $this->input->post('id_syarat');
+    
+    if (count($id_detail_syarat) != 0) {
+      $this->db->delete("detail_syarat",array("id_pendaftaranFK"=>$id));
+
+      foreach ($id_detail_syarat as $v) {
+        $data = array(
+          'id_pendaftaranFK' => $id,
+          'id_syaratFK' => $v,
+          'status_unggah' => "Belum Diunggah"
+        );
+
+        $this->db->insert("detail_syarat",$data);
+      }
+
+      redirect('PendafKKC/detailsyaratkk/'.$id);
+    }else
+      redirect('PendafKKC/tambahsyaratkk/'.$id);
+  }
+
   //untuk keluar dari siste
   public function logout(){  
     $this->session->unset_userdata($userData);
@@ -445,6 +515,75 @@ var $data= array();
       $peran=$this->session->userdata('peran'),
     );
     $data['body']= $this->load->view('laporan_kk.php', $data, true);
+    if ($peran=='1') {
+      $data['aktif']="laporankk";
+      $this->load->view('template_kk', $data);
+    }else if($peran=='4') {
+      $data['aktif']="lapkk";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
+  }
+
+  //menampilkan detail laporan pendaftaran kk perhari
+  public function detaillaporanpendaftarankk($tanggal){
+    $data=array(
+      "title"=>'Laporan Pendaftaran Kartu Keluarga',
+      "aktif"=>"laporankk",
+      "bclass"=>'',
+      "perharian"=>$this->model->getlapperhari($tanggal)->result(),
+      "perhari"=>$this->model->gettgl($tanggal)->result_array(),
+      "bclass"=>'',
+      $username=$this->session->userdata('user'),
+      $peran=$this->session->userdata('peran'),
+    );
+    $data['body']= $this->load->view('detaillap_perharikk.php', $data, true);
+    if ($peran=='1') {
+      $data['aktif']="laporankk";
+      $this->load->view('template_kk', $data);
+    }else if($peran=='4') {
+      $data['aktif']="lapkk";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
+  }
+
+  //menampilkan detail laporan pendaftaran kk perbulan
+  public function detaillaporanpendaftarankkb($bulan){
+    $data=array(
+      "title"=>'Laporan Pendaftaran Kartu Keluarga',
+      "aktif"=>"laporankk",
+      "bclass"=>'',
+      "perbulanan"=>$this->model->getlapperbulan($bulan)->result(),
+      "perbulan"=>$this->model->getbln($bulan)->result_array(),
+      "bclass"=>'',
+      $username=$this->session->userdata('user'),
+      $peran=$this->session->userdata('peran'),
+    );
+    $data['body']= $this->load->view('detaillap_perbulankk.php', $data, true);
+    if ($peran=='1') {
+      $data['aktif']="laporankk";
+      $this->load->view('template_kk', $data);
+    }else if($peran=='4') {
+      $data['aktif']="lapkk";
+      $data['bclass']=" ";
+      $this->load->view('template_admin', $data);
+    }
+  }
+
+    //menampilkan detail laporan pendaftaran kk pertahun
+  public function detaillaporanpendaftarankkt($tahun){
+    $data=array(
+      "title"=>'Laporan Pendaftaran Kartu Keluarga',
+      "aktif"=>"laporankk",
+      "bclass"=>'',
+      "pertahunan"=>$this->model->getlappertahun($tahun)->result(),
+      "pertahun"=>$this->model->getthn($tahun)->result_array(),
+      "bclass"=>'',
+      $username=$this->session->userdata('user'),
+      $peran=$this->session->userdata('peran'),
+    );
+    $data['body']= $this->load->view('detaillap_pertahunkk.php', $data, true);
     if ($peran=='1') {
       $data['aktif']="laporankk";
       $this->load->view('template_kk', $data);
@@ -485,6 +624,57 @@ var $data= array();
           }
       }
     }                                  
+  }
+
+    //cetak laporan pendaftaran perhari
+  public function cetaklapdetailkkhari($tanggal){
+    ob_start();
+      $data=array(
+        "d"=>$this->model->getlapperhari($tanggal)->result(),
+        "tabel"=>"cetak_detailkk.php",
+        "judul_lap"=>"DETAIL LAPORAN PENDAFTARAN KARTU KELUARGA PERHARI",
+      );
+      $this->load->view('layout_cetak_fix.php', $data);
+      $html = ob_get_contents();
+          ob_end_clean();
+          require_once('./assets/html2pdf/html2pdf.class.php');
+      $pdf = new HTML2PDF('L','A4','en');
+      $pdf->WriteHTML($html);
+      $pdf->Output('Laporan Pendaftaran Kartu Keluarga Perhari.pdf', 'I');
+  }
+
+      //cetak laporan pendaftaran perhari
+  public function cetaklapdetailkkbulan($bulan){
+    ob_start();
+      $data=array(
+        "d"=>$this->model->getlapperbulan($bulan)->result(),
+        "tabel"=>"cetak_detailkk.php",
+        "judul_lap"=>"DETAIL LAPORAN PENDAFTARAN KARTU KELUARGA PERBULAN",
+      );
+      $this->load->view('layout_cetak_fix.php', $data);
+      $html = ob_get_contents();
+          ob_end_clean();
+          require_once('./assets/html2pdf/html2pdf.class.php');
+      $pdf = new HTML2PDF('L','A4','en');
+      $pdf->WriteHTML($html);
+      $pdf->Output('Laporan Pendaftaran Kartu Keluarga Perbulan.pdf', 'I');
+  }
+
+  //cetak laporan pendaftaran perhari
+  public function cetaklapdetailkktahun($tahun){
+    ob_start();
+      $data=array(
+        "d"=>$this->model->getlappertahun($tahun)->result(),
+        "tabel"=>"cetak_detailkk.php",
+        "judul_lap"=>"DETAIL LAPORAN PENDAFTARAN KARTU KELUARGA PERTAHUN",
+      );
+      $this->load->view('layout_cetak_fix.php', $data);
+      $html = ob_get_contents();
+          ob_end_clean();
+          require_once('./assets/html2pdf/html2pdf.class.php');
+      $pdf = new HTML2PDF('L','A4','en');
+      $pdf->WriteHTML($html);
+      $pdf->Output('Laporan Pendaftaran Kartu Keluarga Pertahun.pdf', 'I');
   }
 
   //cetak laporan pendaftaran perhari
@@ -544,7 +734,7 @@ var $data= array();
       $data=array(
         "d"=>$this->model->getDataPendaftaranKK($id)->row_array(),
         "tabel"=>"cetak_tandaterimakk.php",
-        "judul_lap"=>"Tanda Terima Berkas KK",
+        "judul_lap"=>"Surat Keterangan Pengambilan Berkas KK",
       );
       $this->load->view('layout_cetak_fix.php', $data);
       $html = ob_get_contents();
@@ -554,4 +744,5 @@ var $data= array();
       $pdf->WriteHTML($html);
       $pdf->Output('Tanda Terima Berkas KK.pdf', 'I');
   }
+
 }

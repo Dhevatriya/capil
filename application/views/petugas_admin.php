@@ -57,9 +57,9 @@
                         <td ><center><?php echo $value->username; ?></center></td>
                         <td ><center><?php echo $value->peran; ?></center></td>
                         <td><center>
-                        <a class="btn btn-info btn-xs tooltips"  data-popup="tooltip" data-original-title="Ubah Data" data-placement="top" href="<?php echo site_url('AdminC/editPetugas/'.$value->id_petugas); ?>" ><i class="icon-pencil5"></i></a>
+                        <a class="btn btn-info btn-xs tooltips"  data-popup="tooltip" data-original-title="Ubah Data" data-placement="top" href="<?php echo base_url('AdminC/editPetugas/'.$value->id_petugas); ?>" ><i class="icon-pencil5"></i></a>
                         <?php if($value->peran !== 'admin'){  ?> 
-                        <a class="btn btn-danger btn-xs tooltips"  data-popup="tooltip" data-original-title="Hapus Data" data-placement="top" href="<?php echo site_url('AdminC/hapusPetugas/'.$value->id_petugas); ?>" ><i class="fa fa-times" onclick="return confirm('Apakah anda yakin ingin menghapus petugas <?php echo getnamapetugas($value->id_petugas);?> ?')"></i></a>
+                        <a class="btn btn-danger btn-xs tooltips"  data-popup="tooltip" data-original-title="Hapus Data" data-placement="top" href="<?php echo base_url('AdminC/hapusPetugas/'.$value->id_petugas); ?>" ><i class="fa fa-times" onclick="return confirm('Apakah anda yakin ingin menghapus petugas <?php echo getnamapetugas($value->id_petugas);?> ?')"></i></a>
                         <?php }else{ echo "";} ?>
                         </td>
                       </tr>

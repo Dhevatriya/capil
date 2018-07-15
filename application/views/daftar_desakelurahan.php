@@ -76,7 +76,6 @@
 <!--                         <td ><center><?php echo $value->nama_kecamatan; ?></center></td>  -->
                         <td><center>
                            <a data-toggle="modal" data-target="#myModalEdit<?=$value->id_desakelurahan; ?>"><button type="submit" class="btn btn-info btn-xs tooltips" data-popup="tooltip" data-original-title="Ubah Data" data-placement="top"><span class="icon-pencil5"></span></button></a>
-                          <a class="btn btn-danger btn-xs tooltips"  data-popup="tooltip" data-original-title="Hapus Data" data-placement="top" href="<?php echo site_url('AdminC/hapusDesa/'.$value->id_desakelurahan ); ?>" ><i class="fa fa-times" onclick="return confirm('Apakah anda yakin ingin menghapus desa <?php echo getdesakel($value->id_desakelurahan);?> ?')"></i></a>
                         </td>
                       </tr>
                       <?php  endforeach; ?>

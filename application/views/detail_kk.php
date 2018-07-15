@@ -39,6 +39,11 @@
                       <table class="table" width="100%" > 
                       <?php foreach($datapendaftaran as $data){ ?>
                       <tr>
+                        <th style="width:18%;">Nomor Registrasi </th>
+                        <td style="width:3%"> : </td>
+                        <td align="left"> <?php echo $data->no_registrasi; ?> </td>
+                      </tr> 
+                      <tr>
                         <th style="width:18%;">Nomor KK </th>
                         <td style="width:3%"> : </td>
                         <td align="left"> <?php echo $data->noKK; ?> </td>
@@ -59,9 +64,9 @@
                         <td align="left"> <?php echo $data->nama_petugas; ?> </td>
                       </tr>
                       <tr>
-                        <th style="width:18%;">Tanggal Buat</th>
+                        <th style="width:18%;">Tanggal Daftar</th>
                         <td style="width:3%"> : </td>
-                        <td align="left"> <?php echo $data->tgl_buat; ?> </td>
+                        <td align="left"> <?php echo $data->tgl_daftar; ?> </td>
                       </tr> 
                       <tr>
                         <th style="width:18%;">Tanggal Jadi</th>
@@ -83,28 +88,27 @@
                       <thead>
                           <tr>
                             <th style="border: 2.3px solid;"><center> No </center></th>
-                            <th style="border: 2.3px solid;"><center> Nama Dokumen </center></th>
-                            <th style="border: 2.3px solid;"><center> Status Syarat</center></th>
+                            <th style="border: 2.3px solid;"><center> Nama Syarat Pendaftaran </center></th>
                             <th style="border: 2.3px solid;"><center> Syarat</center></th>
                           </tr>
                       </thead> 
                       <tbody>  
-                        <?php echo form_open_multipart('PendafKKC/tambahsyarat1/'.$dok[0]->id_pendaftaranFK);?>
+                        <?php echo form_open_multipart('PendafKKC/uploadSyaratKK/'.$dok[0]->id_pendaftaranFK);?>
                         <?php $no=1; foreach ($dok as $value):; ?>
 
                           <input type="hidden" name="id_detail_syarat[]" id="id_detail_syarat[]" value="<?php echo $value->id_detail_syarat; ?>">
                           <tr>
                             <td><center><?php echo $no; ?></center></td>
                             <td><center><?php echo $value->judul_syarat ; ?></center></td>
-                            <td><center><?php echo $value->status_unggah ; ?></center></td>
                             <td><center><input type="file" name="userfile[<?=$no?>]" id="userfile[]" multiple="" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')">
                             <?php echo form_error('gambar');?>
                             </center></td>
                       <?php   $no++;endforeach; ?>
                       </tbody> 
                     </table>
+                      <a href="<?php echo base_url('PendafKKC/tambahsyaratkk/'.$value->id_pendaftaranFK) ?>"><button class="btn btn-primary" name="tambah" type="button">Edit Syarat Pendaftaran</button></a>
                       <a data-popup="tooltip" data-placement="top"><button class="btn btn-primary" name="simpan" type="submit" value="upload">Simpan</button></a>
-                       <a href="<?php echo site_url('PendafKKC/syaratpendafkk') ?>"><button class="btn btn-default" name="batal" type="button">Kembali</button></a>
+                      <a href="<?php echo base_url('PendafKKC/syaratpendafkk') ?>"><button class="btn btn-default" name="batal" type="button">Kembali</button></a>
                   </div>
                   <?php echo form_close(); ?>
                 </div>

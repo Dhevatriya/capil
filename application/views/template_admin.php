@@ -183,7 +183,7 @@
         <li class="treeview">
           <a href="javascript:;" class="">
             <i class="fa fa-table"></i>  
-            <span>Laporan Pendaftaran</span>
+            <span>Laporan Pendaftaran </span>
             <span class="menu-arrow arrow_carrot-right"></span>
             <i class="fa fa-angle-left pull-right"></i>
           </a>
@@ -254,6 +254,12 @@
     $('#example5').DataTable()
     $('#example6').DataTable()
     $('#example7').DataTable()
+    $('#example8').DataTable()
+    $('#example9').DataTable()
+    $('#example10').DataTable()
+    $('#example11').DataTable()
+    $('#example12').DataTable()
+    $('#example13').DataTable()
     $('#example2').DataTable({
       'paging'      : true,
       'lengthChange': false,

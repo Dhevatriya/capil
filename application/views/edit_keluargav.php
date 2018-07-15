@@ -21,7 +21,7 @@
         <div class="alert alert-danger"><strong> Error! </strong> <?=$data2;?></div>
       <?php } ?>
 
-      <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafKKC/datakeluargaeditproses');?>">
+      <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=base_url('PendafKKC/datakeluargaeditproses');?>">
         <div>
           <input type="hidden" name="id_pendaftaran" id="id_pendaftaran" value="<?php echo $get_datakeluarga['id_pendaftaran']; ?>">
               <section class="panel">
@@ -102,7 +102,7 @@
                   <center><div class="form-group ">
                       <div class="col-lg-12">
                           <button class="btn btn-primary" name="simpan" id="simpan" type="submit">Simpan</button>
-                          <a href="<?php echo site_url('PendafKKC/inputdatakeluargabaru/'.$get_datakeluarga['id_pendaftaran']) ?>"><button class="btn btn-default" name="batal" type="button">Batal</button></a>
+                          <a href="<?php echo base_url('PendafKKC/inputdatakeluargabaru/'.$get_datakeluarga['id_pendaftaran']) ?>"><button class="btn btn-default" name="batal" type="button">Batal</button></a>
                       </div>
                   </center></div>
               </form>
@@ -124,7 +124,7 @@
             $( "#autocomplete" ).autocomplete({
                 source: function(request, response) {
                     $.ajax({ 
-                        url: "<?php echo site_url('PendafKKC/suggestions'); ?>",
+                        url: "<?php echo base_url('PendafKKC/suggestions'); ?>",
                         data: { nama: $("#autocomplete").val()},
                         dataType: "json",
                         type: "POST",

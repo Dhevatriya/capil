@@ -34,18 +34,23 @@
             </div>
               <center>
                 <?php foreach($datapendaf as $data){ ?>        
-                <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafAkteC/cetakpendaftaranakte/'.$data->id_pendaftaran)?>">
+                <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=base_url('PendafAkteC/cetakpendaftaranakte/'.$data->id_pendaftaran)?>">
                 <div class="panel-body" style="text-align:center;">
 
                    <table class="table" width="100%" > 
                       <?php foreach($datapendaf as $data){ ?>
+                      <tr>
+                        <th style="width:23%;">Nomor Registrasi </th>
+                        <td style="width:3%"> : </td>
+                        <td align="left"> <?php echo $data->no_registrasi; ?> </td>
+                      </tr>
                       <tr>
                         <th style="width:23%;">NIK </th>
                         <td style="width:3%"> : </td>
                         <td align="left"> <?php echo $data->nik; ?> </td>
                       </tr>
                       <tr>
-                        <th style="width:23%;">Nama </th>
+                        <th style="width:23%;">Nama Lengkap </th>
                         <td> : </td>
                         <td align="left"> <?php echo $data->nama_lengkap; ?> </td>
                       </tr>
@@ -65,9 +70,9 @@
                         <td align="left"> <?php echo $data->alamat; ?>, RT <?php echo $data->rt; ?> / RW <?php echo $data->rw; ?>, <?php echo $data->nama_desakelurahan; ?>, <?php echo $data->nama_kecamatan; ?></td>
                       </tr>
                       <tr>
-                        <th style="width:23%;">Tanggal Buat</th>
+                        <th style="width:23%;">Tanggal Daftar</th>
                         <td style="width:3%"> : </td>
-                        <td align="left"> <?php echo $data->tgl_buat; ?> </td>
+                        <td align="left"> <?php echo $data->tgl_daftar; ?> </td>
                       </tr> 
                       <tr>
                         <th style="width:23%;">Tanggal Jadi</th>
@@ -78,6 +83,11 @@
                         <th style="width:23%;">Status</th>
                         <td> : </td>
                         <td align="left"> <?php echo $data->nama_status_pendaftaran; ?> </td>
+                      </tr> 
+                      <tr>
+                        <th style="width:23%;">Jenis Akte</th>
+                        <td> : </td>
+                        <td align="left"> <?php echo $data->jenis_akte; ?> </td>
                       </tr> 
                       <tr>
                         <th style="width:20%;">Syarat</th>
@@ -93,10 +103,8 @@
                     <?php  } ?>
                   </table>
                   <div class="box-footer">
-<!--                   <a data-popup="tooltip" data-placement="top" href="<?php echo site_url('PendafAkteC/unggahsyarat/'.$data->id_pendaftaran); ?>" ><button class="btn btn-primary" name="unggah" type="button">Unggah Syarat</button></a> -->
                   <button type="submit" id = "cetak" class="btn btn-primary">Cetak</button>
                   </div>
-<!--                 <a href="<?php echo site_url('PendafAkteC/') ?>"><button class="btn btn-default" name="batal" type="button">Kembali</button></a> -->
                 </div>
                   </form>
                 <?php  } ?>
@@ -113,10 +121,16 @@
             </div>
                 <div class="panel-body" style="text-align:center;">
                   <div class="form ">
-                    <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafAkteC/datapendafeditproses');?>">
+                    <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=base_url('PendafAkteC/datapendafeditproses');?>">
                       <input type="hidden" name="id_pendaftaran" id="id_pendaftaran" value="<?php echo $datapendaftaran['id_pendaftaran']; ?>">
                         <?php $dataE=$this->session->userdata('petEdit'); ?>
-                                      <div class="form-group ">
+                  <div class="form-group ">
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Nomor Registrasi<span class="required">*</span></label>
+                      <div class="col-lg-8">
+                           <input class="form-control " id="no_registrasi" name="no_registrasi" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $datapendaftaran['no_registrasi']; ?>"/>
+                      </div>
+                  </div>
+                  <div class="form-group ">
                       <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Nomor Induk Kependudukan<span class="required">*</span></label>
                       <div class="col-lg-8">
                            <input class="form-control " id="nik" name="nik" type="text" value="<?php echo $datapendaftaran['nik']; ?>"/>
@@ -198,6 +212,20 @@
                         </select>
                         </div>
                     </div>
+                    <div class="form-group ">
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Jenis Akte<span class="required">*</span></label>
+                      <div class="col-lg-8">
+                            <select class="form-control m-bot15" name="jenis_akte" required oninvalid="this.setCustomValidity('data tidak boleh kosong')" oninput="setCustomValidity('')" >
+                                    <?php
+                                      $jenis_akte=$datapendaftaran['jenis_akte'];
+                                      if ($jenis_akte== "Umum") echo "<option value='Umum' selected>Umum</option>";
+                                      else echo "<option value='Umum'>Umum</option>";
+                                      if ($jenis_akte== "Terlambat Pendaftaran") echo "<option value='Terlambat Pendaftaran' selected>Terlambat Pendaftaran</option>";
+                                      else echo "<option value='Terlambat Pendaftaran'>Terlambat Pendaftaran</option>";                      
+                                    ?>
+                                </select>
+                      </div>
+                  </div>
                   <div class="form-group ">
                       <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Tanggal Jadi<span class="required">*</span></label>
                       <div class="col-lg-8">

@@ -39,8 +39,15 @@
             </ul>
             <div class="tab-content">
               <div id="ppindah" class="tab-pane active">
-                <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafPindahC/inputdatapindahd/');?>">
+                <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=base_url('PendafPindahC/inputdatapindahd/');?>">
                        <div class="form">
+                        <div class="form-group ">
+                            <label for="curl" class="control-label col-lg-2" >No Registrasi<span class="required" style="color: red;">*</span></label>
+                              <div class="col-lg-9 <?php if(form_error('no_registrasi')!='') echo $id2; ?>">
+                                  <input class="form-control " id="no_registrasi" type="text" name="no_registrasi" placeholder="Masukkan Nomor Registrasi" value="<?php echo $no_registrasi; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
+                                   <?php echo form_error('no_registrasi');?>
+                              </div>
+                          </div>
                          <div class="form-group ">
                             <label for="cname" class="control-label col-lg-2">NIK</label>
                             <div class="col-lg-9 <?php if(form_error('nik')!='') echo $id2; ?>">
@@ -49,14 +56,28 @@
                             </div>
                           </div>
                           <div class="form-group ">
-                            <label for="cname" class="control-label col-lg-2">Nama Lengkap<span class="required">*</span></label>
+                            <label for="cname" class="control-label col-lg-2">Nama Lengkap<span class="required" style="color: red;">*</span></label>
                             <div class="col-lg-9 <?php if(form_error('nama_lengkap')!='') echo $id2; ?>">
                                 <input class="form-control" id="nama_lengkap" name="nama_lengkap" type="text" placeholder="Masukkan Nama Lengkap" value="<?php echo $nama_lengkap; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
                                 <?php echo form_error('nama_lengkap');?>
                             </div>
                           </div>
                           <div class="form-group ">
-                              <label for="curl" class="control-label col-lg-2">Jenis Kelamin<span class="required">*</span></label>
+                            <label for="curl" class="control-label col-lg-2">Tempat Lahir<span class="required" style="color: red;">*</span></label>
+                              <div class="col-lg-4 <?php if(form_error('tempat_lahir')!='') echo $id2; ?>">
+                                  <input class="form-control " id="tempat_lahir" type="text" name="tempat_lahir" placeholder="Masukkan Tempat Lahir" value="<?php echo $tempat_lahir; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
+                                   <?php echo form_error('tempat_lahir');?>
+                              </div>
+<!--                           </div>  
+                          <div class="form-group "> -->
+                              <label for="curl" class="control-label col-lg-1" >Tanggal Lahir<span class="required" style="color: red;">*</span></label>
+                              <div class="col-lg-4 <?php if(form_error('tanggal_lahir')!='') echo $id2; ?>">
+                                  <input class="form-control " id="tanggal_lahir" type="date" name="tanggal_lahir" placeholder="Masukkan Tanggal Lahir" value="<?php echo $tanggal_lahir; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
+                                   <?php echo form_error('tanggal_lahir');?>
+                              </div>
+                          </div>
+                          <div class="form-group ">
+                              <label for="curl" class="control-label col-lg-2">Jenis Kelamin<span class="required" style="color: red;">*</span></label>
                               <div class="col-lg-9 <?php if(form_error('jenis_kelamin')!='') echo $id2; ?>">
                                 <select class="form-control m-bot15" name="jenis_kelamin" required oninvalid="this.setCustomValidity('data tidak boleh kosong')" oninput="setCustomValidity('')">
                                     <option disabled selected><i>---Pilih Jenis Kelamin---</i></option>
@@ -65,35 +86,35 @@
                                 </select>
                               </div>
                                    <?php echo form_error('jenis_kelamin');?>
-                          </div> 
-                          <div class="form-group ">
-                            <label for="curl" class="control-label col-lg-2">Tempat Lahir<span class="required">*</span></label>
-                              <div class="col-lg-4 <?php if(form_error('tempat_lahir')!='') echo $id2; ?>">
-                                  <input class="form-control " id="tempat_lahir" type="text" name="tempat_lahir" placeholder="Masukkan Tempat Lahir" value="<?php echo $tempat_lahir; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
-                                   <?php echo form_error('tempat_lahir');?>
-                              </div>
-<!--                           </div>  
-                          <div class="form-group "> -->
-                              <label for="curl" class="control-label col-lg-1" >Tanggal Lahir<span class="required">*</span></label>
-                              <div class="col-lg-4 <?php if(form_error('tanggal_lahir')!='') echo $id2; ?>">
-                                  <input class="form-control " id="tanggal_lahir" type="date" name="tanggal_lahir" placeholder="Masukkan Tanggal Lahir" value="<?php echo $tanggal_lahir; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
-                                   <?php echo form_error('tanggal_lahir');?>
-                              </div>
                           </div>
                           <div class="form-group ">
-                              <label for="curl" class="control-label col-lg-2" >Alamat<span class="required">*</span></label>
+                              <label for="curl" class="control-label col-lg-2" >Jumlah Anggota Pindah<span class="required" style="color: red;">*</span></label>
+                              <div class="col-lg-9 <?php if(form_error('jumlah_anggota_pindah')!='') echo $id2; ?>">
+                                  <input class="form-control " id="jumlah_anggota_pindah" type="text" name="jumlah_anggota_pindah" placeholder="Masukkan Jumlah Anggota Pindah" value="<?php echo $jumlah_anggota_pindah; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
+                                   <?php echo form_error('jumlah_anggota_pindah');?>
+                              </div>
+                          </div> 
+                          <div class="form-group ">
+                            <label for="cname" class="control-label col-lg-2">Asal<span class="required" style="color: red;">*</span></label>
+                            <div class="col-lg-9 <?php if(form_error('data_asal')!='') echo $id2; ?>">
+                                <textarea class="form-control" id="data_asal" name="data_asal" type="text" placeholder="Masukkan Asal" value="<?php echo $data_asal; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"></textarea>
+                                <?php echo form_error('data_asal');?>
+                            </div>
+                          </div>
+                          <div class="form-group ">
+                              <label for="curl" class="control-label col-lg-2" >Alamat Tujuan<span class="required" style="color: red;">*</span></label>
                               <div class="col-lg-9 <?php if(form_error('alamat')!='') echo $id2; ?>">
-                                  <input class="form-control " id="alamat" type="text" name="alamat" placeholder="Masukkan Alamat" value="<?php echo $alamat; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
+                                  <textarea class="form-control " id="alamat" type="text" name="alamat" placeholder="Masukkan Alamat" value="<?php echo $alamat; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"></textarea>
                                    <?php echo form_error('alamat');?>
                               </div>
                           </div>   
                           <div class="form-group ">
-                              <label for="curl" class="control-label col-lg-2" >RT<span class="required">*</span></label>
+                              <label for="curl" class="control-label col-lg-2" >RT Tujuan<span class="required" style="color: red;">*</span></label>
                               <div class="col-lg-4 <?php if(form_error('rt')!='') echo $id2; ?>">
                                   <input class="form-control " id="rt" type="text" name="rt" placeholder="Masukkan RT" value="<?php echo $rt; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
                                    <?php echo form_error('rt');?>
                               </div>
-                              <label for="curl" class="control-label col-lg-1">RW<span class="required">*</span></label>
+                              <label for="curl" class="control-label col-lg-1">RW Tujuan<span class="required" style="color: red;">*</span></label>
                               <div class="col-lg-4 <?php if(form_error('rw')!='') echo $id2; ?>">
                                   <input class="form-control " id="rw" type="text" name="rw" placeholder="Masukkan RW" value="<?php echo $rw; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
                                    <?php echo form_error('rw');?>
@@ -101,7 +122,7 @@
                         </div>
                         <?php $dataE=$this->session->userdata('parEdit'); ?>
                           <div class="form-group ">
-                                  <label for="cname" class="control-label col-lg-2" style="padding-left: 7%;">Kecamatan <span class="required">*</span></label>
+                                  <label for="cname" class="control-label col-lg-2" style="padding-left: 7%;">Kecamatan Tujuan<span class="required" style="color: red;">*</span></label>
                                   <div class="col-lg-9">
                                       
                                         <select class="form-control m-bot15" name="nama_kecamatan" id="nama_kecamatan" onchange="get_desa();" required>
@@ -115,7 +136,7 @@
                                   </div>
                               </div>
                               <div class="form-group ">
-                                  <label for="cemail" class="control-label col-lg-2" style=" padding-left: 7%;">Desa/Kelurahan<span class="required">*</span></label>
+                                  <label for="cemail" class="control-label col-lg-2" style=" padding-left: 7%;">Desa/Kelurahan Tujuan<span class="required" style="color: red;">*</span></label>
                                   <div class="col-lg-9">
                                       <select class="form-control m-bot15" name="nama_desakelurahan" id="nama_desakelurahan" onchange="get_kode();" required>
                                         <option value="" disabled selected><i>---Pilih Desa/Kelurahan---</i></option>
@@ -131,28 +152,14 @@
                                   </div>
                               </div>
                           <div class="form-group ">
-                            <label for="cname" class="control-label col-lg-2">Asal<span class="required">*</span></label>
-                            <div class="col-lg-9 <?php if(form_error('data_asal')!='') echo $id2; ?>">
-                                <input class="form-control" id="data_asal" name="data_asal" type="text" placeholder="Masukkan Asal" value="<?php echo $data_asal; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
-                                <?php echo form_error('data_asal');?>
-                            </div>
-                          </div>
-                          <div class="form-group ">
-                              <label for="curl" class="control-label col-lg-2" >Tujuan<span class="required">*</span></label>
-                              <div class="col-lg-9 <?php if(form_error('data_tujuan')!='') echo $id2; ?>">
-                                  <input class="form-control " id="data_tujuan" type="text" name="data_tujuan" placeholder="Masukkan Tujuan" value="<?php echo $data_tujuan; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')"/>
-                                   <?php echo form_error('data_tujuan');?>
-                              </div>
-                          </div>
-                          <div class="form-group ">
-                            <label for="cname" class="control-label col-lg-2">Nama Petugas <span class="required">*</span></label>
+                            <label for="cname" class="control-label col-lg-2">Nama Petugas <span class="required" style="color: red;">*</span></label>
                               <div class="col-lg-9">
                                   <input class="form-control " id="id_petugasFK" type="hidden" name="id_petugasFK" value="<?php echo $petugasUP['id_petugas'];?>" readonly />
                                   <input class="form-control " id="nama_petugas" type="text" name="nama_petugas" value="<?php echo $petugasUP['nama_petugas'];?>" readonly />
                               </div>                              
                           </div>
                           <div class="form-group ">
-                              <label for="curl" class="control-label col-lg-2" >Tanggal Jadi<span class="required">*</span></label>
+                              <label for="curl" class="control-label col-lg-2" >Tanggal Jadi<span class="required" style="color: red;">*</span></label>
                               <div class="col-lg-9 <?php if(form_error('tgl_jadi')!='') echo $id2; ?>">
                                   <input class="form-control " id="tgl_jadi" type="date" name="tgl_jadi" placeholder="Masukkan Tanggal Lahir" value="<?php echo $tgl_jadi; ?>" class="form-control m-bot15" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')"  min="<?php echo date('Y-m-d')?>" oninput="setCustomValidity('')"/>
                                    <?php echo form_error('tgl_jadi');?>
@@ -160,7 +167,7 @@
                           </div>
                             <?php echo form_error('id_syarat[]'); ?>
                             <div class="form-group ">
-                              <label for="curl" class="control-label col-lg-2" >Syarat</label>
+                              <label for="curl" class="control-label col-lg-2" >Syarat<span class="required" style="color: red;">*</span></label>
                                <div class="col-lg-9">
                                 <?php foreach ($dok as $data1) { ?>
                                   <div class="checkbox">

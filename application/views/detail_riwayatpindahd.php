@@ -8,7 +8,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Detail Syarat Pendaftaran Pindah Datang
+        Detail Syarat Pendaftaran Surat Pindah Datang
       </h1>
     </section>
 
@@ -28,12 +28,17 @@
       <?php } ?>
       <div class="box box-primary">
         <div class="box-header with-border">
-              <h3 class="box-title">Detail Syarat Pendaftaran Pindah</h3>
+              <h3 class="box-title">Detail Syarat Pendaftaran </h3>
             </div>
                 <center>
                   <div class="panel-body" encrypt="multipart/form-data">        
                       <table class="table" width="100%" > 
                       <?php foreach($datapendaftaran as $data){ ?>
+                      <tr>
+                        <th style="width:18%;">Nomor Registrasi </th>
+                        <td style="width:3%"> : </td>
+                        <td align="left"> <?php echo $data->no_registrasi; ?> </td>
+                      </tr>     
                       <tr>
                         <th style="width:18%;">NIK </th>
                         <td style="width: 3%"> : </td>
@@ -55,7 +60,7 @@
                         <td align="left"> <?php echo $data->tempat_lahir; ?>, <?php echo $data->tanggal_lahir; ?></td>
                       </tr>
                       <tr>
-                        <th style="width:18%;">Alamat </th>
+                        <th style="width:18%;">Alamat Tujuan </th>
                         <td> : </td>
                         <td align="left"> <?php echo $data->alamat; ?>, RT <?php echo $data->rt; ?> / RW <?php echo $data->rw; ?>, <?php echo $data->nama_desakelurahan; ?>, <?php echo $data->nama_kecamatan; ?></td>
                       </tr>
@@ -65,19 +70,14 @@
                         <td align="left"> <?php echo $data->data_asal; ?> </td>
                       </tr>
                       <tr>
-                        <th style="width:18%;">Tujuan</th>
-                        <td> : </td>
-                        <td align="left"> <?php echo $data->data_tujuan; ?> </td>
-                      </tr>
-                      <tr>
                         <th style="width:18%;">Nama Petugas</th>
                         <td> : </td>
                         <td align="left"> <?php echo $data->nama_petugas; ?> </td>
                       </tr>
                       <tr>
-                        <th style="width:18%;">Tanggal Buat</th>
+                        <th style="width:18%;">Tanggal Daftar</th>
                         <td style="width:3%"> : </td>
-                        <td align="left"> <?php echo $data->tgl_buat; ?> </td>
+                        <td align="left"> <?php echo $data->tgl_daftar; ?> </td>
                       </tr> 
                       <tr>
                         <th style="width:18%;">Tanggal Jadi</th>
@@ -98,7 +98,7 @@
                       <thead>
                           <tr>
                             <th style="border: 2.3px solid;"><center> No </center></th>
-                            <th style="border: 2.3px solid;"><center> Nama Dokumen </center></th>
+                            <th style="border: 2.3px solid;"><center> Nama Syarat Pendaftaran </center></th>
                             <th style="border: 2.3px solid;"><center> Syarat</center></th>
                           </tr>
                       </thead> 
@@ -112,7 +112,7 @@
                       <?php   $no++;endforeach; ?>
                       </tbody> 
                     </table>
-                       <a href="<?php echo site_url('PendafPindahC/riwayatpendafpindah') ?>"><button class="btn btn-default" name="batal" type="button">Kembali</button></a>
+                       <a href="<?php echo base_url('PendafPindahC/riwayatpendafpindah') ?>"><button class="btn btn-default" name="batal" type="button">Kembali</button></a>
                        </center>
                   </div>
                   <?php echo form_close(); ?>

@@ -39,6 +39,11 @@
                       <table class="table" width="100%" > 
                       <?php foreach($datapendaftaran as $data){ ?>
                       <tr>
+                        <th style="width:18%;">Nomor Registrasi </th>
+                        <td style="width:3%"> : </td>
+                        <td align="left"> <?php echo $data->no_registrasi; ?> </td>
+                      </tr>       
+                      <tr>
                         <th style="width:18%;">Nomor KK </th>
                         <td style="width:3%"> : </td>
                         <td align="left"> <?php echo $data->noKK; ?> </td>
@@ -59,9 +64,9 @@
                         <td align="left"> <?php echo $data->nama_petugas; ?> </td>
                       </tr>
                       <tr>
-                        <th style="width:18%;">Tanggal Buat</th>
+                        <th style="width:18%;">Tanggal Daftar</th>
                         <td style="width:3%"> : </td>
-                        <td align="left"> <?php echo $data->tgl_buat; ?> </td>
+                        <td align="left"> <?php echo $data->tgl_daftar; ?> </td>
                       </tr> 
                       <tr>
                         <th style="width:18%;">Tanggal Jadi</th>
@@ -82,7 +87,7 @@
                       <thead>
                           <tr>
                             <th style="border: 2.3px solid;"><center> No </center></th>
-                            <th style="border: 2.3px solid;"><center> Nama Dokumen </center></th>
+                            <th style="border: 2.3px solid;"><center> Nama Syarat Pendaftaran </center></th>
                             <th style="border: 2.3px solid;"><center> Syarat</center></th>
                           </tr>
                       </thead> 
@@ -100,7 +105,7 @@
                       <?php   $no++;endforeach; ?>
                       </tbody> 
                     </table>
-                <a href="<?php echo site_url('PendafKKC/riwayatpendafkk') ?>"><button class="btn btn-default" name="batal" type="button">Kembali</button></a>
+                <a href="<?php echo base_url('PendafKKC/riwayatpendafkk') ?>"><button class="btn btn-default" name="batal" type="button">Kembali</button></a>
                 </div>
               </center>
             </section>

@@ -9,7 +9,7 @@ class AdminM extends CI_Model {
         return $q;
     }
     public function get_desakelurahan($id){
-        $q = $this->db->query("SELECT * from desakelurahan, kecamatan where kecamatan.id_kecamatan=desakelurahan.id_kecamatanFK and id_kecamatanFK='$id' and desakelurahan.Deleted='0'");
+        $q = $this->db->query("SELECT * from desakelurahan, kecamatan where kecamatan.id_kecamatan=desakelurahan.id_kecamatanFK and id_kecamatanFK='$id' and desakelurahan.Deleted='0' and kecamatan.Deleted='0'");
         return $q;
     }
     public function get_kec($id){
@@ -17,7 +17,7 @@ class AdminM extends CI_Model {
         return $q;
     }
     public function get_desak($id){
-        $q = $this->db->query("SELECT DISTINCT(id_kecamatanFK), nama_kecamatan from desakelurahan, kecamatan where kecamatan.id_kecamatan=desakelurahan.id_kecamatanFK and id_kecamatanFK='$id' and desakelurahan.Deleted='0'");
+        $q = $this->db->query("SELECT DISTINCT(id_kecamatanFK), nama_kecamatan from desakelurahan, kecamatan where kecamatan.id_kecamatan=desakelurahan.id_kecamatanFK and id_kecamatanFK='$id' and desakelurahan.Deleted='0' and kecamatan.Deleted='0'");
         return $q;
     }
     public function get_kecamatan(){
@@ -33,11 +33,11 @@ class AdminM extends CI_Model {
         return $q;
     }
     public function get_petugas_det($id){
-        $q = $this->db->query("SELECT * from petugas, user_role where user_role.id_user_role=petugas.id_user_roleFK and petugas.Deleted='0' and id_petugas='$id'");
+        $q = $this->db->query("SELECT * from petugas, user_role where user_role.id_user_role=petugas.id_user_roleFK and petugas.Deleted='0' and user_role.Deleted='0' and id_petugas='$id'");
         return $q;
     }
     public function get_desakel($id){
-        $q = $this->db->query("SELECT * from desakelurahan, kecamatan where kecamatan.id_kecamatan=desakelurahan.id_kecamatanFK and desakelurahan.Deleted='0' and id_desakelurahan='$id'");
+        $q = $this->db->query("SELECT * from desakelurahan, kecamatan where kecamatan.id_kecamatan=desakelurahan.id_kecamatanFK and kecamatan.Deleted='0' and desakelurahan.Deleted='0' and id_desakelurahan='$id'");
         return $q;
     }
     public function updatepetugas($id){
@@ -99,25 +99,25 @@ class AdminM extends CI_Model {
         return $pendafpindahdatangtahun =$this->db->query("SELECT * FROM pendaftaran where  id_status_pendafFK='4' and Deleted='0' GROUP BY id_pendaftaran");
     }
 
-    public function insertdesa($desa){
-      $this->db->trans_start();
+    // public function insertdesa($desa){
+    //   $this->db->trans_start();
         
-      $this->db->insert('desakelurahan',$desa);
-      $insert_id = $this->db->insert_id();
+    //   $this->db->insert('desakelurahan',$desa);
+    //   $insert_id = $this->db->insert_id();
     
-      $this->db->trans_complete();
-      return $insert_id;
-    }
+    //   $this->db->trans_complete();
+    //   return $insert_id;
+    // }
 
     //grafik pendaftaran
-    function getPendaftaranKK(){
-        $query = $this->db->query("SELECT MONTH(tgl_buat) AS bulan, COUNT(*) AS jum FROM pendaftaran where id_status_pendafFK='1' GROUP BY YEAR(tgl_buat)");
-        if($query->num_rows()>0){
-            foreach ($query -> result() as $data) {
-                $hasil[]=$data;
-            }
-            return $hasil;
-        }
+    // function getPendaftaranKK(){
+    //     $query = $this->db->query("SELECT MONTH(tgl_daftar) AS bulan, COUNT(*) AS jum FROM pendaftaran where id_status_pendafFK='1' GROUP BY YEAR(tgl_daftar)");
+    //     if($query->num_rows()>0){
+    //         foreach ($query -> result() as $data) {
+    //             $hasil[]=$data;
+    //         }
+    //         return $hasil;
+    //     }
 
-    }
+    // }
 }

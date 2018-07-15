@@ -22,7 +22,7 @@
         <div class="alert alert-danger"><strong> Error! </strong> <?=$data2;?></div>
       <?php } ?>
 
-       <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafPindahC/datapendafeditprosespd');?>">
+       <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=base_url('PendafPindahC/datapendafeditprosespd');?>">
         <div>
               <section class="panel">
                     <input type="hidden" name="id_pendaftaran" id="id_pendaftaran" value="<?php echo $get_datapenduduk['id_pendaftaran']; ?>">
@@ -116,18 +116,6 @@
                         </div>
                   </div>
                   <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Data Asal<span class="required">*</span></label>
-                      <div class="col-lg-8">
-                           <input class="form-control " id="data_asal" name="data_asal" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_datapenduduk['data_asal']; ?>"/>
-                      </div>
-                  </div>
-                  <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Data Tujuan<span class="required">*</span></label>
-                      <div class="col-lg-8">
-                           <input class="form-control " id="data_tujuan" name="data_tujuan" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_datapenduduk['data_tujuan']; ?>"/>
-                      </div>
-                  </div>
-                  <div class="form-group ">
                       <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Tanggal Jadi<span class="required">*</span></label>
                       <div class="col-lg-8">
                            <input class="form-control " id="tgl_jadi" name="tgl_jadi" type="date" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $get_datapenduduk['tgl_jadi']; ?>"/>
@@ -137,7 +125,7 @@
                     <div class="form-group ">
                       <div class="col-lg-12">
                           <button class="btn btn-primary" name="simpan" id="simpan" type="submit">Simpan</button>
-                          <a href="<?php echo site_url('PendafPindahC/inputpendafpindah/'.$get_datapenduduk['id_pendaftaran']) ?>"><button class="btn btn-default" name="batal" type="button">Batal</button></a>
+                          <a href="<?php echo base_url('PendafPindahC/inputpendafpindah/'.$get_datapenduduk['id_pendaftaran']) ?>"><button class="btn btn-default" name="batal" type="button">Batal</button></a>
                       </div>
                   </center>
                 </div>

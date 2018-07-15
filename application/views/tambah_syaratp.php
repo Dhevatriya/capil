@@ -33,7 +33,7 @@
               <h3 class="box-title">Detail Syarat Pendaftaran</h3>
             </div>
 
-   <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafKKC/datapendudukeditproses');?>">
+   <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafPindahC/updateSyarat/'.$this->uri->segment(3));?>">
         <div>
               <section class="panel">
                   <div class="panel-body">
@@ -44,11 +44,16 @@
                       <div class="col-lg-9">
                         <?php foreach ($dok as $data) { ?>
                           <div class="checkbox">
+                            <!-- <input type="hidden" name="id_pendaftaranFK" value="<?php echo $data->id_pendaftaranFK ?>" > -->
                             <input type="checkbox" name="id_syarat[]" <?php foreach ($syarat as $data1){ if($data->id_syarat == $data1['id_syaratFK']) {echo "checked";}} ?> value="<?php echo $data->id_syarat ?>" ><?php echo $data->judul_syarat ?>
                           </div>
                         <?php } ?>
                         </div>
                   </div>
+                  <center>
+                <a data-popup="tooltip" data-placement="top"><button class="btn btn-primary" name="simpan" type="submit" value="upload">Simpan</button></a>
+                <a href="<?php echo base_url('PendafPindahC/detailsyaratpindah/').$datapendaftaran['id_pendaftaranFK'] ?>"><button class="btn btn-default" name="batal" type="button">Kembali</button></a>
+                </center>
               </form>
               </div>
           </div>

@@ -19,7 +19,7 @@ var $data= array();
       "lapakte"=>$this->AdminM->pendafaktetahun()->num_rows(),
       "lappindah"=>$this->AdminM->pendafpindahtahun()->num_rows(),
       "lappindahdatang"=>$this->AdminM->pendafpindahdatangtahun()->num_rows(),
-      "grafikKK"=>$this->AdminM->getPendaftaranKK(),
+      // "grafikKK"=>$this->AdminM->getPendaftaranKK(),
       "bclass"=>" ",
     );
     $data['body']= $this->load->view('dashboardv.php', $data, true);

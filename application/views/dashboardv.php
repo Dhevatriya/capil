@@ -15,135 +15,103 @@
     </section>
     <?php
       $conn= new mysqli('localhost','root','','disdukcapil');
-      $totalStatusPendaf = $conn->query("select * from status_pendaftaran");
-      $totalPendaftaran = $conn->query("select * from pendaftaran");
-      $totalDiunggah = $conn->query("select * from detail_syarat, pendaftaran where pendaftaran.id_pendaftaran = detail_syarat.id_pendaftaranFK and status_unggah='Sudah Diunggah'");
+      $totalStatusPendaf = $conn->query("select * from status_pendaftaran where status_pendaftaran.Deleted='0'");
+      $totalPendaftaran = $conn->query("select * from pendaftaran where pendaftaran.Deleted='0'");
+      $totalDiunggah = $conn->query("select * from detail_syarat, pendaftaran where pendaftaran.id_pendaftaran = detail_syarat.id_pendaftaranFK and status_unggah='Sudah Diunggah' and pendaftaran.Deleted='0' and detail_syarat.Deleted='0'");
 
-      //PRESENTASI SYARAT YANG BELUM  DIUNGGAH
-      // $statusp1 = $conn->query("select DISTINCT(id_pendaftaranFK) from detail_syarat, pendaftaran where pendaftaran.id_pendaftaran = detail_syarat.id_pendaftaranFK and status_unggah='Belum Diunggah'");
-      // $statusp2 = $conn->query("select DISTINCT(id_pendaftaranFK) from detail_syarat, pendaftaran where pendaftaran.id_pendaftaran = detail_syarat.id_pendaftaranFK and id_status_pendafFK='2' and status_unggah='Belum Diunggah'");
-      // $statusp3 = $conn->query("select DISTINCT(id_pendaftaranFK) from detail_syarat, pendaftaran where pendaftaran.id_pendaftaran = detail_syarat.id_pendaftaranFK and id_status_pendafFK='3' and status_unggah='Belum Diunggah'");
-      // $statusp4 = $conn->query("select DISTINCT(id_pendaftaranFK) from detail_syarat, pendaftaran where pendaftaran.id_pendaftaran = detail_syarat.id_pendaftaranFK and id_status_pendafFK='4' and status_unggah='Belum Diunggah'");
+      //jumlah pendaftaran akte berdasarkan jenis kelamin
+      $laki=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran WHERE id_status_pendafFK=2 and jenis_kelamin='Laki-laki' and pendaftaran.Deleted='0' ");
+      $perem=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran WHERE id_status_pendafFK=2 and jenis_kelamin='Perempuan' and pendaftaran.Deleted='0'");
 
-      //PRESENTASI SYARAT YANG SUDAH DIUNGGAH
-      // $status1 = $conn->query("select DISTINCT(id_pendaftaranFK) from detail_syarat, pendaftaran where pendaftaran.id_pendaftaran = detail_syarat.id_pendaftaranFK and status_unggah='Sudah Diunggah'");
-      // $status2 = $conn->query("select DISTINCT(id_pendaftaranFK) from detail_syarat, pendaftaran where pendaftaran.id_pendaftaran = detail_syarat.id_pendaftaranFK and id_status_pendafFK='2' and status_unggah='Sudah Diunggah'");
-      // $status3 = $conn->query("select DISTINCT(id_pendaftaranFK) from detail_syarat, pendaftaran where pendaftaran.id_pendaftaran = detail_syarat.id_pendaftaranFK and id_status_pendafFK='3' and status_unggah='Sudah Diunggah'");
-      // $status4 = $conn->query("select DISTINCT(id_pendaftaranFK) from detail_syarat, pendaftaran where pendaftaran.id_pendaftaran = detail_syarat.id_pendaftaranFK and id_status_pendafFK='4' and status_unggah='Sudah Diunggah'");
-
-
-      // $senin = $conn->query("SELECT DISTINCT(DAYNAME(CreateDtm)) FROM pendaftaran WHERE DAYNAME(CreateDtm)='Monday' AND CreateDtm BETWEEN date_sub(now(), INTERVAL 1 WEEK) AND now()");
-      // $selasa = $conn->query("SELECT DISTINCT(DAYNAME(CreateDtm)) FROM pendaftaran WHERE DAYNAME(CreateDtm)='Tuesday' AND CreateDtm BETWEEN date_sub(now(), INTERVAL 1 WEEK) AND now()");
-      // $rabu = $conn->query("SELECT DISTINCT(DAYNAME(CreateDtm)) FROM pendaftaran WHERE DAYNAME(CreateDtm)='Wednesday' AND CreateDtm BETWEEN date_sub(now(), INTERVAL 1 WEEK) AND now()");
-      // $kamis = $conn->query("SELECT DISTINCT(DAYNAME(CreateDtm)) FROM pendaftaran WHERE DAYNAME(CreateDtm)='Thursday' AND CreateDtm BETWEEN date_sub(now(), INTERVAL 1 WEEK) AND now()");
-      // $jumat = $conn->query("SELECT DISTINCT(DAYNAME(CreateDtm)) FROM pendaftaran WHERE DAYNAME(CreateDtm)='Friday' AND CreateDtm BETWEEN date_sub(now(), INTERVAL 1 WEEK) AND now()");
-
-      //jumlah pendaftaran berdasarkan hari
-      // $sen=$conn->query("SELECT DAYNAME(CreateDtm) FROM pendaftaran WHERE DAYNAME(CreateDtm)='Monday'");
-      // $sel=$conn->query("SELECT DAYNAME(CreateDtm) FROM pendaftaran WHERE DAYNAME(CreateDtm)='Tuesday'");
-      // $rab=$conn->query("SELECT DAYNAME(CreateDtm) FROM pendaftaran WHERE DAYNAME(CreateDtm)='Wednesday'");
-      // $kam=$conn->query("SELECT DAYNAME(CreateDtm) FROM pendaftaran WHERE DAYNAME(CreateDtm)='Thursday'");
-      // $jum=$conn->query("SELECT DAYNAME(CreateDtm) FROM pendaftaran WHERE DAYNAME(CreateDtm)='Friday'");
+      //jumlah pendaftaran akte berdasarkan jenis akte
+      $umum=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran WHERE id_status_pendafFK=2 and jenis_akte='Umum'  and pendaftaran.Deleted='0'");
+      $tp=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran WHERE id_status_pendafFK=2 and jenis_akte='Terlambat Pendaftaran'  and pendaftaran.Deleted='0'");      
 
       //jumlah pendaftaran kk berdasarkan kecamatan
-      $kkkec1=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=1");
-      $kkkec2=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=2");
-      $kkkec3=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=3");
-      $kkkec4=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=4");
-      $kkkec5=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=5");
-      $kkkec6=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=6");
-      $kkkec7=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=7");
-      $kkkec8=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=8");
-      $kkkec9=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=9");
-      $kkkec10=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=10");
-      $kkkec11=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=11");
-      $kkkec12=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=12");
-      $kkkec13=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=13");
-      $kkkec14=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=14");
-      $kkkec15=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=15");
-      $kkkec16=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=16");
-      $kkkec17=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=17");
+      $kkkec1=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=1  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec2=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=2  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec3=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=3  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec4=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=4  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec5=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=5  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec6=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=6  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec7=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=7  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec8=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=8  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec9=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=9  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec10=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=10  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec11=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=11  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec12=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=12  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec13=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=13  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec14=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=14  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec15=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=15  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec16=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=16  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $kkkec17=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=1 and id_kecamatanFK=17  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
 
       //jumlah pendaftaran akte berdasarkan kecamatan
-      $aktekec1=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=1");
-      $aktekec2=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=2");
-      $aktekec3=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=3");
-      $aktekec4=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=4");
-      $aktekec5=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=5");
-      $aktekec6=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=6");
-      $aktekec7=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=7");
-      $aktekec8=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=8");
-      $aktekec9=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=9");
-      $aktekec10=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=10");
-      $aktekec11=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=11");
-      $aktekec12=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=12");
-      $aktekec13=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=13");
-      $aktekec14=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=14");
-      $aktekec15=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=15");
-      $aktekec16=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=16");
-      $aktekec17=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=17");
+      $aktekec1=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=1 and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec2=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=2  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec3=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=3  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec4=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=4  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec5=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=5  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec6=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=6  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec7=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=7  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec8=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=8  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec9=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=9 and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec10=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=10  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec11=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=11  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec12=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=12  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec13=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=13  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec14=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=14  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec15=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=15  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec16=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=16  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $aktekec17=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=2 and id_kecamatanFK=17  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
 
       //jumlah pendaftaran akte berdasarkan kecamatan
-      $pindahkec1=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=1");
-      $pindahkec2=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=2");
-      $pindahkec3=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=3");
-      $pindahkec4=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=4");
-      $pindahkec5=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=5");
-      $pindahkec6=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=6");
-      $pindahkec7=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=7");
-      $pindahkec8=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=8");
-      $pindahkec9=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=9");
-      $pindahkec10=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=10");
-      $pindahkec11=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=11");
-      $pindahkec12=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=12");
-      $pindahkec13=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=13");
-      $pindahkec14=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=14");
-      $pindahkec15=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=15");
-      $pindahkec16=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=16");
-      $pindahkec17=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=17");
+      $pindahkec1=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=1  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec2=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=2  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec3=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=3  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec4=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=4  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec5=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=5  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec6=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=6  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec7=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=7  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec8=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=8  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec9=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=9  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec10=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=10  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec11=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=11  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec12=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=12  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec13=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=13  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec14=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=14  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec15=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=15  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec16=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=16  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahkec17=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=3 and id_kecamatanFK=17  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
 
       //jumlah pendaftaran pindah datang berdasarkan kecamatan
-      $pindahdkec1=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=1");
-      $pindahdkec2=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=2");
-      $pindahdkec3=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=3");
-      $pindahdkec4=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=4");
-      $pindahdkec5=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=5");
-      $pindahdkec6=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=6");
-      $pindahdkec7=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=7");
-      $pindahdkec8=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=8");
-      $pindahdkec9=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=9");
-      $pindahdkec10=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=10");
-      $pindahdkec11=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=11");
-      $pindahdkec12=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=12");
-      $pindahdkec13=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=13");
-      $pindahdkec14=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=14");
-      $pindahdkec15=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=15");
-      $pindahdkec16=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=16");
-      $pindahdkec17=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=17");
+      $pindahdkec1=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=1  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec2=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=2  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec3=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=3  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec4=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=4  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec5=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=5  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec6=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=6  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec7=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=7  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec8=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=8  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec9=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=9  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec10=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=10  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec11=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=11  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec12=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=12  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec13=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=13  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec14=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=14  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec15=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=15  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec16=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=16  and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
+      $pindahdkec17=$conn->query("SELECT DISTINCT(id_pendaftaran) FROM pendaftaran, desakelurahan WHERE pendaftaran.id_desakelurahanFK = desakelurahan.id_desakelurahan and id_status_pendafFK=4 and id_kecamatanFK=17 and pendaftaran.Deleted='0' and desakelurahan.Deleted='0'");
 
       $totalPendaftaran = mysqli_num_rows($totalPendaftaran);
 
-      // $sumstatusp1 = mysqli_num_rows($statusp1); 
-      // $sumstatusp2 = mysqli_num_rows($statusp2); 
-      // $sumstatusp3 = mysqli_num_rows($statusp3); 
-      // $sumstatusp4 = mysqli_num_rows($statusp4); 
-
-      // $sumstatus1 = mysqli_num_rows($status1); 
-      // $sumstatus2 = mysqli_num_rows($status2); 
-      // $sumstatus3 = mysqli_num_rows($status3); 
-      // $sumstatus4 = mysqli_num_rows($status4); 
-
-      // $senin = mysqli_num_rows($senin); 
-      // $selasa = mysqli_num_rows($selasa); 
-      // $rabu = mysqli_num_rows($rabu); 
-      // $kamis = mysqli_num_rows($kamis); 
-      // $jumat = mysqli_num_rows($jumat);  
-         
-      // $sen = mysqli_num_rows($sen); 
-      // $sel = mysqli_num_rows($sel); 
-      // $rab = mysqli_num_rows($rab); 
-      // $kam = mysqli_num_rows($kam); 
-      // $jum = mysqli_num_rows($jum); 
+      //jumlah pedaftaran akte berdasarkan jenis kelamin
+      $laki = mysqli_num_rows($laki);
+      $perem = mysqli_num_rows($perem);
+      
+      //jumlah pedaftaran akte berdasarkan jenis akte
+      $umum = mysqli_num_rows($umum);
+      $tp = mysqli_num_rows($tp);
 
       //kk
       $kkkec1 = mysqli_num_rows($kkkec1);
@@ -293,6 +261,39 @@
         </div>
         </div>
       <div class="row">  
+        <div class="col-md-6">
+           <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Jumlah Pendaftaran Akte Berdasarkan Jenis Kelamin</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="box-body">
+              <canvas id="pieChartAkteJK" width="150" height="50"></canvas>
+            </div>
+            <!-- /.box-body -->
+          </div> 
+        </div> 
+ 
+        <div class="col-md-6">
+           <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Jumlah Pendaftaran Akte Berdasarkan Jenis Akte</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="box-body">
+              <canvas id="pieChartAkteJA" width="150" height="50"></canvas>
+            </div>
+            <!-- /.box-body -->
+          </div> 
+        </div> 
+        </div>
+      <div class="row">  
         <div class="col-md-12">
            <div class="box box-primary">
             <div class="box-header with-border">
@@ -330,7 +331,7 @@
         <div class="col-md-12">
            <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Jumlah Pendaftaran Pindah Berdasarkan Kecamatan</h3>
+              <h3 class="box-title">Jumlah Pendaftaran Surat Pindah Berdasarkan Kecamatan</h3>
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
@@ -347,7 +348,7 @@
         <div class="col-md-12">
            <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Jumlah Pendaftaran Pindah Datang Berdasarkan Kecamatan</h3>
+              <h3 class="box-title">Jumlah Pendaftaran Surat Pindah Datang Berdasarkan Kecamatan</h3>
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
@@ -362,6 +363,33 @@
         </div>
   </section>
 </section>
+<script>
+   var ctx = document.getElementById("pieChartAkteJA");
+   var myChart = new Chart(ctx, {
+     type: 'pie',
+     data: {
+       labels: ["Umum","Terlambat Pendaftaran"],
+       datasets: [{
+         label: 'Jumlah Pendaftaran Akte Berdasarkan Jenis Akte',
+         data: [<?php echo $umum ?>,<?php echo $tp ?>],
+         backgroundColor: [
+         'rgba(38, 185, 154, 1)', //hijau
+         // 'rgba(52, 152, 219, 1)', //biru
+         'rgba(69, 92, 115, 1)', //biru tua
+         ],
+         borderColor: [
+         'rgba(255, 255, 255, 0.3)',
+         // 'rgba(54, 162, 235, 0.2)',
+         // 'rgba(255,99,132,1)',
+         'rgba(255, 255, 255, 1)',
+         // 'rgba(153, 102, 255, 1)',
+         // 'rgba(255, 159, 64, 1)'
+         ],
+         borderWidth: 2
+       }]
+     },
+   });
+</script>
 <script>
    var ctx = document.getElementById("pieChartKK");
    var myChart = new Chart(ctx, {
@@ -388,6 +416,32 @@
          'rgba(0, 191, 255, 1)',
          'rgba(255, 255, 0, 1)',
          'rgba(154, 255, 154, 1)',
+         'rgba(139, 26, 26, 1)'
+         ],
+         borderColor: [
+         'rgba(255, 255, 255, 0.3)',
+         // 'rgba(54, 162, 235, 0.2)',
+         // 'rgba(255,99,132,1)',
+         'rgba(255, 255, 255, 1)',
+         // 'rgba(153, 102, 255, 1)',
+         // 'rgba(255, 159, 64, 1)'
+         ],
+         borderWidth: 2
+       }]
+     },
+   });
+</script>
+<script>
+   var ctx = document.getElementById("pieChartAkteJK");
+   var myChart = new Chart(ctx, {
+     type: 'pie',
+     data: {
+       labels: ["Laki-laki","Perempuan"],
+       datasets: [{
+         label: 'Jumlah Pendaftaran Akte Berdasarkan Jenis Kelamin',
+         data: [<?php echo $laki ?>,<?php echo $perem ?>],
+         backgroundColor: [
+         'rgba(231, 76, 60, 1)', //merah
          'rgba(139, 26, 26, 1)'
          ],
          borderColor: [
@@ -451,7 +505,7 @@
      data: {
        labels: ["Colomadu","Gondangrejo","Jaten","Jatipuro"," Jatioso","Jenawi","Jumantono","Jumapolo","Karanganyar","Karangpandan","Kebakramat","Kerjo","Matesih","Mojogedang","Ngargoyoso","Tasikmadu","Tawangmangu"],
        datasets: [{
-         label: 'Jumlah Pendaftaran Pindah Berdasarkan Kecamatan',
+         label: 'Jumlah Pendaftaran Surat Pindah Berdasarkan Kecamatan',
          data: [<?php echo $pindahkec1 ?>,<?php echo $pindahkec2 ?>,<?php echo $pindahkec3 ?>,<?php echo $pindahkec4 ?>,<?php echo $pindahkec5 ?>,<?php echo $pindahkec6 ?>,<?php echo $pindahkec7 ?>,<?php echo $pindahkec8 ?>,<?php echo $pindahkec9 ?>,<?php echo $pindahkec10 ?>,<?php echo $pindahkec11 ?>,<?php echo $pindahkec12 ?>,<?php echo $pindahkec13 ?>,<?php echo $pindahkec14 ?>,<?php echo $pindahkec15 ?>,<?php echo $pindahkec16 ?>,<?php echo $pindahkec17 ?>],
          backgroundColor: [
          'rgba(38, 185, 154, 1)', //hijau
@@ -492,7 +546,7 @@
      data: {
        labels: ["Colomadu","Gondangrejo","Jaten","Jatipuro"," Jatioso","Jenawi","Jumantono","Jumapolo","Karanganyar","Karangpandan","Kebakramat","Kerjo","Matesih","Mojogedang","Ngargoyoso","Tasikmadu","Tawangmangu"],
        datasets: [{
-         label: 'Jumlah Pendaftaran Pindah Datang Berdasarkan Kecamatan',
+         label: 'Jumlah Pendaftaran Surat Pindah Datang Berdasarkan Kecamatan',
          data: [<?php echo $pindahdkec1 ?>,<?php echo $pindahdkec2 ?>,<?php echo $pindahdkec3 ?>,<?php echo $pindahdkec4 ?>,<?php echo $pindahdkec5 ?>,<?php echo $pindahdkec6 ?>,<?php echo $pindahdkec7 ?>,<?php echo $pindahdkec8 ?>,<?php echo $pindahdkec9 ?>,<?php echo $pindahdkec10 ?>,<?php echo $pindahdkec11 ?>,<?php echo $pindahdkec12 ?>,<?php echo $pindahdkec13 ?>,<?php echo $pindahdkec14 ?>,<?php echo $pindahdkec15 ?>,<?php echo $pindahdkec16 ?>,<?php echo $pindahdkec17 ?>],
          backgroundColor: [
          'rgba(38, 185, 154, 1)', //hijau

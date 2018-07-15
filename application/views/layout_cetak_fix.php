@@ -8,12 +8,12 @@
 		<div style="position: absolute; text-align: right; top:10; right:10; font-size: 8pt; color: black; font-style: italic;"><?php echo "DISDUKCAPIL".date('-d/m/Y'); ?></div>
 		<br>
 		<br>
-		<img style="position: absolute; top:30; left:5%; align:center;  width:6%;" src="<?php echo base_url(); ?>assets/img/a.png"/>
-		<div style="position: absolute; text-align: left; top:20; left:15%; color: black; font-style: bold;">
+		<img style="position: absolute; top:30; left:3%; align:center;  width:6%;" src="<?php echo base_url(); ?>assets/img/a.png"/>
+		<div style="position: absolute; text-align: left; top:20; left:10%; color: black; font-style: bold;">
 			<h4 style="font-size: 10pt;">DINAS KEPENDUDUKAN DAN CATATAN SIPIL KABUPATEN KARANGANYAR 
 			<h5>Jl. Kapten Mulyadi, Karanganyar | Telp. (0271) 495035, 49540 </h5></h4>
 		</div>
-		<div style="position: absolute; left:43; text-align: center; top:58; font-size: 10pt; color: black; width: 88%">
+		<div style="position: absolute; left:30; text-align: center; top:75; font-size: 10pt; color: black; width: 93%">
 			<br>                                    
 			<br>
 			<hr size="10px" align="center" color="grey" width="100%">

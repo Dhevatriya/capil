@@ -34,13 +34,18 @@
             </div>
   
        <?php foreach($datapendaftaran as $data){ ?>
-             <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafAkteC/cetakpendaftaranakte/'.$data->id_pendaftaran)?>">
+             <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=base_url('PendafAkteC/cetakpendaftaranakte/'.$data->id_pendaftaran)?>">
               <!-- <div class="col-lg-12" style="padding-left: 10%; padding-right: 10% "> -->
               <section class="panel">
                <center>
                 <div class="panel-body" style="text-align:center;">
                       <table class="table" width="100%" > 
                       <?php foreach($datapendaftaran as $data){ ?>
+                      <tr>
+                        <th style="width:18%;">Nomor Registrasi </th>
+                        <td style="width:3%"> : </td>
+                        <td align="left"> <?php echo $data->no_registrasi; ?> </td>
+                      </tr>     
                       <tr>
                         <th style="width:18%;">NIK </th>
                         <td style="width:%"> : </td>
@@ -52,14 +57,14 @@
                         <td align="left"> <?php echo $data->nama_lengkap; ?> </td>
                       </tr>
                       <tr>
+                        <th style="width:18%;">Tempat/Tanggal Lahir </th>
+                        <td> : </td>
+                        <td align="left"> <?php echo $data->tempat_lahir; ?>, <?php echo $data->tanggal_lahir; ?></td>
+                      </tr>
+                      <tr>
                         <th style="width:18%;">Jenis Kelamin</th>
                         <td style="width:3%"> : </td>
                         <td align="left"> <?php echo $data->jenis_kelamin; ?> </td>
-                      </tr>
-                      <tr>
-                        <th style="width:18%;">Tempat/Tanggal Lahir </th>
-                        <td style="width:3%"> : </td>
-                        <td align="left"> <?php echo $data->tempat_lahir; ?>, <?php echo $data->tanggal_lahir; ?> </td>
                       </tr>
                       <tr>
                         <th style="width:18%;">Alamat </th>
@@ -72,14 +77,19 @@
                         <td align="left"> <?php echo $data->nama_petugas; ?> </td>
                       </tr>
                       <tr>
-                        <th style="width:18%;">Tanggal Buat</th>
+                        <th style="width:18%;">Tanggal Daftar</th>
                         <td style="width:3%"> : </td>
-                        <td align="left"> <?php echo $data->tgl_buat; ?> </td>
+                        <td align="left"> <?php echo $data->tgl_daftar; ?> </td>
                       </tr> 
                       <tr>
                         <th style="width:18%;">Tanggal Jadi</th>
                         <td> : </td>
                         <td align="left"> <?php echo $data->tgl_jadi; ?> </td>
+                      </tr>
+                      <tr>
+                        <th style="width:18%;">Jenis Akte</th>
+                        <td> : </td>
+                        <td align="left"> <?php echo $data->jenis_akte; ?></td>
                       </tr>
                       <tr>
                         <th style="width:18%;">Status Pendaftaran</th>
@@ -92,7 +102,7 @@
                       <thead>
                           <tr>
                             <th style="border: 2.3px solid;"><center> No </center></th>
-                            <th style="border: 2.3px solid;"><center> Nama Dokumen </center></th>
+                            <th style="border: 2.3px solid;"><center> Nama Syarat Pendaftaran </center></th>
                             <th style="border: 2.3px solid;"><center> Syarat</center></th>
                           </tr>
                       </thead> 
@@ -105,7 +115,7 @@
                       <?php   $no++;endforeach; ?>
                       </tbody> 
                     </table>
-                    <a href="<?php echo site_url('PendafAkteC/riwayatpendafakte') ?>"><button class="btn btn-default" name="batal" type="button">Kembali</button></a>
+                    <a href="<?php echo base_url('PendafAkteC/riwayatpendafakte') ?>"><button class="btn btn-default" name="batal" type="button">Kembali</button></a>
                 <center>
       </form>
       <?php } ?>

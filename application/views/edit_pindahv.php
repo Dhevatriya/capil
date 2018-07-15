@@ -22,7 +22,7 @@
         <div class="alert alert-danger"><strong> Error! </strong> <?=$data2;?></div>
       <?php } ?>
 
-       <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafPindahC/datapendafeditproses');?>">
+       <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=base_url('PendafPindahC/datapendafeditproses');?>">
         <div>
               <section class="panel">
                     <input type="hidden" name="id_pendaftaran" id="id_pendaftaran" value="<?php echo $get_datapenduduk['id_pendaftaran']; ?>">
@@ -137,7 +137,7 @@
                     <div class="form-group ">
                       <div class="col-lg-12">
                           <button class="btn btn-primary" name="simpan" id="simpan" type="submit">Simpan</button>
-                          <a href="<?php echo site_url('PendafPindahC/inputpendafpindah/'.$get_datapenduduk['id_pendaftaran']) ?>"><button class="btn btn-default" name="batal" type="button">Batal</button></a>
+                          <a href="<?php echo base_url('PendafPindahC/inputpendafpindah/'.$get_datapenduduk['id_pendaftaran']) ?>"><button class="btn btn-default" name="batal" type="button">Batal</button></a>
                       </div>
                   </center>
                 </div>

@@ -57,7 +57,7 @@
                       </tbody> 
                     </table>
                       <a data-popup="tooltip" data-placement="top"><button class="btn btn-primary" name="simpan" type="submit" value="upload">Simpan</button></a>
-                       <a href="<?php echo site_url('PendafAkteC/detailsyaratkk'.$value->) ?>"><button class="btn btn-default" name="batal" type="button">Kembali</button></a>
+                       <a href="<?php echo base_url('PendafAkteC/detailsyaratakte'.$value->) ?>"><button class="btn btn-default" name="batal" type="button">Kembali</button></a>
                   </div>
                   <?php echo form_close(); ?>
                 </div>

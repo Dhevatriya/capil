@@ -104,7 +104,7 @@
         <li class="<?php echo menuaktif('akte',$aktif); ?>"> 
           <a class="" href="<?php echo base_url() ?>PendafAkteC/inputpendaftaran" >
           <i class="fa fa-edit" ></i> 
-          <span>Pendaftaran akte</span> 
+          <span>Pendaftaran Akte</span> 
           </a>
         </li>
         <li class="<?php echo menuaktif('syaratakte',$aktif); ?>"> 
@@ -116,13 +116,13 @@
         <li class="<?php echo menuaktif('riwayatakte',$aktif); ?>"> 
           <a class="" href="<?php echo base_url() ?>PendafAkteC/riwayatpendafakte">
           <i class="fa fa-book" ></i> 
-          <span>Riwayat Pendaftaran akte</span> 
+          <span>Riwayat Pendaftaran Akte</span> 
           </a>
         </li>
         <li class="<?php echo menuaktif('laporanakte',$aktif); ?>"> 
           <a class="" href="<?php echo base_url() ?>PendafAkteC/laporanpendaftaranakte">
           <i class="fa fa-table" ></i> 
-          <span>Laporan Pendaftaran akte</span> 
+          <span>Laporan Pendaftaran Akte</span> 
           </a>
         </li>
     </section>
@@ -193,6 +193,9 @@
     $('#example5').DataTable()
     $('#example6').DataTable()
     $('#example7').DataTable()
+    $('#example8').DataTable()
+    $('#example9').DataTable()
+    $('#example10').DataTable()
     $('#example2').DataTable({
       'paging'      : true,
       'lengthChange': false,

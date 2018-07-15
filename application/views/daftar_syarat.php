@@ -47,7 +47,7 @@
                       <td ><center><?php echo $value->judul_syarat; ?></center></td> 
                       <td><center>
                         <a data-toggle="modal" data-target="#myModalEdit<?=$value->id_syarat; ?>"><button type="submit" class="btn btn-info btn-xs tooltips" data-popup="tooltip" data-original-title="Ubah Data" data-placement="top"><span class="icon-pencil5"></span></button></a>
-                        <a class="btn btn-danger btn-xs tooltips"  data-popup="tooltip" data-original-title="Hapus Data" data-placement="top" href="<?php echo site_url('AdminC/hapusSyarat/'.$value->id_syarat); ?>" ><i class="fa fa-times" onclick="return confirm('Apakah anda yakin ingin menghapus syarat <?php echo getsyaratpen($value->id_syarat);?> ?')"></i></a>
+                        <a class="btn btn-danger btn-xs tooltips"  data-popup="tooltip" data-original-title="Hapus Data" data-placement="top" href="<?php echo base_url('AdminC/hapusSyarat/'.$value->id_syarat); ?>" ><i class="fa fa-times" onclick="return confirm('Apakah anda yakin ingin menghapus syarat <?php echo getsyaratpen($value->id_syarat);?> ?')"></i></a>
                           
                       </td>
                       </tr>

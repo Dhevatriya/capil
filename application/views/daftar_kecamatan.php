@@ -47,7 +47,7 @@
                        <td ><center><?php echo $value->nama_kecamatan; ?></center></td> 
                       <td colspan=""><center>
                         <a data-toggle="modal" data-target="#myModalEdit<?=$value->id_kecamatan; ?>"><button type="submit" class="btn btn-info btn-xs tooltips" data-popup="tooltip" data-original-title="Ubah Data" data-placement="top"><span class="icon-pencil5"></span></button></a>
-                        <a href="<?php echo site_url('AdminC/daftardesakelurahan/'.$value->id_kecamatan); ?>" class="btn btn-success btn-xs tooltips" data-popup="tooltip" data-original-title="Detail Data" data-placement="top"><i class="icon-zoomin3"></i></a>
+                        <a href="<?php echo base_url('AdminC/daftardesakelurahan/'.$value->id_kecamatan); ?>" class="btn btn-success btn-xs tooltips" data-popup="tooltip" data-original-title="Detail Data" data-placement="top"><i class="icon-zoomin3"></i></a>
                       </center></td>
                       </tr>
                       <?php  endforeach; ?>

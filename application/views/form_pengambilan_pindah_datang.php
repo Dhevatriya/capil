@@ -7,7 +7,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Data Pendaftaran Pindah Datang
+        Data Pendaftaran Surat Pindah Datang
       </h1>
     </section>
 
@@ -34,7 +34,7 @@
               <center>
         
        <?php foreach($datapendaf as $data){ ?>
-             <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafPindahC/cetakpendafpindahdatang/'.$data->id_pendaftaran)?>">
+             <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=base_url('PendafPindahC/cetakpendafpindahdatang/'.$data->id_pendaftaran)?>">
             <!-- <div class="col-lg-12" style="padding-left: 10%; padding-right: 10% "> -->
               <section class="panel">
                <center>
@@ -42,19 +42,19 @@
                       <table class="table" width="100%" > 
                       <?php foreach($datapendaf as $data){ ?>
                       <tr>
+                        <th style="width:23%;">Nomor Registrasi </th>
+                        <td style="width: 3%"> : </td>
+                        <td align="left"> <?php echo $data->no_registrasi; ?> </td>
+                      </tr>
+                      <tr>
                         <th style="width:23%;">NIK </th>
                         <td style="width: 3%"> : </td>
                         <td align="left"> <?php echo $data->nik; ?> </td>
                       </tr>
                       <tr>
-                        <th style="width:23%;">Nama </th>
+                        <th style="width:23%;">Nama Lengkap</th>
                         <td> : </td>
                         <td align="left"> <?php echo $data->nama_lengkap; ?> </td>
-                      </tr>
-                      <tr>
-                        <th style="width:23%;">Jenis Kelamin</th>
-                        <td style="width:3%"> : </td>
-                        <td align="left"> <?php echo $data->jenis_kelamin; ?> </td>
                       </tr>
                       <tr>
                         <th style="width:23%;">Tempat/Tanggal Lahir </th>
@@ -62,9 +62,14 @@
                         <td align="left"> <?php echo $data->tempat_lahir; ?>, <?php echo $data->tanggal_lahir; ?> </td>
                       </tr>
                       <tr>
-                        <th style="width:23%;">Alamat </th>
-                        <td> : </td>
-                        <td align="left"> <?php echo $data->alamat; ?>, RT <?php echo $data->rt; ?> / RW <?php echo $data->rw; ?>, <?php echo $data->nama_desakelurahan; ?>, <?php echo $data->nama_kecamatan; ?></td>
+                        <th style="width:23%;">Jenis Kelamin</th>
+                        <td style="width:3%"> : </td>
+                        <td align="left"> <?php echo $data->jenis_kelamin; ?> </td>
+                      </tr>
+                      <tr>
+                        <th style="width:23%;">Jumlah Anggota Pindah</th>
+                        <td style="width: 3%"> : </td>
+                        <td align="left"> <?php echo $data->jumlah_anggota_pindah; ?> </td>
                       </tr>
                       <tr>
                         <th style="width:23%;">Asal</th>
@@ -72,14 +77,14 @@
                         <td align="left"> <?php echo $data->data_asal; ?> </td>
                       </tr>
                       <tr>
-                        <th style="width:23%;">Tujuan</th>
+                        <th style="width:23%;">Alamat Tujuan </th>
                         <td> : </td>
-                        <td align="left"> <?php echo $data->data_tujuan; ?> </td>
+                        <td align="left"> <?php echo $data->alamat; ?>, RT <?php echo $data->rt; ?> / RW <?php echo $data->rw; ?>, <?php echo $data->nama_desakelurahan; ?>, <?php echo $data->nama_kecamatan; ?></td>
                       </tr>
                       <tr>
-                        <th style="width:23%;">Tanggal Buat</th>
+                        <th style="width:23%;">Tanggal Daftar</th>
                         <td style="width:3%"> : </td>
-                        <td align="left"> <?php echo $data->tgl_buat; ?> </td>
+                        <td align="left"> <?php echo $data->tgl_daftar; ?> </td>
                       </tr> 
                       <tr>
                         <th style="width:23%;">Tanggal Jadi</th>
@@ -108,7 +113,6 @@
                       <?php  } ?>
                     </table>
                   <div class="box-footer">
-<!--                   <a data-popup="tooltip" data-placement="top" href="<?php echo site_url('PendafPindahC/unggahsyaratpd/'.$data->id_pendaftaran); ?>" ><button class="btn btn-primary" name="unggah" type="button">Unggah Syarat</button></a> -->
                   <button type="submit" id = "cetak" class="btn btn-primary">Cetak</button>
                   </div>
                 </div>
@@ -126,11 +130,17 @@
             </div>
                 <div class="panel-body" style="text-align:center;">
                   <div class="form ">
-                    <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=site_url('PendafPindahC/datapendafeditprosespd');?>">
+                    <form class="form-validate form-horizontal" id="feedback_form" method="POST" action="<?=base_url('PendafPindahC/datapendafeditprosespd');?>">
                       <input type="hidden" name="id_pendaftaran" id="id_pendaftaran" value="<?php echo $datapendaftaran['id_pendaftaran']; ?>">
                         <?php $dataE=$this->session->userdata('petEdit'); ?>
+                    <div class="form-group ">
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Nomor Registrasi<span class="required">*</span></label>
+                      <div class="col-lg-8">
+                           <input class="form-control " id="no_registrasi" name="no_registrasi" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $datapendaftaran['no_registrasi']; ?>"/>
+                      </div>
+                  </div>
                    <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Nomor Induk Kependudukan<span class="required">*</span></label>
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Nomor Induk Kependudukan</label>
                       <div class="col-lg-8">
                            <input class="form-control " id="nik" name="nik" type="text" value="<?php echo $datapendaftaran['nik']; ?>"/>
                       </div>
@@ -139,20 +149,6 @@
                       <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Nama Lengkap<span class="required">*</span></label>
                       <div class="col-lg-8">
                            <input class="form-control " id="nama_lengkap" name="nama_lengkap" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $datapendaftaran['nama_lengkap']; ?>"/>
-                      </div>
-                  </div>
-                 <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Jenis Kelamin<span class="required">*</span></label>
-                      <div class="col-lg-8">
-                            <select class="form-control m-bot15" name="jenis_kelamin" required oninvalid="this.setCustomValidity('data tidak boleh kosong')" oninput="setCustomValidity('')" >
-                                    <?php
-                                      $jenis_kelamin=$datapendaftaran['jenis_kelamin'];
-                                      if ($jenis_kelamin== "Laki-laki") echo "<option value='Laki-laki' selected>Laki-laki</option>";
-                                      else echo "<option value='Laki-laki'>Laki-laki</option>";
-                                      if ($jenis_kelamin== "Perempuan") echo "<option value='Perempuan' selected>Perempuan</option>";
-                                      else echo "<option value='Perempuan'>Perempuan</option>";                      
-                                    ?>
-                                </select>
                       </div>
                   </div>
                   <div class="form-group ">
@@ -168,25 +164,49 @@
                       </div>
                   </div>
                   <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Alamat<span class="required">*</span></label>
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Jenis Kelamin<span class="required">*</span></label>
+                      <div class="col-lg-8">
+                            <select class="form-control m-bot15" name="jenis_kelamin" required oninvalid="this.setCustomValidity('data tidak boleh kosong')" oninput="setCustomValidity('')" >
+                                    <?php
+                                      $jenis_kelamin=$datapendaftaran['jenis_kelamin'];
+                                      if ($jenis_kelamin== "Laki-laki") echo "<option value='Laki-laki' selected>Laki-laki</option>";
+                                      else echo "<option value='Laki-laki'>Laki-laki</option>";
+                                      if ($jenis_kelamin== "Perempuan") echo "<option value='Perempuan' selected>Perempuan</option>";
+                                      else echo "<option value='Perempuan'>Perempuan</option>";                      
+                                    ?>
+                                </select>
+                      </div>
+                  </div>
+                  <div class="form-group ">
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Jumlah Anggota Pindah<span class="required">*</span></label>
+                      <div class="col-lg-8">
+                           <input class="form-control " id="jumlah_anggota_pindah" name="jumlah_anggota_pindah" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $datapendaftaran['jumlah_anggota_pindah']; ?>"/>
+                      </div>
+                  </div>
+                  <div class="form-group ">
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Asal<span class="required">*</span></label>
+                      <div class="col-lg-8">
+                           <input class="form-control " id="data_asal" name="data_asal" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $datapendaftaran['data_asal']; ?>"/>
+                      </div>
+                  </div>
+                  <div class="form-group ">
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Alamat Tujuan<span class="required">*</span></label>
                       <div class="col-lg-8">
                            <input class="form-control " id="alamat" name="alamat" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $datapendaftaran['alamat']; ?>"/>
                       </div>
                   </div>
                   <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">RT<span class="required">*</span></label>
-                      <div class="col-lg-8">
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">RT Tujuan<span class="required">*</span></label>
+                      <div class="col-lg-3">
                            <input class="form-control " id="rt" name="rt" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $datapendaftaran['rt']; ?>"/>
                       </div>
-                  </div>
-                  <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">RW<span class="required">*</span></label>
-                      <div class="col-lg-8">
+                      <label for="cname" class="control-label col-lg-2" style="text-align: left; padding-left: 3%;">RW Tujuan<span class="required">*</span></label>
+                      <div class="col-lg-3">
                            <input class="form-control " id="rw" name="rw" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $datapendaftaran['rw']; ?>"/>
                       </div>
                   </div>
                     <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Kecamatan<span class="required">*</span></label>
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Kecamatan Tujuan<span class="required">*</span></label>
                         <div class="col-lg-8">
                         <select class="form-control m-bot15" id= "nama_kecamatan" name="nama_kecamatan" onchange="get_desa();" required>
                           <?php
@@ -199,7 +219,7 @@
                         </div>
                     </div>
                     <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Desa/Kelurahan<span class="required">*</span></label>
+                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Desa/Kelurahan Tujuan<span class="required">*</span></label>
                         <div class="col-lg-8">
                         <select class="form-control m-bot15" id= "nama_desakelurahan" name="nama_desakelurahan" onchange="get_kode();" required>
                          <?php
@@ -211,18 +231,6 @@
                         </select>
                         </div>
                     </div>
-                  <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Data Asal<span class="required">*</span></label>
-                      <div class="col-lg-8">
-                           <input class="form-control " id="data_asal" name="data_asal" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $datapendaftaran['data_asal']; ?>"/>
-                      </div>
-                  </div>
-                  <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Data Tujuan<span class="required">*</span></label>
-                      <div class="col-lg-8">
-                           <input class="form-control " id="data_tujuan" name="data_tujuan" type="text" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" value="<?php echo $datapendaftaran['data_tujuan']; ?>"/>
-                      </div>
-                  </div>
                   <div class="form-group ">
                       <label for="cname" class="control-label col-lg-3" style="text-align: left; padding-left: 7%;">Tanggal Jadi<span class="required">*</span></label>
                       <div class="col-lg-8">
